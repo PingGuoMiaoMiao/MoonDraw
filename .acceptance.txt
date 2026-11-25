@@ -1,12 +1,19 @@
 MoonBit hackathon acceptance — D:\moonbit-compition\_moondraw
 
-FAIL  MoonBit primary  no .mbt files found
-WARN  History          117 commits total, 117 since start, 4 uncommitted paths (commit the working tree before submitting)
-WARN  Runnable         build/test skipped by --skip-build
+PASS  MoonBit primary  18 .mbt files / 4439 lines vs 4 other IMPLEMENTATION files / 251 lines (tracked only, ratio 17.69x); harness excluded from the ratio: 1 files / 235 lines (tools/ scripts/ tests/ conformance/ - reported, not hidden)
+FAIL  History          1 commits total, 1 since start, 1 uncommitted paths
+FAIL  Runnable         moon build failed (1.3s):      │                      ───┬───  
+     │                         ╰───── The value identifier ffi_get is unbound.
+─────╯
+Failed with 0 warnings, 259 errors.
+Error: failed to run build for target Native
+
+Caused by:
+    failed when building project
 PASS  README           README.md documents commands and a quickstart section
 PASS  Licence          root=Apache-2.0; dependency licences look OSI-compatible
-WARN  AI explainable   only 0 ADR entries and no AI-usage note — judges ask how AI was used
+PASS  AI explainable   0 ADR entries; AI usage documented=True
 PASS  Demo entry       entry point (cmd/ or examples/) plus a documented demo
 PASS  Tests            5 test files, 188 assertions
 
-4 pass, 3 warn, 1 fail
+6 pass, 0 warn, 2 fail

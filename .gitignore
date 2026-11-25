@@ -5,3 +5,5 @@ _chrome*.txt
 _shot*.png
 dist/
 *.pdb
+.acceptance.txt
+.docx-check.txt
