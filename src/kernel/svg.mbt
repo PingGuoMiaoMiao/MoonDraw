@@ -175,6 +175,125 @@ pub fn scene_to_svg_in(
         b.write_string(s.stroke)
         b.write_string("\" stroke-width=\"1.5\"/>")
       }
+      Circle => {
+        let r = mind(s.w, s.h) * 0.5
+        b.write_string("<circle cx=\"")
+        b.write_string(fmt(center_x(s)))
+        b.write_string("\" cy=\"")
+        b.write_string(fmt(center_y(s)))
+        b.write_string("\" r=\"")
+        b.write_string(fmt(r))
+        b.write_string("\" fill=\"")
+        b.write_string(s.fill)
+        b.write_string("\" stroke=\"")
+        b.write_string(s.stroke)
+        b.write_string("\" stroke-width=\"1.5\"/>")
+      }
+      Parallelogram => {
+        let k = s.w * 0.18
+        b.write_string("<polygon points=\"")
+        b.write_string(fmt(s.x + k))
+        b.write_string(",")
+        b.write_string(fmt(s.y))
+        b.write_string(" ")
+        b.write_string(fmt(s.x + s.w))
+        b.write_string(",")
+        b.write_string(fmt(s.y))
+        b.write_string(" ")
+        b.write_string(fmt(s.x + s.w - k))
+        b.write_string(",")
+        b.write_string(fmt(s.y + s.h))
+        b.write_string(" ")
+        b.write_string(fmt(s.x))
+        b.write_string(",")
+        b.write_string(fmt(s.y + s.h))
+        b.write_string("\" fill=\"")
+        b.write_string(s.fill)
+        b.write_string("\" stroke=\"")
+        b.write_string(s.stroke)
+        b.write_string("\" stroke-width=\"1.5\"/>")
+      }
+      Hexagon => {
+        let q = s.w * 0.25
+        let cyy = center_y(s)
+        let pts = [
+          (s.x + q, s.y),
+          (s.x + s.w - q, s.y),
+          (s.x + s.w, cyy),
+          (s.x + s.w - q, s.y + s.h),
+          (s.x + q, s.y + s.h),
+          (s.x, cyy),
+        ]
+        b.write_string("<polygon points=\"")
+        for pt in pts {
+          b.write_string(fmt(pt.0))
+          b.write_string(",")
+          b.write_string(fmt(pt.1))
+          b.write_string(" ")
+        }
+        b.write_string("\" fill=\"")
+        b.write_string(s.fill)
+        b.write_string("\" stroke=\"")
+        b.write_string(s.stroke)
+        b.write_string("\" stroke-width=\"1.5\"/>")
+      }
+      Document => {
+        let f = mind(s.w, s.h) * 0.22
+        b.write_string("<path d=\"M ")
+        b.write_string(fmt(s.x))
+        b.write_string(" ")
+        b.write_string(fmt(s.y))
+        b.write_string(" L ")
+        b.write_string(fmt(s.x + s.w - f))
+        b.write_string(" ")
+        b.write_string(fmt(s.y))
+        b.write_string(" L ")
+        b.write_string(fmt(s.x + s.w))
+        b.write_string(" ")
+        b.write_string(fmt(s.y + f))
+        b.write_string(" L ")
+        b.write_string(fmt(s.x + s.w))
+        b.write_string(" ")
+        b.write_string(fmt(s.y + s.h))
+        b.write_string(" L ")
+        b.write_string(fmt(s.x))
+        b.write_string(" ")
+        b.write_string(fmt(s.y + s.h))
+        b.write_string(" Z\" fill=\"")
+        b.write_string(s.fill)
+        b.write_string("\" stroke=\"")
+        b.write_string(s.stroke)
+        b.write_string("\" stroke-width=\"1.5\"/>")
+      }
+      Cylinder => {
+        let ry = mind(s.h * 0.18, s.w * 0.2)
+        b.write_string("<rect x=\"")
+        b.write_string(fmt(s.x))
+        b.write_string("\" y=\"")
+        b.write_string(fmt(s.y + ry))
+        b.write_string("\" width=\"")
+        b.write_string(fmt(s.w))
+        b.write_string("\" height=\"")
+        b.write_string(fmt(maxd(s.h - ry * 2.0, 1.0)))
+        b.write_string("\" fill=\"")
+        b.write_string(s.fill)
+        b.write_string("\" stroke=\"")
+        b.write_string(s.stroke)
+        b.write_string("\" stroke-width=\"1.5\"/>")
+        b.write_string("<ellipse cx=\"")
+        b.write_string(fmt(center_x(s)))
+        b.write_string("\" cy=\"")
+        b.write_string(fmt(s.y + ry))
+        b.write_string("\" rx=\"")
+        b.write_string(fmt(s.w * 0.5))
+        b.write_string("\" ry=\"")
+        b.write_string(fmt(ry))
+        b.write_string("\" fill=\"")
+        b.write_string(s.fill)
+        b.write_string("\" stroke=\"")
+        b.write_string(s.stroke)
+        b.write_string("\" stroke-width=\"1.5\"/>")
+      }
       Text => ()
       _ => {
         b.write_string("<rect x=\"")

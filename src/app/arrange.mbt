@@ -98,3 +98,125 @@ pub fn gaps_v(app : App) -> Array[Double] {
   }
   out
 }
+
+// ---------------------------------------------------------------------------
+// Alignment and stacking order (selection based)
+// ---------------------------------------------------------------------------
+
+///| Align every selected shape to the selection box edge or centre.
+///| mode: left | hcenter | right | top | vcenter | bottom
+pub fn align_selection(app : App, mode : String) -> Bool {
+  let picked = collect_selected(app)
+  if picked.length() < 2 {
+    return false
+  }
+  let mut min_x = 0.0
+  let mut min_y = 0.0
+  let mut max_x = 0.0
+  let mut max_y = 0.0
+  let mut first = true
+  for s in picked {
+    if first {
+      min_x = s.x
+      min_y = s.y
+      max_x = s.x + s.w
+      max_y = s.y + s.h
+      first = false
+    } else {
+      min_x = @k.mind(min_x, s.x)
+      min_y = @k.mind(min_y, s.y)
+      max_x = @k.maxd(max_x, s.x + s.w)
+      max_y = @k.maxd(max_y, s.y + s.h)
+    }
+  }
+  let cx = (min_x + max_x) * 0.5
+  let cy = (min_y + max_y) * 0.5
+  for s in picked {
+    match mode {
+      "left" => s.x = min_x
+      "hcenter" => s.x = cx - s.w * 0.5
+      "right" => s.x = max_x - s.w
+      "top" => s.y = min_y
+      "vcenter" => s.y = cy - s.h * 0.5
+      "bottom" => s.y = max_y - s.h
+      _ => ()
+    }
+  }
+  true
+}
+
+///| Reorder the selection in the stacking order.
+///| op: front | back | forward | backward
+pub fn layer_op(app : App, op : String) -> Bool {
+  if app.sel.length() == 0 {
+    return false
+  }
+  let shapes = app.scene.shapes
+  let n = shapes.length()
+  if n < 2 {
+    return false
+  }
+  match op {
+    "front" => {
+      let rest : Array[@k.Shape] = []
+      let picked : Array[@k.Shape] = []
+      for s in shapes {
+        if is_selected(app, s.id) {
+          picked.push(s)
+        } else {
+          rest.push(s)
+        }
+      }
+      for s in picked {
+        rest.push(s)
+      }
+      app.scene.shapes = rest
+    }
+    "back" => {
+      let rest : Array[@k.Shape] = []
+      let picked : Array[@k.Shape] = []
+      for s in shapes {
+        if is_selected(app, s.id) {
+          picked.push(s)
+        } else {
+          rest.push(s)
+        }
+      }
+      let out : Array[@k.Shape] = []
+      for s in picked {
+        out.push(s)
+      }
+      for s in rest {
+        out.push(s)
+      }
+      app.scene.shapes = out
+    }
+    "forward" => {
+      // move one step up, from the top down
+      let mut i = n - 2
+      while i >= 0 {
+        let cur = app.scene.shapes[i]
+        if is_selected(app, cur.id) && !is_selected(app, app.scene.shapes[i + 1].id) {
+          let top = app.scene.shapes[i + 1]
+          app.scene.shapes[i + 1] = cur
+          app.scene.shapes[i] = top
+        }
+        i = i - 1
+      }
+    }
+    "backward" => {
+      let mut i = 1
+      while i < n {
+        let cur = app.scene.shapes[i]
+        if is_selected(app, cur.id) && !is_selected(app, app.scene.shapes[i - 1].id) {
+          let below = app.scene.shapes[i - 1]
+          app.scene.shapes[i - 1] = cur
+          app.scene.shapes[i] = below
+        }
+        i = i + 1
+      }
+    }
+    _ => return false
+  }
+  true
+}

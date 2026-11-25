@@ -32,6 +32,8 @@ options(
         "ui_docs_json",
         "ui_selection_panel",
         "ui_zoom_reset",
+        "ui_layer",
+        "ui_align",
         "ui_zoom",
         "ui_set_edge_label",
         "ui_set_shape_text",

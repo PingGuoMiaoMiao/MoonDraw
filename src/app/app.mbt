@@ -106,16 +106,17 @@ pub fn redo() -> Unit {
 
 ///|
 fn tool_kind(t : String) -> @k.ShapeKind {
-  if t == "round" {
-    @k.Round
-  } else if t == "diamond" {
-    @k.Diamond
-  } else if t == "ellipse" {
-    @k.Ellipse
-  } else if t == "text" {
-    @k.Text
-  } else {
-    @k.Rect
+  match t {
+    "round" => @k.Round
+    "diamond" => @k.Diamond
+    "ellipse" => @k.Ellipse
+    "text" => @k.Text
+    "parallelogram" => @k.Parallelogram
+    "hexagon" => @k.Hexagon
+    "cylinder" => @k.Cylinder
+    "document" => @k.Document
+    "circle" => @k.Circle
+    _ => @k.Rect
   }
 }
 

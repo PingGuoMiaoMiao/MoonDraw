@@ -5,6 +5,11 @@ pub(all) enum ShapeKind {
   Diamond
   Ellipse
   Text
+  Parallelogram
+  Hexagon
+  Cylinder
+  Document
+  Circle
 }
 
 ///| A diagram node.

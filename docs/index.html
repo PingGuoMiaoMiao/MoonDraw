@@ -436,6 +436,43 @@ input[type="text"]:focus {
   border-radius: 3px;
 }
 
+.btnrow {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+}
+
+#panel-arrange .btnrow:last-of-type {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.mini {
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+
+.mini:hover {
+  border-color: var(--border-strong);
+  background: var(--wash);
+  color: var(--text);
+}
+
+.mini:active {
+  background: var(--wash-2);
+}
+
+h4.mt {
+  margin-top: 12px;
+}
+
 .panel-value {
   margin: 0;
   font-family: var(--mono);
@@ -716,6 +753,21 @@ input[type="text"]:focus {
           <button class="rail-btn" data-tool="text" title="文本 (T)">
             <span class="ico">T</span><span class="lbl">文本</span>
           </button>
+          <button class="rail-btn" data-tool="parallelogram" title="平行四边形 (P)">
+            <span class="ico">▱</span><span class="lbl">平行</span>
+          </button>
+          <button class="rail-btn" data-tool="hexagon" title="六边形 (X)">
+            <span class="ico">⬡</span><span class="lbl">六边形</span>
+          </button>
+          <button class="rail-btn" data-tool="cylinder" title="圆柱 (Y)">
+            <span class="ico">⏹</span><span class="lbl">圆柱</span>
+          </button>
+          <button class="rail-btn" data-tool="document" title="文档 (N)">
+            <span class="ico">▤</span><span class="lbl">文档</span>
+          </button>
+          <button class="rail-btn" data-tool="circle" title="圆形 (C)">
+            <span class="ico">●</span><span class="lbl">圆形</span>
+          </button>
           <button class="rail-btn" data-tool="edge" title="连线 (L)">
             <span class="ico">→</span><span class="lbl">连线</span>
           </button>
@@ -763,6 +815,25 @@ input[type="text"]:focus {
             <section class="panel-sec" id="panel-text">
               <h4>文本</h4>
               <input id="p-text" type="text" class="wide" placeholder="双击图形也可编辑" />
+            </section>
+
+            <section class="panel-sec" id="panel-arrange">
+              <h4>对齐</h4>
+              <div class="btnrow">
+                <button class="mini" data-action="align-left" title="左对齐">⇤</button>
+                <button class="mini" data-action="align-hcenter" title="水平居中">⇹</button>
+                <button class="mini" data-action="align-right" title="右对齐">⇥</button>
+                <button class="mini" data-action="align-top" title="顶对齐">⤒</button>
+                <button class="mini" data-action="align-vcenter" title="垂直居中">⇳</button>
+                <button class="mini" data-action="align-bottom" title="底对齐">⤓</button>
+              </div>
+              <h4 class="mt">层级</h4>
+              <div class="btnrow">
+                <button class="mini" data-action="layer-front" title="置顶">⤊</button>
+                <button class="mini" data-action="layer-forward" title="上移一层">↑</button>
+                <button class="mini" data-action="layer-backward" title="下移一层">↓</button>
+                <button class="mini" data-action="layer-back" title="置底">⤋</button>
+              </div>
             </section>
 
             <section class="panel-sec" id="panel-kind">
@@ -1224,14 +1295,14 @@ input[type="text"]:focus {
   const _M0FP315PingGuoMiaoMiao8moondraw3app11legacy__key = "moondraw_scene_v1";
   const _M0FP315PingGuoMiaoMiao8moondraw3app10app__state = new _M0TP315PingGuoMiaoMiao8moondraw3app3App(_M0FP315PingGuoMiaoMiao8moondraw6kernel11demo__scene(), 90, 70, 1, "select", new _M0TPB5ArrayGiE([], 0), -1, _M0DTP315PingGuoMiaoMiao8moondraw3app4Drag4Idle__, 0, 0, new _M0TPB5ArrayGUiddEE([], 0), new _M0TPB5ArrayGUddddEE([], 0), new _M0TPB5ArrayGRP315PingGuoMiaoMiao8moondraw3app3DocE([], 0), 0, new _M0TPB5ArrayGsE([], 0), 0, new _M0TPB5ArrayGsE([], 0), 0);
   const _M0MPC16string10StringView4findN6constrS626 = 0;
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1258 = new _M0TPC16string10StringView("\\", 0, 1);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1259 = new _M0TPC16string10StringView("\\\\", 0, 2);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1260 = new _M0TPC16string10StringView("\"", 0, 1);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1261 = new _M0TPC16string10StringView("\\\"", 0, 2);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1262 = new _M0TPC16string10StringView("\n", 0, 1);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1263 = new _M0TPC16string10StringView("\\n", 0, 2);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel13scene__boundsN5tupleS1197 = { _0: 0, _1: 0, _2: 0, _3: 0 };
-  const _M0FP315PingGuoMiaoMiao8moondraw3app17selection__boundsN5tupleS1619 = { _0: 0, _1: 0, _2: 0, _3: 0 };
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1271 = new _M0TPC16string10StringView("\\", 0, 1);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1272 = new _M0TPC16string10StringView("\\\\", 0, 2);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1273 = new _M0TPC16string10StringView("\"", 0, 1);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1274 = new _M0TPC16string10StringView("\\\"", 0, 2);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1275 = new _M0TPC16string10StringView("\n", 0, 1);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1276 = new _M0TPC16string10StringView("\\n", 0, 2);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel13scene__boundsN5tupleS1210 = { _0: 0, _1: 0, _2: 0, _3: 0 };
+  const _M0FP315PingGuoMiaoMiao8moondraw3app17selection__boundsN5tupleS1632 = { _0: 0, _1: 0, _2: 0, _3: 0 };
   const _M0FP315PingGuoMiaoMiao8moondraw6kernel11xml__escapeN6recordS1090 = new _M0TPC16string10StringView("&", 0, 1);
   const _M0FP315PingGuoMiaoMiao8moondraw6kernel11xml__escapeN6recordS1091 = new _M0TPC16string10StringView("&amp;", 0, 5);
   const _M0FP315PingGuoMiaoMiao8moondraw6kernel11xml__escapeN6recordS1092 = new _M0TPC16string10StringView("<", 0, 1);
@@ -1241,26 +1312,26 @@ input[type="text"]:focus {
   const _M0FP315PingGuoMiaoMiao8moondraw6kernel11xml__escapeN6recordS1096 = new _M0TPC16string10StringView("\"", 0, 1);
   const _M0FP315PingGuoMiaoMiao8moondraw6kernel11xml__escapeN6recordS1097 = new _M0TPC16string10StringView("&quot;", 0, 6);
   const _M0MPC16string6String4trimN6recordS978 = new _M0TPC16string10StringView("\t\n\r ", 0, 4);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1359 = new _M0TPC16string10StringView("subgraph", 0, 8);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1360 = new _M0TPC16string10StringView("style", 0, 5);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1361 = new _M0TPC16string10StringView("classdef", 0, 8);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1362 = new _M0TPC16string10StringView("class ", 0, 6);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1363 = new _M0TPC16string10StringView("click", 0, 5);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1364 = new _M0TPC16string10StringView("linkstyle", 0, 9);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1365 = new _M0TPC16string10StringView("direction", 0, 9);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel18parse__node__tokenN5tupleS1334 = { _0: "", _1: "", _2: 0 };
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1372 = new _M0TPC16string10StringView("subgraph", 0, 8);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1373 = new _M0TPC16string10StringView("style", 0, 5);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1374 = new _M0TPC16string10StringView("classdef", 0, 8);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1375 = new _M0TPC16string10StringView("class ", 0, 6);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1376 = new _M0TPC16string10StringView("click", 0, 5);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1377 = new _M0TPC16string10StringView("linkstyle", 0, 9);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1378 = new _M0TPC16string10StringView("direction", 0, 9);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel18parse__node__tokenN5tupleS1347 = { _0: "", _1: "", _2: 0 };
   const _M0MPC16string10StringView4trimN6recordS971 = new _M0TPC16string10StringView("\t\n\r ", 0, 4);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12split__linksN6recordS1314 = new _M0TPC16string10StringView(">", 0, 1);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1367 = new _M0TPC16string10StringView("\n", 0, 1);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1368 = new _M0TPC16string10StringView("%%", 0, 2);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1369 = new _M0TPC16string10StringView("flowchart", 0, 9);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1370 = new _M0TPC16string10StringView("graph", 0, 5);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1371 = new _M0TPC16string10StringView("LR", 0, 2);
-  const _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1372 = new _M0TPC16string10StringView("RL", 0, 2);
-  const _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2328 = new _M0TPC16string10StringView(".mmd", 0, 4);
-  const _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2329 = new _M0TPC16string10StringView(".mermaid", 0, 8);
-  const _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2330 = new _M0TPC16string10StringView("flowchart", 0, 9);
-  const _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2331 = new _M0TPC16string10StringView("graph", 0, 5);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel12split__linksN6recordS1327 = new _M0TPC16string10StringView(">", 0, 1);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1380 = new _M0TPC16string10StringView("\n", 0, 1);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1381 = new _M0TPC16string10StringView("%%", 0, 2);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1382 = new _M0TPC16string10StringView("flowchart", 0, 9);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1383 = new _M0TPC16string10StringView("graph", 0, 5);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1384 = new _M0TPC16string10StringView("LR", 0, 2);
+  const _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1385 = new _M0TPC16string10StringView("RL", 0, 2);
+  const _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2425 = new _M0TPC16string10StringView(".mmd", 0, 4);
+  const _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2426 = new _M0TPC16string10StringView(".mermaid", 0, 8);
+  const _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2427 = new _M0TPC16string10StringView("flowchart", 0, 9);
+  const _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2428 = new _M0TPC16string10StringView("graph", 0, 5);
   function _M0MPC16string10StringView12unsafe__view(self, start, end) {
     return new _M0TPC16string10StringView(self.str, self.start + start | 0, self.start + end | 0);
   }
@@ -3191,6 +3262,142 @@ input[type="text"]:focus {
             _M0IPB13StringBuilderPB6Logger13write__string(b, "\" stroke-width=\"1.5\"/>");
             break;
           }
+          case 9: {
+            const _p$3 = s.w;
+            const _p$4 = s.h;
+            const r = (_p$3 < _p$4 ? _p$3 : _p$4) * 0.5;
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "<circle cx=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.x + s.w * 0.5));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" cy=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.y + s.h * 0.5));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" r=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(r));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" fill=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, s.fill);
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" stroke=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, s.stroke);
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" stroke-width=\"1.5\"/>");
+            break;
+          }
+          case 5: {
+            const k = s.w * 0.18;
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "<polygon points=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.x + k));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, ",");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.y));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, " ");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.x + s.w));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, ",");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.y));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, " ");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.x + s.w - k));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, ",");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.y + s.h));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, " ");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.x));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, ",");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.y + s.h));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" fill=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, s.fill);
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" stroke=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, s.stroke);
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" stroke-width=\"1.5\"/>");
+            break;
+          }
+          case 6: {
+            const q = s.w * 0.25;
+            const cyy = s.y + s.h * 0.5;
+            let pts_buf = [{ _0: s.x + q, _1: s.y }, { _0: s.x + s.w - q, _1: s.y }, { _0: s.x + s.w, _1: cyy }, { _0: s.x + s.w - q, _1: s.y + s.h }, { _0: s.x + q, _1: s.y + s.h }, { _0: s.x, _1: cyy }];
+            let pts_len = 6;
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "<polygon points=\"");
+            const _bind$8 = pts_len;
+            const _bind$9 = pts_buf;
+            let _tmp$3 = 0;
+            while (true) {
+              const _$2 = _tmp$3;
+              if (_$2 < _bind$8) {
+                const pt = _bind$9[_$2];
+                _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(pt._0));
+                _M0IPB13StringBuilderPB6Logger13write__string(b, ",");
+                _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(pt._1));
+                _M0IPB13StringBuilderPB6Logger13write__string(b, " ");
+                _tmp$3 = _$2 + 1 | 0;
+                continue;
+              } else {
+                break;
+              }
+            }
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" fill=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, s.fill);
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" stroke=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, s.stroke);
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" stroke-width=\"1.5\"/>");
+            break;
+          }
+          case 8: {
+            const _p$5 = s.w;
+            const _p$6 = s.h;
+            const f = (_p$5 < _p$6 ? _p$5 : _p$6) * 0.22;
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "<path d=\"M ");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.x));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, " ");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.y));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, " L ");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.x + s.w - f));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, " ");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.y));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, " L ");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.x + s.w));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, " ");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.y + f));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, " L ");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.x + s.w));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, " ");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.y + s.h));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, " L ");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.x));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, " ");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.y + s.h));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, " Z\" fill=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, s.fill);
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" stroke=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, s.stroke);
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" stroke-width=\"1.5\"/>");
+            break;
+          }
+          case 7: {
+            const _p$7 = s.h * 0.18;
+            const _p$8 = s.w * 0.2;
+            const ry = _p$7 < _p$8 ? _p$7 : _p$8;
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "<rect x=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.x));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" y=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.y + ry));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" width=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.w));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" height=\"");
+            const _p$9 = s.h - ry * 2;
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(_p$9 > 1 ? _p$9 : 1));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" fill=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, s.fill);
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" stroke=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, s.stroke);
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" stroke-width=\"1.5\"/>");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "<ellipse cx=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.x + s.w * 0.5));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" cy=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.y + ry));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" rx=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.w * 0.5));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" ry=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(ry));
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" fill=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, s.fill);
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" stroke=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, s.stroke);
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "\" stroke-width=\"1.5\"/>");
+            break;
+          }
           case 4: {
             break;
           }
@@ -3216,8 +3423,8 @@ input[type="text"]:focus {
           _M0IPB13StringBuilderPB6Logger13write__string(b, "\" y=\"");
           _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(s.y + s.h * 0.5));
           _M0IPB13StringBuilderPB6Logger13write__string(b, "\" text-anchor=\"middle\" dominant-baseline=\"central\" font-family=\"'Microsoft YaHei', 'PingFang SC', sans-serif\" font-size=\"13\" fill=\"");
-          const _bind$8 = s.kind;
-          if (_bind$8 === 4) {
+          const _bind$10 = s.kind;
+          if (_bind$10 === 4) {
             _M0IPB13StringBuilderPB6Logger13write__string(b, "#0070f3");
           } else {
             _M0IPB13StringBuilderPB6Logger13write__string(b, "#171717");
@@ -3237,7 +3444,7 @@ input[type="text"]:focus {
   }
   function _M0FP315PingGuoMiaoMiao8moondraw6kernel13scene__bounds(scene) {
     if (scene.shapes.len === 0) {
-      return _M0FP315PingGuoMiaoMiao8moondraw6kernel13scene__boundsN5tupleS1197;
+      return _M0FP315PingGuoMiaoMiao8moondraw6kernel13scene__boundsN5tupleS1210;
     }
     const _bind = scene.shapes;
     if (0 >= _bind.len) {
@@ -3305,6 +3512,21 @@ input[type="text"]:focus {
         return "#fafafa";
       }
       case 3: {
+        return "#fafafa";
+      }
+      case 5: {
+        return "#fafafa";
+      }
+      case 6: {
+        return "#fafafa";
+      }
+      case 7: {
+        return "#fafafa";
+      }
+      case 8: {
+        return "#fafafa";
+      }
+      case 9: {
         return "#fafafa";
       }
       default: {
@@ -3388,7 +3610,7 @@ input[type="text"]:focus {
     return sc;
   }
   function _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escape(s) {
-    return _M0MPC16string6String12replace__all(_M0MPC16string6String12replace__all(_M0MPC16string6String12replace__all(s, _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1258, _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1259), _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1260, _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1261), _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1262, _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1263);
+    return _M0MPC16string6String12replace__all(_M0MPC16string6String12replace__all(_M0MPC16string6String12replace__all(s, _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1271, _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1272), _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1273, _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1274), _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1275, _M0FP315PingGuoMiaoMiao8moondraw6kernel12json__escapeN6recordS1276);
   }
   function _M0FP315PingGuoMiaoMiao8moondraw6kernel10kind__name(k) {
     switch (k) {
@@ -3404,13 +3626,28 @@ input[type="text"]:focus {
       case 3: {
         return "ellipse";
       }
-      default: {
+      case 4: {
         return "text";
+      }
+      case 5: {
+        return "parallelogram";
+      }
+      case 6: {
+        return "hexagon";
+      }
+      case 7: {
+        return "cylinder";
+      }
+      case 8: {
+        return "document";
+      }
+      default: {
+        return "circle";
       }
     }
   }
   function _M0FP315PingGuoMiaoMiao8moondraw6kernel16kind__from__name(name) {
-    return name === "round" ? 1 : name === "diamond" ? 2 : name === "ellipse" ? 3 : name === "text" ? 4 : 0;
+    return name === "round" ? 1 : name === "diamond" ? 2 : name === "ellipse" ? 3 : name === "text" ? 4 : name === "parallelogram" ? 5 : name === "hexagon" ? 6 : name === "cylinder" ? 7 : name === "document" ? 8 : name === "circle" ? 9 : 0;
   }
   function _M0FP315PingGuoMiaoMiao8moondraw6kernel15scene__to__json(scene) {
     const b = _M0MPB13StringBuilder21StringBuilder_2einner(2048);
@@ -3678,7 +3915,7 @@ input[type="text"]:focus {
                   if (_bind$6 < 0 || _bind$6 >= segs.len) {
                     $panic();
                   }
-                  if (!_M0MPC16string6String8contains(segs.buf[_bind$6].text, _M0FP315PingGuoMiaoMiao8moondraw6kernel12split__linksN6recordS1314)) {
+                  if (!_M0MPC16string6String8contains(segs.buf[_bind$6].text, _M0FP315PingGuoMiaoMiao8moondraw6kernel12split__linksN6recordS1327)) {
                     between_ops = true;
                   }
                 }
@@ -3737,7 +3974,7 @@ input[type="text"]:focus {
     const cs = _M0FP315PingGuoMiaoMiao8moondraw6kernel9chars__of(tok);
     const n = cs.len;
     if (n === 0) {
-      return _M0FP315PingGuoMiaoMiao8moondraw6kernel18parse__node__tokenN5tupleS1334;
+      return _M0FP315PingGuoMiaoMiao8moondraw6kernel18parse__node__tokenN5tupleS1347;
     }
     let open = -1;
     let _tmp = 0;
@@ -3854,16 +4091,16 @@ input[type="text"]:focus {
     return false;
   }
   function _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skip(lower) {
-    if (lower === "end" || _M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1359)) {
+    if (lower === "end" || _M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1372)) {
       return true;
     }
-    if (_M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1360) || _M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1361)) {
+    if (_M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1373) || _M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1374)) {
       return true;
     }
-    if (_M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1362) || _M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1363)) {
+    if (_M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1375) || _M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1376)) {
       return true;
     }
-    if (_M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1364) || _M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1365)) {
+    if (_M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1377) || _M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel12should__skipN6recordS1378)) {
       return true;
     }
     return false;
@@ -3874,7 +4111,7 @@ input[type="text"]:focus {
     const warnings = new _M0TPB5ArrayGsE([], 0);
     let direction = 0;
     let seen_header = false;
-    const _it = _M0MPC16string6String5split(src, _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1367);
+    const _it = _M0MPC16string6String5split(src, _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1380);
     while (true) {
       const _bind = _M0MPB4Iter4nextGRPC16string10StringViewE(_it);
       if (_bind === undefined) {
@@ -3883,7 +4120,7 @@ input[type="text"]:focus {
         const _Some = _bind;
         const _raw = _Some;
         let line = _M0MPC16string10StringView9to__owned(_M0MPC16string10StringView4trim(_raw, undefined));
-        if (line.length === 0 || _M0MPC16string6String8contains(line, _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1368)) {
+        if (line.length === 0 || _M0MPC16string6String8contains(line, _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1381)) {
           continue;
         }
         while (true) {
@@ -3905,9 +4142,9 @@ input[type="text"]:focus {
           }
         }
         const lower = _M0MPC16string6String9to__lower(line);
-        if (_M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1369) || _M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1370)) {
+        if (_M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1382) || _M0MPC16string6String11has__prefix(lower, _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1383)) {
           seen_header = true;
-          if (_M0MPC16string6String8contains(line, _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1371) || _M0MPC16string6String8contains(line, _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1372)) {
+          if (_M0MPC16string6String8contains(line, _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1384) || _M0MPC16string6String8contains(line, _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1385)) {
             direction = 1;
           }
           continue;
@@ -4671,7 +4908,7 @@ input[type="text"]:focus {
   }
   function _M0FP315PingGuoMiaoMiao8moondraw3app17selection__bounds(app) {
     if (app.sel.len === 0) {
-      return _M0FP315PingGuoMiaoMiao8moondraw3app17selection__boundsN5tupleS1619;
+      return _M0FP315PingGuoMiaoMiao8moondraw3app17selection__boundsN5tupleS1632;
     }
     let min_x = 0;
     let min_y = 0;
@@ -5853,6 +6090,345 @@ input[type="text"]:focus {
     _M0FP315PingGuoMiaoMiao8moondraw3app10app__state.cam_y = h * 0.5 - wy;
     _M0FP315PingGuoMiaoMiao8moondraw3app11render__all();
   }
+  function _M0FP315PingGuoMiaoMiao8moondraw3app17collect__selected(app) {
+    const out = new _M0TPB5ArrayGRP315PingGuoMiaoMiao8moondraw6kernel5ShapeE([], 0);
+    const _bind = app.sel;
+    const _bind$2 = _bind.len;
+    const _bind$3 = _bind.buf;
+    let _tmp = 0;
+    while (true) {
+      const _ = _tmp;
+      if (_ < _bind$2) {
+        const id = _bind$3[_];
+        const _bind$4 = _M0FP315PingGuoMiaoMiao8moondraw6kernel11find__shape(app.scene, id);
+        if (_bind$4 === undefined) {
+        } else {
+          const _Some = _bind$4;
+          const _s = _Some;
+          _M0MPC15array5Array4pushGUiiEE(out, _s);
+        }
+        _tmp = _ + 1 | 0;
+        continue;
+      } else {
+        break;
+      }
+    }
+    return out;
+  }
+  function _M0FP315PingGuoMiaoMiao8moondraw3app16align__selection(app, mode) {
+    const picked = _M0FP315PingGuoMiaoMiao8moondraw3app17collect__selected(app);
+    if (picked.len < 2) {
+      return false;
+    }
+    let min_x = 0;
+    let min_y = 0;
+    let max_x = 0;
+    let max_y = 0;
+    let first = true;
+    const _bind = picked.len;
+    const _bind$2 = picked.buf;
+    let _tmp = 0;
+    while (true) {
+      const _ = _tmp;
+      if (_ < _bind) {
+        const s = _bind$2[_];
+        if (first) {
+          min_x = s.x;
+          min_y = s.y;
+          max_x = s.x + s.w;
+          max_y = s.y + s.h;
+          first = false;
+        } else {
+          const _p = min_x;
+          const _p$2 = s.x;
+          min_x = _p < _p$2 ? _p : _p$2;
+          const _p$3 = min_y;
+          const _p$4 = s.y;
+          min_y = _p$3 < _p$4 ? _p$3 : _p$4;
+          const _p$5 = max_x;
+          const _p$6 = s.x + s.w;
+          max_x = _p$5 > _p$6 ? _p$5 : _p$6;
+          const _p$7 = max_y;
+          const _p$8 = s.y + s.h;
+          max_y = _p$7 > _p$8 ? _p$7 : _p$8;
+        }
+        _tmp = _ + 1 | 0;
+        continue;
+      } else {
+        break;
+      }
+    }
+    const cx = (min_x + max_x) * 0.5;
+    const cy = (min_y + max_y) * 0.5;
+    const _bind$3 = picked.len;
+    const _bind$4 = picked.buf;
+    let _tmp$2 = 0;
+    while (true) {
+      const _ = _tmp$2;
+      if (_ < _bind$3) {
+        const s = _bind$4[_];
+        switch (mode) {
+          case "left": {
+            s.x = min_x;
+            break;
+          }
+          case "hcenter": {
+            s.x = cx - s.w * 0.5;
+            break;
+          }
+          case "right": {
+            s.x = max_x - s.w;
+            break;
+          }
+          case "top": {
+            s.y = min_y;
+            break;
+          }
+          case "vcenter": {
+            s.y = cy - s.h * 0.5;
+            break;
+          }
+          case "bottom": {
+            s.y = max_y - s.h;
+            break;
+          }
+        }
+        _tmp$2 = _ + 1 | 0;
+        continue;
+      } else {
+        break;
+      }
+    }
+    return true;
+  }
+  function _M0FP315PingGuoMiaoMiao8moondraw3app9ui__align(mode) {
+    if (_M0FP315PingGuoMiaoMiao8moondraw3app10app__state.sel.len < 2) {
+      _M0FP315PingGuoMiaoMiao8moondraw3app11ffi__status("对齐需要选中至少 2 个图形");
+      return undefined;
+    }
+    _M0FP315PingGuoMiaoMiao8moondraw3app8snapshot();
+    _M0FP315PingGuoMiaoMiao8moondraw3app16align__selection(_M0FP315PingGuoMiaoMiao8moondraw3app10app__state, mode);
+    _M0FP315PingGuoMiaoMiao8moondraw3app7persist();
+    _M0FP315PingGuoMiaoMiao8moondraw3app11ffi__status("已对齐");
+    _M0FP315PingGuoMiaoMiao8moondraw3app11render__all();
+  }
+  function _M0FP315PingGuoMiaoMiao8moondraw3app9layer__op(app, op) {
+    if (app.sel.len === 0) {
+      return false;
+    }
+    const shapes = app.scene.shapes;
+    const n = shapes.len;
+    if (n < 2) {
+      return false;
+    }
+    switch (op) {
+      case "front": {
+        const rest = new _M0TPB5ArrayGRP315PingGuoMiaoMiao8moondraw6kernel5ShapeE([], 0);
+        const picked = new _M0TPB5ArrayGRP315PingGuoMiaoMiao8moondraw6kernel5ShapeE([], 0);
+        const _bind = shapes.len;
+        const _bind$2 = shapes.buf;
+        let _tmp = 0;
+        while (true) {
+          const _ = _tmp;
+          if (_ < _bind) {
+            const s = _bind$2[_];
+            if (_M0FP315PingGuoMiaoMiao8moondraw3app12is__selected(app, s.id)) {
+              _M0MPC15array5Array4pushGUiiEE(picked, s);
+            } else {
+              _M0MPC15array5Array4pushGUiiEE(rest, s);
+            }
+            _tmp = _ + 1 | 0;
+            continue;
+          } else {
+            break;
+          }
+        }
+        const _bind$3 = picked.len;
+        const _bind$4 = picked.buf;
+        let _tmp$2 = 0;
+        while (true) {
+          const _ = _tmp$2;
+          if (_ < _bind$3) {
+            const s = _bind$4[_];
+            _M0MPC15array5Array4pushGUiiEE(rest, s);
+            _tmp$2 = _ + 1 | 0;
+            continue;
+          } else {
+            break;
+          }
+        }
+        app.scene.shapes = rest;
+        break;
+      }
+      case "back": {
+        const rest$2 = new _M0TPB5ArrayGRP315PingGuoMiaoMiao8moondraw6kernel5ShapeE([], 0);
+        const picked$2 = new _M0TPB5ArrayGRP315PingGuoMiaoMiao8moondraw6kernel5ShapeE([], 0);
+        const _bind$5 = shapes.len;
+        const _bind$6 = shapes.buf;
+        let _tmp$3 = 0;
+        while (true) {
+          const _ = _tmp$3;
+          if (_ < _bind$5) {
+            const s = _bind$6[_];
+            if (_M0FP315PingGuoMiaoMiao8moondraw3app12is__selected(app, s.id)) {
+              _M0MPC15array5Array4pushGUiiEE(picked$2, s);
+            } else {
+              _M0MPC15array5Array4pushGUiiEE(rest$2, s);
+            }
+            _tmp$3 = _ + 1 | 0;
+            continue;
+          } else {
+            break;
+          }
+        }
+        const out = new _M0TPB5ArrayGRP315PingGuoMiaoMiao8moondraw6kernel5ShapeE([], 0);
+        const _bind$7 = picked$2.len;
+        const _bind$8 = picked$2.buf;
+        let _tmp$4 = 0;
+        while (true) {
+          const _ = _tmp$4;
+          if (_ < _bind$7) {
+            const s = _bind$8[_];
+            _M0MPC15array5Array4pushGUiiEE(out, s);
+            _tmp$4 = _ + 1 | 0;
+            continue;
+          } else {
+            break;
+          }
+        }
+        const _bind$9 = rest$2.len;
+        const _bind$10 = rest$2.buf;
+        let _tmp$5 = 0;
+        while (true) {
+          const _ = _tmp$5;
+          if (_ < _bind$9) {
+            const s = _bind$10[_];
+            _M0MPC15array5Array4pushGUiiEE(out, s);
+            _tmp$5 = _ + 1 | 0;
+            continue;
+          } else {
+            break;
+          }
+        }
+        app.scene.shapes = out;
+        break;
+      }
+      case "forward": {
+        let i = n - 2 | 0;
+        while (true) {
+          if (i >= 0) {
+            const _bind$11 = app.scene.shapes;
+            const _bind$12 = i;
+            if (_bind$12 < 0 || _bind$12 >= _bind$11.len) {
+              $panic();
+            }
+            const cur = _bind$11.buf[_bind$12];
+            let _tmp$6;
+            if (_M0FP315PingGuoMiaoMiao8moondraw3app12is__selected(app, cur.id)) {
+              const _bind$13 = app.scene.shapes;
+              const _bind$14 = i + 1 | 0;
+              if (_bind$14 < 0 || _bind$14 >= _bind$13.len) {
+                $panic();
+              }
+              _tmp$6 = !_M0FP315PingGuoMiaoMiao8moondraw3app12is__selected(app, _bind$13.buf[_bind$14].id);
+            } else {
+              _tmp$6 = false;
+            }
+            if (_tmp$6) {
+              const _bind$13 = app.scene.shapes;
+              const _bind$14 = i + 1 | 0;
+              if (_bind$14 < 0 || _bind$14 >= _bind$13.len) {
+                $panic();
+              }
+              const top = _bind$13.buf[_bind$14];
+              const _bind$15 = app.scene.shapes;
+              const _bind$16 = i + 1 | 0;
+              if (_bind$16 < 0 || _bind$16 >= _bind$15.len) {
+                $panic();
+              }
+              _bind$15.buf[_bind$16] = cur;
+              const _bind$17 = app.scene.shapes;
+              const _bind$18 = i;
+              if (_bind$18 < 0 || _bind$18 >= _bind$17.len) {
+                $panic();
+              }
+              _bind$17.buf[_bind$18] = top;
+            }
+            i = i - 1 | 0;
+            continue;
+          } else {
+            break;
+          }
+        }
+        break;
+      }
+      case "backward": {
+        let i$2 = 1;
+        while (true) {
+          if (i$2 < n) {
+            const _bind$11 = app.scene.shapes;
+            const _bind$12 = i$2;
+            if (_bind$12 < 0 || _bind$12 >= _bind$11.len) {
+              $panic();
+            }
+            const cur = _bind$11.buf[_bind$12];
+            let _tmp$6;
+            if (_M0FP315PingGuoMiaoMiao8moondraw3app12is__selected(app, cur.id)) {
+              const _bind$13 = app.scene.shapes;
+              const _bind$14 = i$2 - 1 | 0;
+              if (_bind$14 < 0 || _bind$14 >= _bind$13.len) {
+                $panic();
+              }
+              _tmp$6 = !_M0FP315PingGuoMiaoMiao8moondraw3app12is__selected(app, _bind$13.buf[_bind$14].id);
+            } else {
+              _tmp$6 = false;
+            }
+            if (_tmp$6) {
+              const _bind$13 = app.scene.shapes;
+              const _bind$14 = i$2 - 1 | 0;
+              if (_bind$14 < 0 || _bind$14 >= _bind$13.len) {
+                $panic();
+              }
+              const below = _bind$13.buf[_bind$14];
+              const _bind$15 = app.scene.shapes;
+              const _bind$16 = i$2 - 1 | 0;
+              if (_bind$16 < 0 || _bind$16 >= _bind$15.len) {
+                $panic();
+              }
+              _bind$15.buf[_bind$16] = cur;
+              const _bind$17 = app.scene.shapes;
+              const _bind$18 = i$2;
+              if (_bind$18 < 0 || _bind$18 >= _bind$17.len) {
+                $panic();
+              }
+              _bind$17.buf[_bind$18] = below;
+            }
+            i$2 = i$2 + 1 | 0;
+            continue;
+          } else {
+            break;
+          }
+        }
+        break;
+      }
+      default: {
+        return false;
+      }
+    }
+    return true;
+  }
+  function _M0FP315PingGuoMiaoMiao8moondraw3app9ui__layer(op) {
+    if (_M0FP315PingGuoMiaoMiao8moondraw3app10app__state.sel.len === 0) {
+      _M0FP315PingGuoMiaoMiao8moondraw3app11ffi__status("请先选中图形");
+      return undefined;
+    }
+    _M0FP315PingGuoMiaoMiao8moondraw3app8snapshot();
+    if (_M0FP315PingGuoMiaoMiao8moondraw3app9layer__op(_M0FP315PingGuoMiaoMiao8moondraw3app10app__state, op)) {
+      _M0FP315PingGuoMiaoMiao8moondraw3app7persist();
+      _M0FP315PingGuoMiaoMiao8moondraw3app11ffi__status("已调整层级");
+    }
+    _M0FP315PingGuoMiaoMiao8moondraw3app11render__all();
+  }
   function _M0FP315PingGuoMiaoMiao8moondraw3app9make__doc(name, scene_json) {
     return new _M0TP315PingGuoMiaoMiao8moondraw3app3Doc(name, scene_json, 90, 70, 1);
   }
@@ -6077,31 +6653,6 @@ input[type="text"]:focus {
     _M0IPB13StringBuilderPB6Logger13write__string(b, "]}");
     return b.val;
   }
-  function _M0FP315PingGuoMiaoMiao8moondraw3app17collect__selected(app) {
-    const out = new _M0TPB5ArrayGRP315PingGuoMiaoMiao8moondraw6kernel5ShapeE([], 0);
-    const _bind = app.sel;
-    const _bind$2 = _bind.len;
-    const _bind$3 = _bind.buf;
-    let _tmp = 0;
-    while (true) {
-      const _ = _tmp;
-      if (_ < _bind$2) {
-        const id = _bind$3[_];
-        const _bind$4 = _M0FP315PingGuoMiaoMiao8moondraw6kernel11find__shape(app.scene, id);
-        if (_bind$4 === undefined) {
-        } else {
-          const _Some = _bind$4;
-          const _s = _Some;
-          _M0MPC15array5Array4pushGUiiEE(out, _s);
-        }
-        _tmp = _ + 1 | 0;
-        continue;
-      } else {
-        break;
-      }
-    }
-    return out;
-  }
   function _M0FP315PingGuoMiaoMiao8moondraw3app8sort__by(shapes, horiz) {
     const out = new _M0TPB5ArrayGRP315PingGuoMiaoMiao8moondraw6kernel5ShapeE([], 0);
     const _bind = shapes.len;
@@ -6281,7 +6832,38 @@ input[type="text"]:focus {
     }
   }
   function _M0FP315PingGuoMiaoMiao8moondraw3app10tool__kind(t) {
-    return t === "round" ? 1 : t === "diamond" ? 2 : t === "ellipse" ? 3 : t === "text" ? 4 : 0;
+    switch (t) {
+      case "round": {
+        return 1;
+      }
+      case "diamond": {
+        return 2;
+      }
+      case "ellipse": {
+        return 3;
+      }
+      case "text": {
+        return 4;
+      }
+      case "parallelogram": {
+        return 5;
+      }
+      case "hexagon": {
+        return 6;
+      }
+      case "cylinder": {
+        return 7;
+      }
+      case "document": {
+        return 8;
+      }
+      case "circle": {
+        return 9;
+      }
+      default: {
+        return 0;
+      }
+    }
   }
   function _M0FP315PingGuoMiaoMiao8moondraw3app13ui__set__tool(name) {
     _M0FP315PingGuoMiaoMiao8moondraw3app10app__state.tool = name;
@@ -7163,8 +7745,8 @@ input[type="text"]:focus {
   function _M0FP315PingGuoMiaoMiao8moondraw3app12import__text(text, name) {
     const lower = _M0MPC16string6String9to__lower(name);
     const head = _M0MPC16string10StringView9to__lower(_M0MPC16string6String4trim(text, undefined));
-    let looks_mermaid = _M0MPC16string6String8contains(lower, _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2328);
-    if (_M0MPC16string6String8contains(lower, _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2329) || (_M0MPC16string10StringView11has__prefix(head, _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2330) || _M0MPC16string10StringView11has__prefix(head, _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2331))) {
+    let looks_mermaid = _M0MPC16string6String8contains(lower, _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2425);
+    if (_M0MPC16string6String8contains(lower, _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2426) || (_M0MPC16string10StringView11has__prefix(head, _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2427) || _M0MPC16string10StringView11has__prefix(head, _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2428))) {
       looks_mermaid = true;
     }
     if (looks_mermaid) {
@@ -7220,6 +7802,8 @@ input[type="text"]:focus {
   globalThis.ui_set_edge_label = _M0FP315PingGuoMiaoMiao8moondraw3app20ui__set__edge__label;
   globalThis.ui_zoom = _M0FP315PingGuoMiaoMiao8moondraw3app8ui__zoom;
   globalThis.ui_zoom_reset = _M0FP315PingGuoMiaoMiao8moondraw3app15ui__zoom__reset;
+  globalThis.ui_align = _M0FP315PingGuoMiaoMiao8moondraw3app9ui__align;
+  globalThis.ui_layer = _M0FP315PingGuoMiaoMiao8moondraw3app9ui__layer;
   globalThis.ui_set_tool = _M0FP315PingGuoMiaoMiao8moondraw3app13ui__set__tool;
   globalThis.ui_fit = _M0FP315PingGuoMiaoMiao8moondraw3app7ui__fit;
   globalThis.ui_save = _M0FP315PingGuoMiaoMiao8moondraw3app8ui__save;
@@ -7411,6 +7995,16 @@ input[type="text"]:focus {
         "zoom-in": () => ui_zoom(1.2),
         "zoom-out": () => ui_zoom(1 / 1.2),
         "zoom-reset": () => ui_zoom_reset(),
+        "align-left": () => ui_align("left"),
+        "align-hcenter": () => ui_align("hcenter"),
+        "align-right": () => ui_align("right"),
+        "align-top": () => ui_align("top"),
+        "align-vcenter": () => ui_align("vcenter"),
+        "align-bottom": () => ui_align("bottom"),
+        "layer-front": () => ui_layer("front"),
+        "layer-forward": () => ui_layer("forward"),
+        "layer-backward": () => ui_layer("backward"),
+        "layer-back": () => ui_layer("back"),
       };
       document.querySelectorAll("[data-action]").forEach((btn) => {
         btn.addEventListener("click", () => actions[btn.dataset.action]?.());
@@ -7419,6 +8013,7 @@ input[type="text"]:focus {
       const toolKeys = {
         v: "select", r: "rect", u: "round", d: "diamond",
         o: "ellipse", t: "text", l: "edge", h: "hand",
+        p: "parallelogram", x: "hexagon", y: "cylinder", n: "document", c: "circle",
       };
       window.addEventListener("keydown", (e) => {
         const mod = e.ctrlKey || e.metaKey;

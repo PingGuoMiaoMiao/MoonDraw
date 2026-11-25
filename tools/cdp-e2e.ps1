@@ -516,6 +516,50 @@ try {
   $panelEmpty = Js 'ui_selection_panel()'
   Assert 'P7 取消选中后面板清空' ($panelEmpty -eq 'null') "json=$panelEmpty"
 
+  # ------------------------------------ Q shapes / align / layer (feature gap)
+  Js 'ui_new_doc()' | Out-Null
+  Start-Sleep -Milliseconds 250
+  Js 'document.querySelector("[data-tool=rect]").click()' | Out-Null
+  Start-Sleep -Milliseconds 120
+  Drag (Scr 100 100) (Scr 220 160)
+  Drag (Scr 320 220) (Scr 420 280)
+  $d = Doc
+  Assert 'Q1 两个矩形就位' ($d.shapes.Count -eq 2) "shapes=$($d.shapes.Count)"
+
+  Key 'a' 'KeyA' 65 2
+  Start-Sleep -Milliseconds 200
+  Js 'document.querySelector("[data-action=align-left]").click()' | Out-Null
+  Start-Sleep -Milliseconds 350
+  $d = Doc
+  $xs = @($d.shapes | ForEach-Object { [double]$_.x })
+  Assert 'Q2 左对齐生效' ([math]::Abs($xs[0] - $xs[1]) -lt 0.01) "x0=$($xs[0]) x1=$($xs[1])"
+
+  # layer: clear the multi-selection, pick one shape, then send it to front
+  Key 'Escape' 'Escape' 27 0
+  Start-Sleep -Milliseconds 150
+  Drag (Scr 140 130) (Scr 141 131)
+  Start-Sleep -Milliseconds 200
+  $before = (@(Doc).shapes | ForEach-Object { $_.id }) -join ','
+  Js 'document.querySelector("[data-action=layer-front]").click()' | Out-Null
+  Start-Sleep -Milliseconds 350
+  $after = (@(Doc).shapes | ForEach-Object { $_.id }) -join ','
+  Assert 'Q3 置顶改变绘制顺序' ($before -ne $after) "before=$before after=$after"
+
+  # new shape kinds round-trip through the model
+  Js 'document.querySelector("[data-tool=hexagon]").click()' | Out-Null
+  Start-Sleep -Milliseconds 120
+  Drag (Scr 520 300) (Scr 640 380)
+  Start-Sleep -Milliseconds 250
+  $kinds = @(Doc).shapes | ForEach-Object { $_.kind }
+  Assert 'Q4 新图元(六边形)可绘制' ($kinds -contains 'hexagon') ("kinds=" + ($kinds -join ','))
+
+  Js 'document.querySelector("[data-tool=cylinder]").click()' | Out-Null
+  Start-Sleep -Milliseconds 120
+  Drag (Scr 700 300) (Scr 800 400)
+  Start-Sleep -Milliseconds 250
+  $kinds2 = @(Doc).shapes | ForEach-Object { $_.kind }
+  Assert 'Q5 新图元(圆柱)可绘制' ($kinds2 -contains 'cylinder') ("kinds=" + ($kinds2 -join ','))
+
   Write-Host ""
   if ($script:failures -eq 0) { Write-Host "ALL PASS" } else { Write-Host "FAILURES: $($script:failures)" }
 

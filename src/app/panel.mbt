@@ -168,3 +168,30 @@ pub fn ui_zoom_reset() -> Unit {
   app_state.cam_y = h * 0.5 - wy
   render_all()
 }
+
+///| Align the selection (left | hcenter | right | top | vcenter | bottom).
+pub fn ui_align(mode : String) -> Unit {
+  if app_state.sel.length() < 2 {
+    ffi_status("对齐需要选中至少 2 个图形")
+    return
+  }
+  snapshot()
+  let _ = align_selection(app_state, mode)
+  persist()
+  ffi_status("已对齐")
+  render_all()
+}
+
+///| Change stacking order (front | back | forward | backward).
+pub fn ui_layer(op : String) -> Unit {
+  if app_state.sel.length() == 0 {
+    ffi_status("请先选中图形")
+    return
+  }
+  snapshot()
+  if layer_op(app_state, op) {
+    persist()
+    ffi_status("已调整层级")
+  }
+  render_all()
+}

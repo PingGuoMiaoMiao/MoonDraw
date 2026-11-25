@@ -6,8 +6,8 @@ pub fn new_scene() -> Scene {
 ///|
 pub fn fill_for(kind : ShapeKind) -> String {
   match kind {
-    Diamond => "#fafafa"
-    Ellipse => "#fafafa"
+    Diamond | Ellipse | Parallelogram | Hexagon | Cylinder | Document | Circle =>
+      "#fafafa"
     _ => "#ffffff"
   }
 }
@@ -136,6 +136,11 @@ pub fn kind_name(k : ShapeKind) -> String {
     Diamond => "diamond"
     Ellipse => "ellipse"
     Text => "text"
+    Parallelogram => "parallelogram"
+    Hexagon => "hexagon"
+    Cylinder => "cylinder"
+    Document => "document"
+    Circle => "circle"
   }
 }
 
@@ -149,6 +154,16 @@ pub fn kind_from_name(name : String) -> ShapeKind {
     Ellipse
   } else if name == "text" {
     Text
+  } else if name == "parallelogram" {
+    Parallelogram
+  } else if name == "hexagon" {
+    Hexagon
+  } else if name == "cylinder" {
+    Cylinder
+  } else if name == "document" {
+    Document
+  } else if name == "circle" {
+    Circle
   } else {
     Rect
   }

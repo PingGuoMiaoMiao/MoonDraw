@@ -427,6 +427,43 @@ input[type="text"]:focus {
   border-radius: 3px;
 }
 
+.btnrow {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+}
+
+#panel-arrange .btnrow:last-of-type {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.mini {
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+
+.mini:hover {
+  border-color: var(--border-strong);
+  background: var(--wash);
+  color: var(--text);
+}
+
+.mini:active {
+  background: var(--wash-2);
+}
+
+h4.mt {
+  margin-top: 12px;
+}
+
 .panel-value {
   margin: 0;
   font-family: var(--mono);

@@ -69,6 +69,21 @@
           <button class="rail-btn" data-tool="text" title="文本 (T)">
             <span class="ico">T</span><span class="lbl">文本</span>
           </button>
+          <button class="rail-btn" data-tool="parallelogram" title="平行四边形 (P)">
+            <span class="ico">▱</span><span class="lbl">平行</span>
+          </button>
+          <button class="rail-btn" data-tool="hexagon" title="六边形 (X)">
+            <span class="ico">⬡</span><span class="lbl">六边形</span>
+          </button>
+          <button class="rail-btn" data-tool="cylinder" title="圆柱 (Y)">
+            <span class="ico">⏹</span><span class="lbl">圆柱</span>
+          </button>
+          <button class="rail-btn" data-tool="document" title="文档 (N)">
+            <span class="ico">▤</span><span class="lbl">文档</span>
+          </button>
+          <button class="rail-btn" data-tool="circle" title="圆形 (C)">
+            <span class="ico">●</span><span class="lbl">圆形</span>
+          </button>
           <button class="rail-btn" data-tool="edge" title="连线 (L)">
             <span class="ico">→</span><span class="lbl">连线</span>
           </button>
@@ -116,6 +131,25 @@
             <section class="panel-sec" id="panel-text">
               <h4>文本</h4>
               <input id="p-text" type="text" class="wide" placeholder="双击图形也可编辑" />
+            </section>
+
+            <section class="panel-sec" id="panel-arrange">
+              <h4>对齐</h4>
+              <div class="btnrow">
+                <button class="mini" data-action="align-left" title="左对齐">⇤</button>
+                <button class="mini" data-action="align-hcenter" title="水平居中">⇹</button>
+                <button class="mini" data-action="align-right" title="右对齐">⇥</button>
+                <button class="mini" data-action="align-top" title="顶对齐">⤒</button>
+                <button class="mini" data-action="align-vcenter" title="垂直居中">⇳</button>
+                <button class="mini" data-action="align-bottom" title="底对齐">⤓</button>
+              </div>
+              <h4 class="mt">层级</h4>
+              <div class="btnrow">
+                <button class="mini" data-action="layer-front" title="置顶">⤊</button>
+                <button class="mini" data-action="layer-forward" title="上移一层">↑</button>
+                <button class="mini" data-action="layer-backward" title="下移一层">↓</button>
+                <button class="mini" data-action="layer-back" title="置底">⤋</button>
+              </div>
             </section>
 
             <section class="panel-sec" id="panel-kind">
@@ -312,6 +346,16 @@
         "zoom-in": () => ui_zoom(1.2),
         "zoom-out": () => ui_zoom(1 / 1.2),
         "zoom-reset": () => ui_zoom_reset(),
+        "align-left": () => ui_align("left"),
+        "align-hcenter": () => ui_align("hcenter"),
+        "align-right": () => ui_align("right"),
+        "align-top": () => ui_align("top"),
+        "align-vcenter": () => ui_align("vcenter"),
+        "align-bottom": () => ui_align("bottom"),
+        "layer-front": () => ui_layer("front"),
+        "layer-forward": () => ui_layer("forward"),
+        "layer-backward": () => ui_layer("backward"),
+        "layer-back": () => ui_layer("back"),
       };
       document.querySelectorAll("[data-action]").forEach((btn) => {
         btn.addEventListener("click", () => actions[btn.dataset.action]?.());
@@ -320,6 +364,7 @@
       const toolKeys = {
         v: "select", r: "rect", u: "round", d: "diamond",
         o: "ellipse", t: "text", l: "edge", h: "hand",
+        p: "parallelogram", x: "hexagon", y: "cylinder", n: "document", c: "circle",
       };
       window.addEventListener("keydown", (e) => {
         const mod = e.ctrlKey || e.metaKey;
