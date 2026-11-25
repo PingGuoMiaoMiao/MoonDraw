@@ -1,0 +1,33 @@
+options(
+  targets: {
+    "ffi.mbt": ["js"],
+  },
+  link: {
+    "js": {
+      "exports": [
+        "boot",
+        "ui_set_tool",
+        "ui_undo",
+        "ui_redo",
+        "ui_save",
+        "ui_save_file",
+        "ui_open_file",
+        "ui_export_svg",
+        "ui_export_png",
+        "ui_import_mermaid",
+        "ui_clear",
+        "ui_demo",
+        "ui_delete",
+        "ui_fit",
+        "ui_new_doc",
+        "ui_switch_doc",
+        "ui_close_doc",
+        "ui_rename_doc",
+        "ui_docs_json",
+        "ui_distribute_h",
+        "ui_distribute_v",
+      ],
+      "format": "iife",
+    },
+  },
+)

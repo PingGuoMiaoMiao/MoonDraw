@@ -1,0 +1,13 @@
+{
+  "name": "moondraw-shell",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build:frontend": "pwsh -NoProfile -File ../../tools/build-exe.ps1",
+    "dev": "npm run build:frontend && tauri dev",
+    "build": "npm run build:frontend && tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}

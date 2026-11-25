@@ -1,0 +1,12 @@
+MoonBit hackathon acceptance — D:\moonbit-compition\_moondraw
+
+FAIL  MoonBit primary  no .mbt files found
+WARN  History          117 commits total, 117 since start, 4 uncommitted paths (commit the working tree before submitting)
+WARN  Runnable         build/test skipped by --skip-build
+PASS  README           README.md documents commands and a quickstart section
+PASS  Licence          root=Apache-2.0; dependency licences look OSI-compatible
+WARN  AI explainable   only 0 ADR entries and no AI-usage note — judges ask how AI was used
+PASS  Demo entry       entry point (cmd/ or examples/) plus a documented demo
+PASS  Tests            5 test files, 188 assertions
+
+4 pass, 3 warn, 1 fail

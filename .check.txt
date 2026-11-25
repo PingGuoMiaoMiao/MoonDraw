@@ -1,0 +1,961 @@
+Warning: [0067]
+    ╭─[ D:\moonbit-compition\http\cache.mbt:51:5 ]
+    │
+ 51 │ pub async fn save_entry(
+    │     ──┬──  
+    │       ╰──── Warning (unused_async): This `async` annotation is useless.
+────╯
+Warning: [0023]
+    ╭─[ D:\moonbit-compition\http\cache.mbt:60:3 ]
+    │
+ 60 │   try {
+    │   ─┬─  
+    │    ╰─── Warning (unused_try): The body of this try expression never raises any error.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\http\cache.mbt:61:5 ]
+    │
+ 61 │     @fs.mkdir(dir, recursive=true, allow_exist=true)
+    │     ────┬────  
+    │         ╰────── Value mkdir not found in package `fs`.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\http\cache.mbt:62:5 ]
+    │
+ 62 │     @fs.write_file(tmp, body, create_mode=CreateOrTruncate)
+    │     ───────┬──────  
+    │            ╰──────── Value write_file not found in package `fs`.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\http\cache.mbt:63:5 ]
+    │
+ 63 │     @fs.rename(tmp, bin, replace=true)
+    │     ─────┬────  
+    │          ╰────── Value rename not found in package `fs`.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\http\cache.mbt:64:5 ]
+    │
+ 64 │     @fs.write_file(
+    │     ───────┬──────  
+    │            ╰──────── Value write_file not found in package `fs`.
+────╯
+Warning: [0067]
+     ╭─[ D:\moonbit-compition\http\cache.mbt:100:5 ]
+     │
+ 100 │ pub async fn load_cached(
+     │     ──┬──  
+     │       ╰──── Warning (unused_async): This `async` annotation is useless.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\http\cache.mbt:109:8 ]
+     │
+ 109 │   if !(@fs.exists(bin) catch { _ => false }) {
+     │        ─────┬────  
+     │             ╰────── Value exists not found in package `fs`.
+─────╯
+Warning: [0023]
+     ╭─[ D:\moonbit-compition\http\cache.mbt:109:8 ]
+     │
+ 109 │   if !(@fs.exists(bin) catch { _ => false }) {
+     │        ───────┬───────  
+     │               ╰───────── Warning (unused_try): The body of this try expression never raises any error.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\http\cache.mbt:112:26 ]
+     │
+ 112 │   let (seconds, nanos) = @fs.mtime(bin) catch {
+     │                          ────┬────  
+     │                              ╰────── Value mtime not found in package `fs`.
+─────╯
+Warning: [0023]
+     ╭─[ D:\moonbit-compition\http\cache.mbt:112:26 ]
+     │
+ 112 │   let (seconds, nanos) = @fs.mtime(bin) catch {
+     │                          ───────┬──────  
+     │                                 ╰──────── Warning (unused_try): The body of this try expression never raises any error.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\http\cache.mbt:122:14 ]
+     │
+ 122 │   let meta = @fs.read_file(cache_meta_path(root, key)).text() catch {
+     │              ──────┬──────  
+     │                    ╰──────── Value read_file not found in package `fs`.
+─────╯
+Warning: [0023]
+     ╭─[ D:\moonbit-compition\http\cache.mbt:122:14 ]
+     │
+ 122 │   let meta = @fs.read_file(cache_meta_path(root, key)).text() catch {
+     │              ────────────────────────┬───────────────────────  
+     │                                      ╰───────────────────────── Warning (unused_try): The body of this try expression never raises any error.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\http\cache.mbt:125:14 ]
+     │
+ 125 │   let body = @fs.read_file(bin).binary() catch {
+     │              ──────┬──────  
+     │                    ╰──────── Value read_file not found in package `fs`.
+─────╯
+Warning: [0023]
+     ╭─[ D:\moonbit-compition\http\cache.mbt:125:14 ]
+     │
+ 125 │   let body = @fs.read_file(bin).binary() catch {
+     │              ─────────────┬─────────────  
+     │                           ╰─────────────── Warning (unused_try): The body of this try expression never raises any error.
+─────╯
+Warning: [0023]
+     ╭─[ D:\moonbit-compition\http\fetch.mbt:100:12 ]
+     │
+ 100 │     ignore(client.skip_response_body() catch { _ => () })
+     │            ─────────────┬─────────────  
+     │                         ╰─────────────── Warning (unused_try): The body of this try expression never raises any error.
+─────╯
+Error: [4015]
+     ╭─[ D:\moonbit-compition\http\fetch.mbt:100:19 ]
+     │
+ 100 │     ignore(client.skip_response_body() catch { _ => () })
+     │                   ─────────┬────────  
+     │                            ╰────────── Type @moonbitlang/async/http.Client has no method skip_response_body.
+─────╯
+Warning: [0023]
+     ╭─[ D:\moonbit-compition\http\fetch.mbt:113:12 ]
+     │
+ 113 │     ignore(client.skip_response_body() catch { _ => () })
+     │            ─────────────┬─────────────  
+     │                         ╰─────────────── Warning (unused_try): The body of this try expression never raises any error.
+─────╯
+Error: [4015]
+     ╭─[ D:\moonbit-compition\http\fetch.mbt:113:19 ]
+     │
+ 113 │     ignore(client.skip_response_body() catch { _ => () })
+     │                   ─────────┬────────  
+     │                            ╰────────── Type @moonbitlang/async/http.Client has no method skip_response_body.
+─────╯
+Error: [4032]
+    ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:28:9 ]
+    │
+ 28 │   srv : @socket.TcpServer,
+    │         ────────┬────────  
+    │                 ╰────────── The type @socket.TcpServer is undefined.
+────╯
+Warning: [0023]
+    ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:32:18 ]
+    │
+ 32 │   let accepted = srv.accept() catch { _ => return }
+    │                  ──────┬─────  
+    │                        ╰─────── Warning (unused_try): The body of this try expression never raises any error.
+────╯
+Warning: [0023]
+    ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:37:10 ]
+    │
+ 37 │   ignore(client.read_until("\r\n\r\n") catch { _ => None })
+    │          ──────────────┬──────────────  
+    │                        ╰──────────────── Warning (unused_try): The body of this try expression never raises any error.
+────╯
+Warning: [0023]
+    ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:39:12 ]
+    │
+ 39 │     ignore(client.write(response) catch { _ => () })
+    │            ───────────┬──────────  
+    │                       ╰──────────── Warning (unused_try): The body of this try expression never raises any error.
+────╯
+Warning: [0067]
+    ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:47:1 ]
+    │
+ 47 │ async fn bind_any(start_port : Int32) -> (Int32, @socket.TcpServer) {
+    │ ──┬──  
+    │   ╰──── Warning (unused_async): This `async` annotation is useless.
+────╯
+Error: [4032]
+    ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:47:50 ]
+    │
+ 47 │ async fn bind_any(start_port : Int32) -> (Int32, @socket.TcpServer) {
+    │                                                  ────────┬────────  
+    │                                                          ╰────────── The type @socket.TcpServer is undefined.
+────╯
+Error: [4024]
+    ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:51:16 ]
+    │
+ 51 │     let addr = @socket.Addr::parse("127.0.0.1:\{port}") catch {
+    │                ──────┬─────  
+    │                      ╰─────── The type/trait @socket.Addr is not found.
+────╯
+Warning: [0023]
+    ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:51:16 ]
+    │
+ 51 │     let addr = @socket.Addr::parse("127.0.0.1:\{port}") catch {
+    │                ────────────────────┬───────────────────  
+    │                                    ╰───────────────────── Warning (unused_try): The body of this try expression never raises any error.
+────╯
+Warning: [0023]
+    ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:54:21 ]
+    │
+ 54 │     let candidate = Some(@socket.TcpServer::TcpServer(addr)) catch { _ => None }
+    │                     ────────────────────┬───────────────────  
+    │                                         ╰───────────────────── Warning (unused_try): The body of this try expression never raises any error.
+────╯
+Error: [4024]
+    ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:54:26 ]
+    │
+ 54 │     let candidate = Some(@socket.TcpServer::TcpServer(addr)) catch { _ => None }
+    │                          ────────┬────────  
+    │                                  ╰────────── The type/trait @socket.TcpServer is not found.
+────╯
+Error: [4028]
+    ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:56:28 ]
+    │
+ 56 │       Some(srv) => return (srv.addr.port(), srv)
+    │                            ────┬───  
+    │                                ╰───── This expression has type _/0, which is a unknown type and not a struct.
+────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:122:3 ]
+     │
+ 122 │   @fs.rmdir(root, recursive=true) catch {
+     │   ────┬────  
+     │       ╰────── Value rmdir not found in package `fs`.
+─────╯
+Warning: [0023]
+     ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:122:3 ]
+     │
+ 122 │   @fs.rmdir(root, recursive=true) catch {
+     │   ───────────────┬───────────────  
+     │                  ╰───────────────── Warning (unused_try): The body of this try expression never raises any error.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:250:3 ]
+     │
+ 250 │   @fs.rmdir(root, recursive=true) catch {
+     │   ────┬────  
+     │       ╰────── Value rmdir not found in package `fs`.
+─────╯
+Warning: [0023]
+     ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:250:3 ]
+     │
+ 250 │   @fs.rmdir(root, recursive=true) catch {
+     │   ───────────────┬───────────────  
+     │                  ╰───────────────── Warning (unused_try): The body of this try expression never raises any error.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:282:3 ]
+     │
+ 282 │   @fs.rmdir(root, recursive=true) catch {
+     │   ────┬────  
+     │       ╰────── Value rmdir not found in package `fs`.
+─────╯
+Warning: [0023]
+     ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:282:3 ]
+     │
+ 282 │   @fs.rmdir(root, recursive=true) catch {
+     │   ───────────────┬───────────────  
+     │                  ╰───────────────── Warning (unused_try): The body of this try expression never raises any error.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:332:3 ]
+     │
+ 332 │   @fs.rmdir(root, recursive=true) catch {
+     │   ────┬────  
+     │       ╰────── Value rmdir not found in package `fs`.
+─────╯
+Warning: [0023]
+     ╭─[ D:\moonbit-compition\http\fetch_wbtest.mbt:332:3 ]
+     │
+ 332 │   @fs.rmdir(root, recursive=true) catch {
+     │   ───────────────┬───────────────  
+     │                  ╰───────────────── Warning (unused_try): The body of this try expression never raises any error.
+─────╯
+Warning: [0067]
+     ╭─[ D:\moonbit-compition\http\policy.mbt:222:5 ]
+     │
+ 222 │ pub async fn check_target(
+     │     ──┬──  
+     │       ╰──── Warning (unused_async): This `async` annotation is useless.
+─────╯
+Error: [4024]
+     ╭─[ D:\moonbit-compition\http\policy.mbt:233:14 ]
+     │
+ 233 │   let addr = @socket.Addr::resolve(host, port=t.default_port()) catch {
+     │              ──────┬─────  
+     │                    ╰─────── The type/trait @socket.Addr is not found.
+─────╯
+Warning: [0023]
+     ╭─[ D:\moonbit-compition\http\policy.mbt:233:14 ]
+     │
+ 233 │   let addr = @socket.Addr::resolve(host, port=t.default_port()) catch {
+     │              ─────────────────────────┬────────────────────────  
+     │                                       ╰────────────────────────── Warning (unused_try): The body of this try expression never raises any error.
+─────╯
+Error: [4024]
+     ╭─[ D:\moonbit-compition\http\policy.mbt:244:15 ]
+     │
+ 244 │   let again = @socket.Addr::resolve(host, port=t.default_port()) catch {
+     │               ──────┬─────  
+     │                     ╰─────── The type/trait @socket.Addr is not found.
+─────╯
+Warning: [0023]
+     ╭─[ D:\moonbit-compition\http\policy.mbt:244:15 ]
+     │
+ 244 │   let again = @socket.Addr::resolve(host, port=t.default_port()) catch {
+     │               ─────────────────────────┬────────────────────────  
+     │                                        ╰────────────────────────── Warning (unused_try): The body of this try expression never raises any error.
+─────╯
+Warning: [0067]
+    ╭─[ D:\moonbit-compition\index\cache.mbt:38:1 ]
+    │
+ 38 │ async fn cache_mtime(root : String, repo : String) -> Int64 {
+    │ ──┬──  
+    │   ╰──── Warning (unused_async): This `async` annotation is useless.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\index\cache.mbt:40:14 ]
+    │
+ 40 │   let pair = @fs.mtime(path) catch { _ => return -1 }
+    │              ────┬────  
+    │                  ╰────── Value mtime not found in package `fs`.
+────╯
+Warning: [0023]
+    ╭─[ D:\moonbit-compition\index\cache.mbt:40:14 ]
+    │
+ 40 │   let pair = @fs.mtime(path) catch { _ => return -1 }
+    │              ───────┬───────  
+    │                     ╰───────── Warning (unused_try): The body of this try expression never raises any error.
+────╯
+Error: [4021]
+   ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:8:14 ]
+   │
+ 8 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+   │              ─────┬────  
+   │                   ╰────── Value tmpdir not found in package `fs`.
+───╯
+Error: [4021]
+   ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:9:9 ]
+   │
+ 9 │   defer @fs.rmdir(root, recursive=true)
+   │         ────┬────  
+   │             ╰────── Value rmdir not found in package `fs`.
+───╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:34:14 ]
+    │
+ 34 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+    │              ─────┬────  
+    │                   ╰────── Value tmpdir not found in package `fs`.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:35:9 ]
+    │
+ 35 │   defer @fs.rmdir(root, recursive=true)
+    │         ────┬────  
+    │             ╰────── Value rmdir not found in package `fs`.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:44:14 ]
+    │
+ 44 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+    │              ─────┬────  
+    │                   ╰────── Value tmpdir not found in package `fs`.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:45:9 ]
+    │
+ 45 │   defer @fs.rmdir(root, recursive=true)
+    │         ────┬────  
+    │             ╰────── Value rmdir not found in package `fs`.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:53:14 ]
+    │
+ 53 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+    │              ─────┬────  
+    │                   ╰────── Value tmpdir not found in package `fs`.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:54:9 ]
+    │
+ 54 │   defer @fs.rmdir(root, recursive=true)
+    │         ────┬────  
+    │             ╰────── Value rmdir not found in package `fs`.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:61:14 ]
+    │
+ 61 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+    │              ─────┬────  
+    │                   ╰────── Value tmpdir not found in package `fs`.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:62:9 ]
+    │
+ 62 │   defer @fs.rmdir(root, recursive=true)
+    │         ────┬────  
+    │             ╰────── Value rmdir not found in package `fs`.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:71:14 ]
+    │
+ 71 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+    │              ─────┬────  
+    │                   ╰────── Value tmpdir not found in package `fs`.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:72:9 ]
+    │
+ 72 │   defer @fs.rmdir(root, recursive=true)
+    │         ────┬────  
+    │             ╰────── Value rmdir not found in package `fs`.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:88:14 ]
+    │
+ 88 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+    │              ─────┬────  
+    │                   ╰────── Value tmpdir not found in package `fs`.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:89:9 ]
+    │
+ 89 │   defer @fs.rmdir(root, recursive=true)
+    │         ────┬────  
+    │             ╰────── Value rmdir not found in package `fs`.
+────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:116:14 ]
+     │
+ 116 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+     │              ─────┬────  
+     │                   ╰────── Value tmpdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:117:9 ]
+     │
+ 117 │   defer @fs.rmdir(root, recursive=true)
+     │         ────┬────  
+     │             ╰────── Value rmdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:133:14 ]
+     │
+ 133 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+     │              ─────┬────  
+     │                   ╰────── Value tmpdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:134:9 ]
+     │
+ 134 │   defer @fs.rmdir(root, recursive=true)
+     │         ────┬────  
+     │             ╰────── Value rmdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:148:14 ]
+     │
+ 148 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+     │              ─────┬────  
+     │                   ╰────── Value tmpdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:149:9 ]
+     │
+ 149 │   defer @fs.rmdir(root, recursive=true)
+     │         ────┬────  
+     │             ╰────── Value rmdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:159:14 ]
+     │
+ 159 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+     │              ─────┬────  
+     │                   ╰────── Value tmpdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:160:9 ]
+     │
+ 160 │   defer @fs.rmdir(root, recursive=true)
+     │         ────┬────  
+     │             ╰────── Value rmdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:184:14 ]
+     │
+ 184 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+     │              ─────┬────  
+     │                   ╰────── Value tmpdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:185:9 ]
+     │
+ 185 │   defer @fs.rmdir(root, recursive=true)
+     │         ────┬────  
+     │             ╰────── Value rmdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:202:14 ]
+     │
+ 202 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+     │              ─────┬────  
+     │                   ╰────── Value tmpdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:203:9 ]
+     │
+ 203 │   defer @fs.rmdir(root, recursive=true)
+     │         ────┬────  
+     │             ╰────── Value rmdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:215:14 ]
+     │
+ 215 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+     │              ─────┬────  
+     │                   ╰────── Value tmpdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:216:9 ]
+     │
+ 216 │   defer @fs.rmdir(root, recursive=true)
+     │         ────┬────  
+     │             ╰────── Value rmdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:230:14 ]
+     │
+ 230 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+     │              ─────┬────  
+     │                   ╰────── Value tmpdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:231:9 ]
+     │
+ 231 │   defer @fs.rmdir(root, recursive=true)
+     │         ────┬────  
+     │             ╰────── Value rmdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:243:14 ]
+     │
+ 243 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+     │              ─────┬────  
+     │                   ╰────── Value tmpdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:244:9 ]
+     │
+ 244 │   defer @fs.rmdir(root, recursive=true)
+     │         ────┬────  
+     │             ╰────── Value rmdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:255:14 ]
+     │
+ 255 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+     │              ─────┬────  
+     │                   ╰────── Value tmpdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:256:9 ]
+     │
+ 256 │   defer @fs.rmdir(root, recursive=true)
+     │         ────┬────  
+     │             ╰────── Value rmdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:267:14 ]
+     │
+ 267 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+     │              ─────┬────  
+     │                   ╰────── Value tmpdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:268:9 ]
+     │
+ 268 │   defer @fs.rmdir(root, recursive=true)
+     │         ────┬────  
+     │             ╰────── Value rmdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:269:3 ]
+     │
+ 269 │   @fs.mkdir(root + "/sub", recursive=true, allow_exist=true)
+     │   ────┬────  
+     │       ╰────── Value mkdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:270:3 ]
+     │
+ 270 │   @fs.mkdir(root + "/node_modules", recursive=true, allow_exist=true)
+     │   ────┬────  
+     │       ╰────── Value mkdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:271:3 ]
+     │
+ 271 │   @fs.write_file(root + "/a.md", "# A\n", create_mode=CreateOrTruncate)
+     │   ───────┬──────  
+     │          ╰──────── Value write_file not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:272:3 ]
+     │
+ 272 │   @fs.write_file(root + "/sub/b.html", "<p>x</p>", create_mode=CreateOrTruncate)
+     │   ───────┬──────  
+     │          ╰──────── Value write_file not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:273:3 ]
+     │
+ 273 │   @fs.write_file(root + "/sub/skip.txt", "no", create_mode=CreateOrTruncate)
+     │   ───────┬──────  
+     │          ╰──────── Value write_file not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:274:3 ]
+     │
+ 274 │   @fs.write_file(
+     │   ───────┬──────  
+     │          ╰──────── Value write_file not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:289:14 ]
+     │
+ 289 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+     │              ─────┬────  
+     │                   ╰────── Value tmpdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:290:9 ]
+     │
+ 290 │   defer @fs.rmdir(root, recursive=true)
+     │         ────┬────  
+     │             ╰────── Value rmdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:302:14 ]
+     │
+ 302 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+     │              ─────┬────  
+     │                   ╰────── Value tmpdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:303:9 ]
+     │
+ 303 │   defer @fs.rmdir(root, recursive=true)
+     │         ────┬────  
+     │             ╰────── Value rmdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:319:14 ]
+     │
+ 319 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+     │              ─────┬────  
+     │                   ╰────── Value tmpdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:320:9 ]
+     │
+ 320 │   defer @fs.rmdir(root, recursive=true)
+     │         ────┬────  
+     │             ╰────── Value rmdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:339:14 ]
+     │
+ 339 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+     │              ─────┬────  
+     │                   ╰────── Value tmpdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:340:9 ]
+     │
+ 340 │   defer @fs.rmdir(root, recursive=true)
+     │         ────┬────  
+     │             ╰────── Value rmdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:351:14 ]
+     │
+ 351 │   let root = @fs.tmpdir(prefix="docmunch-test-")
+     │              ─────┬────  
+     │                   ╰────── Value tmpdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\index_wbtest.mbt:352:9 ]
+     │
+ 352 │   defer @fs.rmdir(root, recursive=true)
+     │         ────┬────  
+     │             ╰────── Value rmdir not found in package `fs`.
+─────╯
+Warning: [0067]
+     ╭─[ D:\moonbit-compition\index\store.mbt:123:1 ]
+     │
+ 123 │ async fn read_repo_name(path : String) -> String? {
+     │ ──┬──  
+     │   ╰──── Warning (unused_async): This `async` annotation is useless.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:124:7 ]
+     │
+ 124 │   if !@fs.exists(path) {
+     │       ─────┬────  
+     │            ╰────── Value exists not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:127:14 ]
+     │
+ 127 │   let text = @fs.read_file(path).text() catch { _ => return None }
+     │              ──────┬──────  
+     │                    ╰──────── Value read_file not found in package `fs`.
+─────╯
+Warning: [0023]
+     ╭─[ D:\moonbit-compition\index\store.mbt:127:14 ]
+     │
+ 127 │   let text = @fs.read_file(path).text() catch { _ => return None }
+     │              ─────────────┬────────────  
+     │                           ╰────────────── Warning (unused_try): The body of this try expression never raises any error.
+─────╯
+Warning: [0067]
+     ╭─[ D:\moonbit-compition\index\store.mbt:134:5 ]
+     │
+ 134 │ pub async fn load_index(root : String, repo : String) -> @core.DocIndex? {
+     │     ──┬──  
+     │       ╰──── Warning (unused_async): This `async` annotation is useless.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:136:7 ]
+     │
+ 136 │   if !@fs.exists(path) {
+     │       ─────┬────  
+     │            ╰────── Value exists not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:139:14 ]
+     │
+ 139 │   let text = @fs.read_file(path).text() catch { _ => return None }
+     │              ──────┬──────  
+     │                    ╰──────── Value read_file not found in package `fs`.
+─────╯
+Warning: [0023]
+     ╭─[ D:\moonbit-compition\index\store.mbt:139:14 ]
+     │
+ 139 │   let text = @fs.read_file(path).text() catch { _ => return None }
+     │              ─────────────┬────────────  
+     │                           ╰────────────── Warning (unused_try): The body of this try expression never raises any error.
+─────╯
+Warning: [0067]
+     ╭─[ D:\moonbit-compition\index\store.mbt:153:5 ]
+     │
+ 153 │ pub async fn save_index(
+     │     ──┬──  
+     │       ╰──── Warning (unused_async): This `async` annotation is useless.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:159:3 ]
+     │
+ 159 │   @fs.mkdir(dir, recursive=true, allow_exist=true)
+     │   ────┬────  
+     │       ╰────── Value mkdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:163:3 ]
+     │
+ 163 │   @fs.write_file(tmp, json, create_mode=CreateOrTruncate)
+     │   ───────┬──────  
+     │          ╰──────── Value write_file not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:164:3 ]
+     │
+ 164 │   @fs.rename(tmp, path, replace=true)
+     │   ─────┬────  
+     │        ╰────── Value rename not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:167:3 ]
+     │
+ 167 │   @fs.write_file(
+     │   ───────┬──────  
+     │          ╰──────── Value write_file not found in package `fs`.
+─────╯
+Warning: [0067]
+     ╭─[ D:\moonbit-compition\index\store.mbt:175:5 ]
+     │
+ 175 │ pub async fn write_raw(
+     │     ──┬──  
+     │       ╰──── Warning (unused_async): This `async` annotation is useless.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:182:3 ]
+     │
+ 182 │   @fs.mkdir(dir, recursive=true, allow_exist=true)
+     │   ────┬────  
+     │       ╰────── Value mkdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:185:3 ]
+     │
+ 185 │   @fs.write_file(tmp, text, create_mode=CreateOrTruncate)
+     │   ───────┬──────  
+     │          ╰──────── Value write_file not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:186:3 ]
+     │
+ 186 │   @fs.rename(tmp, path, replace=true)
+     │   ─────┬────  
+     │        ╰────── Value rename not found in package `fs`.
+─────╯
+Warning: [0067]
+     ╭─[ D:\moonbit-compition\index\store.mbt:192:5 ]
+     │
+ 192 │ pub async fn delete_repo(root : String, repo : String) -> Unit {
+     │     ──┬──  
+     │       ╰──── Warning (unused_async): This `async` annotation is useless.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:194:6 ]
+     │
+ 194 │   if @fs.exists(dir) {
+     │      ─────┬────  
+     │           ╰────── Value exists not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:195:5 ]
+     │
+ 195 │     @fs.rmdir(dir, recursive=true)
+     │     ────┬────  
+     │         ╰────── Value rmdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:201:7 ]
+     │
+ 201 │   if !@fs.exists(root) {
+     │       ─────┬────  
+     │            ╰────── Value exists not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:204:17 ]
+     │
+ 204 │   let entries = @fs.readdir(root, sort=true)
+     │                 ─────┬─────  
+     │                      ╰─────── Value readdir not found in package `fs`.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:208:8 ]
+     │
+ 208 │     if @fs.exists(candidate) {
+     │        ─────┬────  
+     │             ╰────── Value exists not found in package `fs`.
+─────╯
+Warning: [0067]
+     ╭─[ D:\moonbit-compition\index\store.mbt:222:5 ]
+     │
+ 222 │ pub async fn read_section_text(
+     │     ──┬──  
+     │       ╰──── Warning (unused_async): This `async` annotation is useless.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:229:14 ]
+     │
+ 229 │   let file = @fs.open(path, mode=ReadOnly)
+     │              ────┬───  
+     │                  ╰───── Value open not found in package `fs`.
+─────╯
+Warning: [0067]
+     ╭─[ D:\moonbit-compition\index\store.mbt:243:5 ]
+     │
+ 243 │ pub async fn read_document_text(
+     │     ──┬──  
+     │       ╰──── Warning (unused_async): This `async` annotation is useless.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:249:8 ]
+     │
+ 249 │   if !(@fs.exists(path) catch { _ => false }) {
+     │        ─────┬────  
+     │             ╰────── Value exists not found in package `fs`.
+─────╯
+Warning: [0023]
+     ╭─[ D:\moonbit-compition\index\store.mbt:249:8 ]
+     │
+ 249 │   if !(@fs.exists(path) catch { _ => false }) {
+     │        ────────┬───────  
+     │                ╰───────── Warning (unused_try): The body of this try expression never raises any error.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:252:3 ]
+     │
+ 252 │   @fs.read_file(path).text()
+     │   ──────┬──────  
+     │         ╰──────── Value read_file not found in package `fs`.
+─────╯
+Warning: [0067]
+     ╭─[ D:\moonbit-compition\index\store.mbt:258:5 ]
+     │
+ 258 │ pub async fn has_raw(root : String, repo : String, doc_path : String) -> Bool {
+     │     ──┬──  
+     │       ╰──── Warning (unused_async): This `async` annotation is useless.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\index\store.mbt:259:3 ]
+     │
+ 259 │   @fs.exists(raw_file_path(root, repo, doc_path)) catch {
+     │   ─────┬────  
+     │        ╰────── Value exists not found in package `fs`.
+─────╯
+Warning: [0023]
+     ╭─[ D:\moonbit-compition\index\store.mbt:259:3 ]
+     │
+ 259 │   @fs.exists(raw_file_path(root, repo, doc_path)) catch {
+     │   ───────────────────────┬───────────────────────  
+     │                          ╰───────────────────────── Warning (unused_try): The body of this try expression never raises any error.
+─────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\index\walk.mbt:35:17 ]
+    │
+ 35 │   let entries = @fs.readdir(dir, sort=true) catch { _ => return }
+    │                 ─────┬─────  
+    │                      ╰─────── Value readdir not found in package `fs`.
+────╯
+Warning: [0023]
+    ╭─[ D:\moonbit-compition\index\walk.mbt:35:17 ]
+    │
+ 35 │   let entries = @fs.readdir(dir, sort=true) catch { _ => return }
+    │                 ─────────────┬─────────────  
+    │                              ╰─────────────── Warning (unused_try): The body of this try expression never raises any error.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\index\walk.mbt:39:16 ]
+    │
+ 39 │     let kind = @fs.kind(full) catch { _ => @fs.FileKind::Unknown }
+    │                ────┬───  
+    │                    ╰───── Value kind not found in package `fs`.
+────╯
+Warning: [0023]
+    ╭─[ D:\moonbit-compition\index\walk.mbt:39:16 ]
+    │
+ 39 │     let kind = @fs.kind(full) catch { _ => @fs.FileKind::Unknown }
+    │                ───────┬──────  
+    │                       ╰──────── Warning (unused_try): The body of this try expression never raises any error.
+────╯
+Error: [4024]
+    ╭─[ D:\moonbit-compition\index\walk.mbt:39:44 ]
+    │
+ 39 │     let kind = @fs.kind(full) catch { _ => @fs.FileKind::Unknown }
+    │                                            ──────┬─────  
+    │                                                  ╰─────── The type/trait @fs.FileKind is not found.
+────╯
+Error: [4024]
+    ╭─[ D:\moonbit-compition\index\walk.mbt:41:7 ]
+    │
+ 41 │       @fs.FileKind::Directory =>
+    │       ──────┬─────  
+    │             ╰─────── The type/trait @fs.FileKind is not found.
+────╯
+Error: [4024]
+    ╭─[ D:\moonbit-compition\index\walk.mbt:45:7 ]
+    │
+ 45 │       @fs.FileKind::Regular => if is_indexable_name(name) { out.push(rel) }
+    │       ──────┬─────  
+    │             ╰─────── The type/trait @fs.FileKind is not found.
+────╯
+Failed with 38 warnings, 99 errors.
+Error: failed when checking project

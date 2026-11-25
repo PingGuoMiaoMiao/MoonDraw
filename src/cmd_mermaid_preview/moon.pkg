@@ -1,0 +1,5 @@
+import {
+  "demo/moondraw" @moondraw,
+}
+
+pkgtype(kind: "executable")

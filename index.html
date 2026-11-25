@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MoonDraw · MoonBit 流程图白板</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-tool="select">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">M</div>
+        <div class="brand-text">
+          <strong>MoonDraw</strong>
+          <span>MoonBit · Canvas 2D</span>
+        </div>
+      </div>
+
+      <div class="toolgroup" role="group" aria-label="工具">
+        <button class="tool active" data-tool="select" title="选择 (V)">
+          <span class="ico">↖</span><span>选择</span>
+        </button>
+        <button class="tool" data-tool="rect" title="矩形 (R)">
+          <span class="ico">▭</span><span>矩形</span>
+        </button>
+        <button class="tool" data-tool="round" title="圆角矩形 (U)">
+          <span class="ico">▢</span><span>圆角</span>
+        </button>
+        <button class="tool" data-tool="diamond" title="菱形 (D)">
+          <span class="ico">◇</span><span>菱形</span>
+        </button>
+        <button class="tool" data-tool="ellipse" title="椭圆 (O)">
+          <span class="ico">◯</span><span>椭圆</span>
+        </button>
+        <button class="tool" data-tool="text" title="文本 (T)">
+          <span class="ico">T</span><span>文本</span>
+        </button>
+        <button class="tool" data-tool="edge" title="连线 (L)">
+          <span class="ico">→</span><span>连线</span>
+        </button>
+        <button class="tool" data-tool="hand" title="平移 (H / 按住中键)">
+          <span class="ico">✋</span><span>平移</span>
+        </button>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="actiongroup">
+        <button class="action" data-action="undo" title="撤销 (Ctrl+Z)">撤销</button>
+        <button class="action" data-action="redo" title="重做 (Ctrl+Shift+Z)">重做</button>
+        <button class="action" data-action="fit" title="适配视图 (F)">适配</button>
+        <button class="action" data-action="dist-h" title="横向等间距（需选中 3+ 图形）">⇹ 横分布</button>
+        <button class="action" data-action="dist-v" title="纵向等间距（需选中 3+ 图形）">⇕ 纵分布</button>
+        <button class="action" data-action="open" title="打开 .moondraw / Mermaid 文件">打开</button>
+        <button class="action" data-action="saveFile" title="保存为 .moondraw 文件">保存</button>
+        <select id="export-range" class="range" title="导出范围">
+          <option value="all">整图</option>
+          <option value="selection">选区</option>
+          <option value="viewport">视口</option>
+        </select>
+        <button class="action" data-action="svg" title="导出 SVG">SVG</button>
+        <button class="action" data-action="png" title="导出 PNG">PNG</button>
+        <button class="action" data-action="mermaid" title="导入示例 Mermaid 流程图">Mermaid</button>
+        <button class="action" data-action="demo" title="载入示例">示例</button>
+        <button class="action danger" data-action="clear" title="清空画布">清空</button>
+      </div>
+    </header>
+
+    <nav class="tabbar" id="tabbar" aria-label="文档">
+      <div class="tabs" id="tabs"></div>
+      <button class="tab-add" id="tab-add" title="新建文档 (Ctrl+T)">+</button>
+    </nav>
+
+    <main class="stage">
+      <canvas id="board"></canvas>
+    </main>
+
+    <div id="status" class="status">加载中…</div>
+
+    <script src="_build/js/release/build/moondraw.js"></script>
+    <script>
+      const tools = Array.from(document.querySelectorAll(".tool"));
+      const setActiveTool = (name) => {
+        document.body.dataset.tool = name;
+        tools.forEach((b) => b.classList.toggle("active", b.dataset.tool === name));
+      };
+
+      boot();
+
+      // ---------------------------------------------------------- tabs
+      const tabsEl = document.getElementById("tabs");
+      function renderTabs() {
+        const data = JSON.parse(ui_docs_json());
+        tabsEl.textContent = "";
+        data.docs.forEach((d, i) => {
+          const tab = document.createElement("button");
+          tab.className = "tab" + (i === data.active ? " active" : "");
+          tab.title = "点击切换 · 双击重命名";
+
+          const label = document.createElement("span");
+          label.className = "label";
+          label.textContent = d.name;
+          tab.appendChild(label);
+
+          const close = document.createElement("span");
+          close.className = "close";
+          close.textContent = "×";
+          close.title = "关闭";
+          close.addEventListener("click", (e) => {
+            e.stopPropagation();
+            ui_close_doc(i);
+            renderTabs();
+          });
+          tab.appendChild(close);
+
+          tab.addEventListener("click", () => {
+            ui_switch_doc(i);
+            renderTabs();
+          });
+          tab.addEventListener("dblclick", (e) => {
+            e.stopPropagation();
+            const name = prompt("重命名文档", d.name);
+            if (name) {
+              ui_rename_doc(name);
+              renderTabs();
+            }
+          });
+          tabsEl.appendChild(tab);
+        });
+      }
+      document.getElementById("tab-add").addEventListener("click", () => {
+        ui_new_doc();
+        renderTabs();
+      });
+      renderTabs();
+      window.addEventListener("focus", renderTabs);
+
+      // M0 layout probe: open index.html?diag=1 and read #status.
+      if (new URLSearchParams(location.search).get("diag")) {
+        requestAnimationFrame(() => {
+          const tb = document.querySelector(".topbar");
+          const ag = document.querySelector(".actiongroup");
+          const cv = document.getElementById("board");
+          const r = cv.getBoundingClientRect();
+          document.getElementById("status").textContent =
+            "DIAG win=" + innerWidth + "x" + innerHeight +
+            " topbar=" + tb.scrollWidth + "/" + tb.clientWidth +
+            " actionsRight=" + Math.round(ag.getBoundingClientRect().right) +
+            " canvasCss=" + cv.clientWidth + "x" + cv.clientHeight +
+            " canvasRect=" + Math.round(r.width) + "x" + Math.round(r.height) +
+            " dpr=" + devicePixelRatio +
+            " backing=" + cv.width + "x" + cv.height;
+        });
+      }
+
+      tools.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          ui_set_tool(btn.dataset.tool);
+          setActiveTool(btn.dataset.tool);
+        });
+      });
+
+      const SAMPLE_MERMAID = [
+        "flowchart TD",
+        "  A[上报工单] --> B{是否P1}",
+        "  B -->|是| C(立即响应)",
+        "  B -->|否| D{是否重复}",
+        "  D -->|是| E(合并到已有工单)",
+        "  D -->|否| F(排期处理)",
+        "  C --> G((结单))",
+        "  F --> G",
+      ].join("\n");
+
+      const exportRange = () => document.getElementById("export-range").value;
+      const actions = {
+        undo: () => ui_undo(),
+        redo: () => ui_redo(),
+        fit: () => ui_fit(),
+        "dist-h": () => ui_distribute_h(),
+        "dist-v": () => ui_distribute_v(),
+        open: () => {
+          ui_open_file();
+          setTimeout(renderTabs, 900);
+        },
+        saveFile: () => ui_save_file(),
+        svg: () => ui_export_svg(exportRange()),
+        png: () => ui_export_png(exportRange()),
+        mermaid: () => ui_import_mermaid(SAMPLE_MERMAID),
+        demo: () => ui_demo(),
+        clear: () => ui_clear(),
+      };
+      document.querySelectorAll("[data-action]").forEach((btn) => {
+        btn.addEventListener("click", () => actions[btn.dataset.action]?.());
+      });
+
+      const toolKeys = {
+        v: "select", r: "rect", u: "round", d: "diamond",
+        o: "ellipse", t: "text", l: "edge", h: "hand",
+      };
+      window.addEventListener("keydown", (e) => {
+        const mod = e.ctrlKey || e.metaKey;
+        if (mod && ["z", "y", "s", "t", "w"].includes(e.key.toLowerCase())) e.preventDefault();
+        if (mod) {
+          const k = e.key.toLowerCase();
+          if (k === "t") {
+            ui_new_doc();
+            renderTabs();
+          } else if (k === "w") {
+            const data = JSON.parse(ui_docs_json());
+            ui_close_doc(data.active);
+            renderTabs();
+          }
+          return;
+        }
+        const k = e.key.toLowerCase();
+        if (toolKeys[k]) setActiveTool(toolKeys[k]);
+        if (e.key === "Escape") setActiveTool("select");
+      });
+    </script>
+  </body>
+</html>
