@@ -6,9 +6,15 @@ source = "src"
 
 preferred_target = "js"
 
-description = "MoonDraw: a flowchart / whiteboard editor written in MoonBit, rendering with the Canvas 2D API."
+readme = "README.md"
+
+repository = "https://github.com/PingGuoMiaoMiao/MoonDraw"
 
 license = "MIT"
+
+keywords = ["flowchart", "whiteboard", "diagram", "canvas", "editor"]
+
+description = "Flowchart / whiteboard editor in MoonBit: DOM-free kernel, ELK auto layout, SVG/PNG export."
 
 import {
   "moonbit-community/elk@0.4.2",

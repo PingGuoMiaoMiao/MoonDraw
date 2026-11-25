@@ -1,0 +1,12 @@
+# Files shipped to mooncakes. Anything not matching the module's own sources,
+# README and licence is dropped here (gitignore-style patterns).
+/docs/
+/dist/
+/shell/
+/tools/
+/_build/
+/.mooncakes/
+/.testtmp/
+/*.docx
+/*.pdf
+/*.png

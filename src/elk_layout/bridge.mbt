@@ -70,38 +70,55 @@ pub fn scene_to_elk_json(scene : @k.Scene, algorithm : String, direction : Strin
   b.to_string()
 }
 
+///| Read a field that may be absent.
+fn json_field(obj : @json.Json, key : String) -> @json.Json? {
+  if obj is Object(map) {
+    map.get(key)
+  } else {
+    None
+  }
+}
+
 ///|
 fn number_at(obj : @json.Json, key : String) -> Double? {
-  match obj.value(key) {
+  match json_field(obj, key) {
     Some(v) =>
-      match v.as_number() {
-        Some(n) => Some(n)
-        None => None
+      if v is Number(n, ..) {
+        Some(n)
+      } else {
+        None
       }
     None => None
   }
 }
 
+///|
+fn string_field(obj : @json.Json, key : String) -> String {
+  match json_field(obj, key) {
+    Some(v) =>
+      if v is String(s) {
+        s
+      } else {
+        ""
+      }
+    None => ""
+  }
+}
+
 ///| Copy node positions from the layout result back onto the shapes.
 fn apply_positions(scene : @k.Scene, out : @json.Json) -> Int {
-  let children = match out.value("children") {
+  let children = match json_field(out, "children") {
     Some(c) =>
-      match c.as_array() {
-        Some(a) => a
-        None => return 0
+      if c is Array(a) {
+        a
+      } else {
+        return 0
       }
     None => return 0
   }
   let mut applied = 0
   for child in children {
-    let id = match child.value("id") {
-      Some(v) =>
-        match v.as_string() {
-          Some(s) => s
-          None => ""
-        }
-      None => ""
-    }
+    let id = string_field(child, "id")
     if id.length() == 0 {
       continue
     }
@@ -109,9 +126,7 @@ fn apply_positions(scene : @k.Scene, out : @json.Json) -> Int {
     if shape_id < 0 {
       continue
     }
-    let x = number_at(child, "x")
-    let y = number_at(child, "y")
-    match (x, y) {
+    match (number_at(child, "x"), number_at(child, "y")) {
       (Some(px), Some(py)) =>
         match @k.find_shape(scene, shape_id) {
           Some(s) => {
