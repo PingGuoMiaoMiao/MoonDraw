@@ -7,6 +7,30 @@
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232f6fed'/%3E%3Ctext x='16' y='23' font-size='20' font-family='sans-serif' fill='white' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E" />
     <title>MoonDraw · MoonBit 流程图白板</title>
     <style>
+/* MoonDraw — Geist-style design system.
+   One neutral ramp, hairline borders, colour reserved for state. */
+
+:root {
+  --bg: #ffffff;
+  --wash: #fafafa;
+  --wash-2: #f5f5f5;
+  --border: #eaeaea;
+  --border-strong: #d4d4d4;
+  --text: #171717;
+  --muted: #666666;
+  --faint: #8f8f8f;
+  --blue: #0070f3;
+  --blue-wash: #ebf5ff;
+  --red: #e2162a;
+  --radius: 6px;
+  --radius-lg: 8px;
+  --ring: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Microsoft YaHei", system-ui, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -21,141 +45,184 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #eef1f6;
-  color: #1f2937;
-  font-family: "Microsoft YaHei", "PingFang SC", system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* ---------------------------------------------------------------- top bar */
 .topbar {
   display: flex;
   flex: 0 0 auto;
   align-items: center;
-  gap: 16px;
-  height: 62px;
-  padding: 0 18px;
-  background: #fff;
-  border-bottom: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgb(15 23 42 / 6%);
-  z-index: 2;
+  gap: 10px;
+  height: 52px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-width: 172px;
+  gap: 8px;
+  margin-right: 4px;
 }
 
-.logo {
+.mark {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #2f6fed, #7c3aed);
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius);
+  background: var(--text);
   color: #fff;
-  font-weight: 700;
-  font-size: 18px;
-}
-
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.15;
-}
-
-.brand-text strong {
-  font-size: 15px;
-  letter-spacing: 0.2px;
-}
-
-.brand-text span {
-  font-size: 11px;
-  color: #94a3b8;
-}
-
-.toolgroup,
-.actiongroup {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.toolgroup {
-  padding: 4px;
-  border-radius: 10px;
-  background: #f1f5f9;
-}
-
-.tool,
-.action {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 34px;
-  padding: 0 12px;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  background: transparent;
-  color: #475569;
   font-size: 13px;
-  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.name {
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.chip {
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--wash);
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 16px;
+}
+
+/* segmented tool control */
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--wash);
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition: background 0.12s ease, color 0.12s ease, box-shadow 0.12s ease;
 }
 
-.tool:hover,
-.action:hover {
-  background: #fff;
-  border-color: #dbe3ee;
-  color: #1e293b;
-}
-
-.tool.active {
-  background: #fff;
-  border-color: #bfd3ff;
-  color: #2f6fed;
-  box-shadow: 0 1px 2px rgb(47 111 237 / 12%);
-}
-
-.tool .ico {
-  font-size: 15px;
+.icon .ico {
+  font-size: 13px;
   line-height: 1;
 }
 
-.action {
-  height: 32px;
-  border-color: #e2e8f0;
+.icon:hover {
   background: #fff;
+  color: var(--text);
+  box-shadow: var(--ring);
 }
 
-.action.danger:hover {
+.icon.active {
+  background: #fff;
+  color: var(--text);
+  box-shadow: var(--ring);
+}
+
+/* ghost buttons */
+.group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.ghost {
+  height: 28px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 12.5px;
+  letter-spacing: -0.005em;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.ghost:hover {
+  background: var(--wash-2);
+  color: var(--text);
+}
+
+.ghost.danger:hover {
   background: #fef2f2;
-  border-color: #fecaca;
-  color: #dc2626;
+  color: var(--red);
+}
+
+.select {
+  height: 28px;
+  padding: 0 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.select:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.sep {
+  width: 1px;
+  height: 18px;
+  background: var(--border);
 }
 
 .spacer {
   flex: 1;
 }
 
-/* --- document tabs ------------------------------------------------------- */
+/* ------------------------------------------------------------------- tabs */
 .tabbar {
   display: flex;
   flex: 0 0 auto;
-  align-items: flex-end;
-  gap: 4px;
-  height: 38px;
-  padding: 0 14px;
-  background: #eef1f6;
-  border-bottom: 1px solid #e2e8f0;
+  align-items: center;
+  gap: 2px;
+  height: 40px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
   overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tabbar::-webkit-scrollbar {
+  display: none;
 }
 
 .tabs {
   display: flex;
-  align-items: flex-end;
-  gap: 4px;
+  align-items: center;
+  gap: 18px;
   height: 100%;
 }
 
@@ -163,119 +230,101 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  height: 30px;
-  max-width: 220px;
-  padding: 0 10px;
-  border: 1px solid transparent;
-  border-bottom: none;
-  border-radius: 8px 8px 0 0;
-  background: #e2e8f0;
-  color: #64748b;
-  font-size: 12px;
+  height: 100%;
+  padding: 0 1px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--faint);
   font-family: inherit;
+  font-size: 12.5px;
+  letter-spacing: -0.005em;
   cursor: pointer;
   white-space: nowrap;
+  transition: color 0.12s ease, border-color 0.12s ease;
 }
 
 .tab:hover {
-  background: #dbe3ee;
-  color: #334155;
+  color: var(--text);
 }
 
 .tab.active {
-  background: #ffffff;
-  border-color: #e2e8f0;
-  color: #1f2937;
-  font-weight: 600;
+  color: var(--text);
+  font-weight: 500;
+  border-bottom-color: var(--text);
 }
 
 .tab .label {
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 180px;
 }
 
 .tab .close {
   display: grid;
   place-items: center;
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  color: #94a3b8;
-  font-size: 13px;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  color: var(--faint);
+  font-size: 12px;
   line-height: 1;
+  opacity: 0;
+  transition: opacity 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+
+.tab:hover .close,
+.tab.active .close {
+  opacity: 1;
 }
 
 .tab .close:hover {
   background: #fee2e2;
-  color: #dc2626;
+  color: var(--red);
 }
 
 .tab-add {
-  height: 26px;
-  width: 28px;
-  margin-bottom: 3px;
-  border: 1px solid #dbe3ee;
-  border-radius: 6px;
-  background: #fff;
-  color: #64748b;
-  font-size: 15px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-left: 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--faint);
+  font-size: 14px;
   line-height: 1;
   cursor: pointer;
 }
 
 .tab-add:hover {
-  color: #2f6fed;
-  border-color: #bfd3ff;
+  border-color: var(--border);
+  background: var(--wash);
+  color: var(--text);
 }
 
-/* Keep the toolbar usable on narrower windows instead of clipping it. */
-@media (max-width: 1360px) {
-  .tool > span:not(.ico) {
-    display: none;
-  }
-
-  .tool {
-    padding: 0 10px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .topbar {
-    flex-wrap: wrap;
-    height: auto;
-    min-height: 62px;
-    padding: 8px 12px;
-    row-gap: 8px;
-  }
-
-  .brand {
-    min-width: 0;
-  }
-
-  .actiongroup {
-    flex-wrap: wrap;
-  }
-}
-
+/* ------------------------------------------------------------------ stage */
 .stage {
   position: relative;
   flex: 1 1 auto;
-  margin: 14px;
-  border-radius: 14px;
   overflow: hidden;
-  background: #f4f6fa;
-  box-shadow: 0 1px 2px rgb(15 23 42 / 5%), 0 12px 32px rgb(15 23 42 / 6%);
+  background: var(--bg);
 }
 
 canvas {
   display: block;
   width: 100%;
   height: 100%;
-  cursor: crosshair;
+  cursor: default;
 }
 
-body[data-tool="select"] canvas {
-  cursor: default;
+body[data-tool="rect"] canvas,
+body[data-tool="round"] canvas,
+body[data-tool="diamond"] canvas,
+body[data-tool="ellipse"] canvas,
+body[data-tool="edge"] canvas {
+  cursor: crosshair;
 }
 
 body[data-tool="hand"] canvas {
@@ -286,120 +335,198 @@ body[data-tool="text"] canvas {
   cursor: text;
 }
 
-.status {
-  position: fixed;
-  right: 26px;
-  bottom: 20px;
-  max-width: 60vw;
-  padding: 6px 12px;
-  border-radius: 8px;
-  background: rgb(15 23 42 / 82%);
-  color: #e2e8f0;
-  font-size: 12px;
+/* empty state */
+.empty {
+  position: absolute;
+  inset: 0;
+  display: none;
+  place-content: center;
+  gap: 6px;
+  text-align: center;
   pointer-events: none;
 }
 
-/* IME-safe inline text editor, floated above the canvas. */
+.empty-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.empty-sub {
+  font-size: 12px;
+  color: var(--faint);
+}
+
+.empty kbd {
+  padding: 1px 5px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--wash);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+/* canvas chrome: hints + zoom, not painted inside the canvas */
+.hud {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  pointer-events: none;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--faint);
+  letter-spacing: 0.01em;
+}
+
+.toast {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translate(-50%, 6px);
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  background: var(--text);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 11px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* IME-safe inline text editor, floated above the canvas */
 #inline-editor {
   position: fixed;
   z-index: 10;
   display: none;
   min-width: 80px;
-  padding: 2px 6px;
-  border: 2px solid #2f6fed;
-  border-radius: 6px;
+  padding: 3px 7px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
   background: #fff;
-  color: #1f2937;
+  color: var(--text);
+  font-family: var(--font);
   line-height: 1.25;
   text-align: center;
   resize: none;
   outline: none;
-  box-shadow: 0 4px 16px rgb(47 111 237 / 18%);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1), var(--ring);
 }
 
-.range {
-  height: 32px;
-  padding: 0 6px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #fff;
-  color: #475569;
-  font-size: 12px;
-  font-family: inherit;
-  cursor: pointer;
+/* keep the toolbar usable on narrow windows instead of clipping it */
+@media (max-width: 1240px) {
+  .ghost[data-action="dist-h"],
+  .ghost[data-action="dist-v"],
+  .ghost[data-action="mermaid"] {
+    display: none;
+  }
 }
+
+@media (max-width: 900px) {
+  .chip,
+  .ghost[data-action="demo"],
+  .ghost[data-action="open"],
+  .ghost[data-action="saveFile"] {
+    display: none;
+  }
+}
+
 </style>
   </head>
   <body data-tool="select">
     <header class="topbar">
       <div class="brand">
-        <div class="logo">M</div>
-        <div class="brand-text">
-          <strong>MoonDraw</strong>
-          <span>MoonBit · Canvas 2D</span>
-        </div>
+        <span class="mark">M</span>
+        <span class="name">MoonDraw</span>
+        <span class="chip">v0.1</span>
       </div>
 
-      <div class="toolgroup" role="group" aria-label="工具">
-        <button class="tool active" data-tool="select" title="选择 (V)">
-          <span class="ico">↖</span><span>选择</span>
+      <div class="tools" role="group" aria-label="工具">
+        <button class="icon active" data-tool="select" title="选择 (V)" aria-label="选择">
+          <span class="ico">↖</span>
         </button>
-        <button class="tool" data-tool="rect" title="矩形 (R)">
-          <span class="ico">▭</span><span>矩形</span>
+        <button class="icon" data-tool="rect" title="矩形 (R)" aria-label="矩形">
+          <span class="ico">▭</span>
         </button>
-        <button class="tool" data-tool="round" title="圆角矩形 (U)">
-          <span class="ico">▢</span><span>圆角</span>
+        <button class="icon" data-tool="round" title="圆角矩形 (U)" aria-label="圆角矩形">
+          <span class="ico">▢</span>
         </button>
-        <button class="tool" data-tool="diamond" title="菱形 (D)">
-          <span class="ico">◇</span><span>菱形</span>
+        <button class="icon" data-tool="diamond" title="菱形 (D)" aria-label="菱形">
+          <span class="ico">◇</span>
         </button>
-        <button class="tool" data-tool="ellipse" title="椭圆 (O)">
-          <span class="ico">◯</span><span>椭圆</span>
+        <button class="icon" data-tool="ellipse" title="椭圆 (O)" aria-label="椭圆">
+          <span class="ico">◯</span>
         </button>
-        <button class="tool" data-tool="text" title="文本 (T)">
-          <span class="ico">T</span><span>文本</span>
+        <button class="icon" data-tool="text" title="文本 (T)" aria-label="文本">
+          <span class="ico">T</span>
         </button>
-        <button class="tool" data-tool="edge" title="连线 (L)">
-          <span class="ico">→</span><span>连线</span>
+        <button class="icon" data-tool="edge" title="连线 (L)" aria-label="连线">
+          <span class="ico">→</span>
         </button>
-        <button class="tool" data-tool="hand" title="平移 (H / 按住中键)">
-          <span class="ico">✋</span><span>平移</span>
+        <button class="icon" data-tool="hand" title="平移 (H)" aria-label="平移">
+          <span class="ico">✋</span>
         </button>
       </div>
 
-      <div class="spacer"></div>
+      <span class="sep"></span>
 
-      <div class="actiongroup">
-        <button class="action" data-action="undo" title="撤销 (Ctrl+Z)">撤销</button>
-        <button class="action" data-action="redo" title="重做 (Ctrl+Shift+Z)">重做</button>
-        <button class="action" data-action="fit" title="适配视图 (F)">适配</button>
-        <button class="action" data-action="dist-h" title="横向等间距（需选中 3+ 图形）">⇹ 横分布</button>
-        <button class="action" data-action="dist-v" title="纵向等间距（需选中 3+ 图形）">⇕ 纵分布</button>
-        <button class="action" data-action="open" title="打开 .moondraw / Mermaid 文件">打开</button>
-        <button class="action" data-action="saveFile" title="保存为 .moondraw 文件">保存</button>
-        <select id="export-range" class="range" title="导出范围">
+      <div class="group">
+        <button class="ghost" data-action="undo" title="撤销 (Ctrl+Z)">撤销</button>
+        <button class="ghost" data-action="redo" title="重做 (Ctrl+Shift+Z)">重做</button>
+        <button class="ghost" data-action="fit" title="适配视图 (F)">适配</button>
+        <button class="ghost" data-action="dist-h" title="横向等间距（需选中 3+ 图形）">横分布</button>
+        <button class="ghost" data-action="dist-v" title="纵向等间距（需选中 3+ 图形）">纵分布</button>
+      </div>
+
+      <span class="sep"></span>
+
+      <div class="group">
+        <button class="ghost" data-action="open" title="打开 .moondraw / Mermaid 文件">打开</button>
+        <button class="ghost" data-action="saveFile" title="保存为 .moondraw 文件">保存</button>
+        <select id="export-range" class="select" title="导出范围">
           <option value="all">整图</option>
           <option value="selection">选区</option>
           <option value="viewport">视口</option>
         </select>
-        <button class="action" data-action="svg" title="导出 SVG">SVG</button>
-        <button class="action" data-action="png" title="导出 PNG">PNG</button>
-        <button class="action" data-action="mermaid" title="导入示例 Mermaid 流程图">Mermaid</button>
-        <button class="action" data-action="demo" title="载入示例">示例</button>
-        <button class="action danger" data-action="clear" title="清空画布">清空</button>
+        <button class="ghost" data-action="svg" title="导出 SVG">SVG</button>
+        <button class="ghost" data-action="png" title="导出 PNG">PNG</button>
+      </div>
+
+      <span class="spacer"></span>
+
+      <div class="group">
+        <button class="ghost" data-action="mermaid" title="导入示例 Mermaid 流程图">Mermaid</button>
+        <button class="ghost" data-action="demo" title="载入示例">示例</button>
+        <button class="ghost danger" data-action="clear" title="清空画布">清空</button>
       </div>
     </header>
 
-    <nav class="tabbar" id="tabbar" aria-label="文档">
+    <nav class="tabbar" aria-label="文档">
       <div class="tabs" id="tabs"></div>
-      <button class="tab-add" id="tab-add" title="新建文档 (Ctrl+T)">+</button>
+      <button class="tab-add" id="tab-add" title="新建文档 (Ctrl+T)" aria-label="新建文档">+</button>
     </nav>
 
     <main class="stage">
       <canvas id="board"></canvas>
+      <div class="empty" id="empty-state">
+        <div class="empty-title">空白画布</div>
+        <div class="empty-sub">选一个工具拖拽绘制，或按 <kbd>示例</kbd> 载入流程图</div>
+      </div>
+      <div class="hud">
+        <span id="hud-hint">拖拽移动 · 滚轮缩放 · 双击改文字</span>
+        <span id="hud-zoom">100%</span>
+      </div>
+      <div id="status" class="toast"></div>
     </main>
-
-    <div id="status" class="status">加载中…</div>
 
     <script>
 (() => {
@@ -654,6 +781,14 @@ body[data-tool="text"] canvas {
      if (c.width !== pw) c.width = pw;
      if (c.height !== ph) c.height = ph;
    };
+  const _M0FP315PingGuoMiaoMiao8moondraw3app8ffi__hud = (hint, zoom, empty) => {
+     const h = document.getElementById("hud-hint");
+     if (h) h.textContent = hint;
+     const z = document.getElementById("hud-zoom");
+     if (z) z.textContent = zoom;
+     const e = document.getElementById("empty-state");
+     if (e) e.style.display = empty ? "grid" : "none";
+   };
   const _M0FP315PingGuoMiaoMiao8moondraw3app21ffi__reset__transform = (ctx) => ctx.setTransform(1, 0, 0, 1, 0, 0);
   const _M0FP315PingGuoMiaoMiao8moondraw3app10ffi__scale = (ctx, sx, sy) => ctx.scale(sx, sy);
   const _M0FP315PingGuoMiaoMiao8moondraw3app18ffi__download__png = (c, name) => {
@@ -676,7 +811,11 @@ body[data-tool="text"] canvas {
    };
   const _M0FP315PingGuoMiaoMiao8moondraw3app11ffi__status = (s) => {
      const el = document.getElementById("status");
-     if (el) el.textContent = s;
+     if (!el) return;
+     el.textContent = s;
+     el.classList.add("show");
+     clearTimeout(el.__hideTimer);
+     el.__hideTimer = setTimeout(() => el.classList.remove("show"), 2200);
    };
   const _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__origin__x = (c) => c.getBoundingClientRect().left;
   const _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__origin__y = (c) => c.getBoundingClientRect().top;
@@ -852,10 +991,10 @@ body[data-tool="text"] canvas {
   const _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1370 = new _M0TPC16string10StringView("graph", 0, 5);
   const _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1371 = new _M0TPC16string10StringView("LR", 0, 2);
   const _M0FP315PingGuoMiaoMiao8moondraw6kernel14parse__mermaidN6recordS1372 = new _M0TPC16string10StringView("RL", 0, 2);
-  const _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2282 = new _M0TPC16string10StringView(".mmd", 0, 4);
-  const _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2283 = new _M0TPC16string10StringView(".mermaid", 0, 8);
-  const _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2284 = new _M0TPC16string10StringView("flowchart", 0, 9);
-  const _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2285 = new _M0TPC16string10StringView("graph", 0, 5);
+  const _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2279 = new _M0TPC16string10StringView(".mmd", 0, 4);
+  const _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2280 = new _M0TPC16string10StringView(".mermaid", 0, 8);
+  const _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2281 = new _M0TPC16string10StringView("flowchart", 0, 9);
+  const _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2282 = new _M0TPC16string10StringView("graph", 0, 5);
   function _M0MPC16string10StringView12unsafe__view(self, start, end) {
     return new _M0TPC16string10StringView(self.str, self.start + start | 0, self.start + end | 0);
   }
@@ -2475,6 +2614,9 @@ body[data-tool="text"] canvas {
   function _M0MPC16double6Double7to__int(self) {
     return self !== self ? 0 : self >= 2147483647 ? 2147483647 : self <= -2147483648 ? -2147483648 : self | 0;
   }
+  function _M0MPC16double6Double5floor(_tmp) {
+    return Math.floor(_tmp);
+  }
   function _M0MPC16double6Double5round(_tmp) {
     return Math.round(_tmp);
   }
@@ -2626,7 +2768,7 @@ body[data-tool="text"] canvas {
             const _Some$2 = bnode;
             const _sb = _Some$2;
             const pts = _M0FP315PingGuoMiaoMiao8moondraw6kernel5route(_sa, _sb);
-            _M0IPB13StringBuilderPB6Logger13write__string(b, "<polyline fill=\"none\" stroke=\"#7b8794\" stroke-width=\"1.6\" points=\"");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "<polyline fill=\"none\" stroke=\"#a3a3a3\" stroke-width=\"1.6\" points=\"");
             const _bind$4 = pts.len;
             const _bind$5 = pts.buf;
             let _tmp$2 = 0;
@@ -2665,7 +2807,7 @@ body[data-tool="text"] canvas {
               const by = last._1 - uy * 9;
               const px = -uy * 9 * 0.45;
               const py = ux * 9 * 0.45;
-              _M0IPB13StringBuilderPB6Logger13write__string(b, "<polygon fill=\"#7b8794\" points=\"");
+              _M0IPB13StringBuilderPB6Logger13write__string(b, "<polygon fill=\"#a3a3a3\" points=\"");
               _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(last._0));
               _M0IPB13StringBuilderPB6Logger13write__string(b, ",");
               _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel3fmt(last._1));
@@ -2810,9 +2952,9 @@ body[data-tool="text"] canvas {
           _M0IPB13StringBuilderPB6Logger13write__string(b, "\" text-anchor=\"middle\" dominant-baseline=\"central\" font-family=\"'Microsoft YaHei', 'PingFang SC', sans-serif\" font-size=\"13\" fill=\"");
           const _bind$8 = s.kind;
           if (_bind$8 === 4) {
-            _M0IPB13StringBuilderPB6Logger13write__string(b, "#2f6fed");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "#0070f3");
           } else {
-            _M0IPB13StringBuilderPB6Logger13write__string(b, "#1f2937");
+            _M0IPB13StringBuilderPB6Logger13write__string(b, "#171717");
           }
           _M0IPB13StringBuilderPB6Logger13write__string(b, "\">");
           _M0IPB13StringBuilderPB6Logger13write__string(b, _M0FP315PingGuoMiaoMiao8moondraw6kernel11xml__escape(s.text));
@@ -2894,13 +3036,10 @@ body[data-tool="text"] canvas {
   function _M0FP315PingGuoMiaoMiao8moondraw6kernel9fill__for(kind) {
     switch (kind) {
       case 2: {
-        return "#fff6e5";
+        return "#fafafa";
       }
       case 3: {
-        return "#e8faf1";
-      }
-      case 4: {
-        return "#ffffff";
+        return "#fafafa";
       }
       default: {
         return "#ffffff";
@@ -2908,19 +3047,10 @@ body[data-tool="text"] canvas {
     }
   }
   function _M0FP315PingGuoMiaoMiao8moondraw6kernel11stroke__for(kind) {
-    switch (kind) {
-      case 2: {
-        return "#f59e0b";
-      }
-      case 3: {
-        return "#10b981";
-      }
-      case 4: {
-        return "#2f6fed";
-      }
-      default: {
-        return "#8b9bb4";
-      }
+    if (kind === 4) {
+      return "#0070f3";
+    } else {
+      return "#d4d4d4";
     }
   }
   function _M0FP315PingGuoMiaoMiao8moondraw6kernel10add__shape(scene, kind, x, y, w, h, text) {
@@ -4603,49 +4733,32 @@ body[data-tool="text"] canvas {
     return sc;
   }
   function _M0FP315PingGuoMiaoMiao8moondraw3app9set__font(ctx, size, weight) {
-    _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__font(ctx, `${weight} ${String(size)}px 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif`);
+    _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__font(ctx, `${weight} ${String(size)}px -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif`);
   }
   function _M0FP315PingGuoMiaoMiao8moondraw3app10draw__grid(ctx, v, w, h) {
-    const step = 24 * v.zoom;
-    if (step < 11) {
+    const step = 20 * v.zoom;
+    if (step < 10) {
       return undefined;
     }
-    _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "#e4e9f2");
-    let gx = v.cam_x;
-    let steps = 0;
+    _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "#e0e0e0");
+    const ox = v.cam_x - _M0MPC16double6Double5floor(v.cam_x / step) * step;
+    const oy = v.cam_y - _M0MPC16double6Double5floor(v.cam_y / step) * step;
+    let x = ox;
+    let drawn = 0;
     while (true) {
-      if (gx > 0 && steps < 400) {
-        gx = gx - step;
-        steps = steps + 1 | 0;
-        continue;
-      } else {
-        break;
-      }
-    }
-    while (true) {
-      if (gx < w) {
-        _M0FP315PingGuoMiaoMiao8moondraw3app15ffi__fill__rect(ctx, gx, 0, 1, h);
-        gx = gx + step;
-        continue;
-      } else {
-        break;
-      }
-    }
-    let gy = v.cam_y;
-    steps = 0;
-    while (true) {
-      if (gy > 0 && steps < 400) {
-        gy = gy - step;
-        steps = steps + 1 | 0;
-        continue;
-      } else {
-        break;
-      }
-    }
-    while (true) {
-      if (gy < h) {
-        _M0FP315PingGuoMiaoMiao8moondraw3app15ffi__fill__rect(ctx, 0, gy, w, 1);
-        gy = gy + step;
+      if (x < w && drawn < 200000) {
+        let y = oy;
+        while (true) {
+          if (y < h && drawn < 200000) {
+            _M0FP315PingGuoMiaoMiao8moondraw3app15ffi__fill__rect(ctx, x, y, 1, 1);
+            drawn = drawn + 1 | 0;
+            y = y + step;
+            continue;
+          } else {
+            break;
+          }
+        }
+        x = x + step;
         continue;
       } else {
         return;
@@ -4693,7 +4806,7 @@ body[data-tool="text"] canvas {
             const _Some$2 = _bind$5;
             const _sb = _Some$2;
             const pts = _M0FP315PingGuoMiaoMiao8moondraw6kernel5route(_sa, _sb);
-            _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__set__stroke(ctx, "#7b8794");
+            _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__set__stroke(ctx, "#a3a3a3");
             _M0FP315PingGuoMiaoMiao8moondraw3app21ffi__set__line__width(ctx, 1.6);
             _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__begin__path(ctx);
             let first = true;
@@ -4731,7 +4844,7 @@ body[data-tool="text"] canvas {
               $panic();
             }
             const prev = pts.buf[_bind$9];
-            _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "#7b8794");
+            _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "#a3a3a3");
             const _p = prev._0;
             const _tmp$3 = _p * v.zoom + v.cam_x;
             const _p$2 = prev._1;
@@ -4755,11 +4868,11 @@ body[data-tool="text"] canvas {
               const ly = _p$6 * v.zoom + v.cam_y;
               _M0FP315PingGuoMiaoMiao8moondraw3app9set__font(ctx, 12, "500");
               const tw = _M0FP315PingGuoMiaoMiao8moondraw3app18ffi__measure__text(ctx, e.label) + 14;
-              _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "#f4f6fa");
+              _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "#ffffff");
               _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__begin__path(ctx);
               _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__round__rect(ctx, lx - tw * 0.5, ly - 10, tw, 20, 6);
               _M0FP315PingGuoMiaoMiao8moondraw3app9ffi__fill(ctx);
-              _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "#475569");
+              _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "#737373");
               _M0FP315PingGuoMiaoMiao8moondraw3app21ffi__set__text__align(ctx, "center");
               _M0FP315PingGuoMiaoMiao8moondraw3app15ffi__fill__text(ctx, e.label, lx, ly);
             }
@@ -4783,7 +4896,7 @@ body[data-tool="text"] canvas {
     _M0FP315PingGuoMiaoMiao8moondraw3app21ffi__set__line__width(ctx, 1.5);
     const _bind = s.kind;
     if (_bind === 4) {
-      _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "#2f6fed");
+      _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "#0070f3");
       _M0FP315PingGuoMiaoMiao8moondraw3app9set__font(ctx, 14 * v.zoom, "500");
       _M0FP315PingGuoMiaoMiao8moondraw3app21ffi__set__text__align(ctx, "center");
       _M0FP315PingGuoMiaoMiao8moondraw3app15ffi__fill__text(ctx, s.text, x + w * 0.5, y + h * 0.5);
@@ -4824,7 +4937,7 @@ body[data-tool="text"] canvas {
       }
     }
     if (s.text.length > 0) {
-      _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "#1f2937");
+      _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "#171717");
       _M0FP315PingGuoMiaoMiao8moondraw3app9set__font(ctx, 13 * v.zoom, "400");
       _M0FP315PingGuoMiaoMiao8moondraw3app21ffi__set__text__align(ctx, "center");
       _M0FP315PingGuoMiaoMiao8moondraw3app15ffi__fill__text(ctx, s.text, x + w * 0.5, y + h * 0.5);
@@ -4851,7 +4964,8 @@ body[data-tool="text"] canvas {
     }
   }
   function _M0FP315PingGuoMiaoMiao8moondraw3app11draw__scene(ctx, v, scene, w, h, grid) {
-    _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "#f4f6fa");
+    const bg = grid ? "#fafafa" : "#ffffff";
+    _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, bg);
     _M0FP315PingGuoMiaoMiao8moondraw3app15ffi__fill__rect(ctx, 0, 0, w, h);
     if (grid) {
       _M0FP315PingGuoMiaoMiao8moondraw3app10draw__grid(ctx, v, w, h);
@@ -4883,7 +4997,7 @@ body[data-tool="text"] canvas {
                 const _b = _Some$2;
                 const pts = _M0FP315PingGuoMiaoMiao8moondraw6kernel5route(_a, _b);
                 _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__dash(ctx, false);
-                _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__set__stroke(ctx, "#2f6fed");
+                _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__set__stroke(ctx, "#0070f3");
                 _M0FP315PingGuoMiaoMiao8moondraw3app21ffi__set__line__width(ctx, 3);
                 _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__begin__path(ctx);
                 let first = true;
@@ -4923,7 +5037,7 @@ body[data-tool="text"] canvas {
     }
     if (app.guides.len > 0) {
       _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__dash(ctx, true);
-      _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__set__stroke(ctx, "#e11d48");
+      _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__set__stroke(ctx, "#ff0080");
       _M0FP315PingGuoMiaoMiao8moondraw3app21ffi__set__line__width(ctx, 1);
       const _bind = app.guides;
       const _bind$2 = _bind.len;
@@ -4952,7 +5066,7 @@ body[data-tool="text"] canvas {
       _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__dash(ctx, false);
     }
     _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__dash(ctx, false);
-    _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__set__stroke(ctx, "#2f6fed");
+    _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__set__stroke(ctx, "#0070f3");
     _M0FP315PingGuoMiaoMiao8moondraw3app21ffi__set__line__width(ctx, 2);
     const _bind = app.sel;
     const _bind$2 = _bind.len;
@@ -5020,9 +5134,9 @@ body[data-tool="text"] canvas {
         const bw = _p < 0 ? -_p : _p;
         const _p$2 = y2 - y1;
         const bh = _p$2 < 0 ? -_p$2 : _p$2;
-        _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "rgba(47,111,237,0.10)");
+        _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "rgba(0,112,243,0.07)");
         _M0FP315PingGuoMiaoMiao8moondraw3app15ffi__fill__rect(ctx, x1 < x2 ? x1 : x2, y1 < y2 ? y1 : y2, bw, bh);
-        _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__set__stroke(ctx, "#2f6fed");
+        _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__set__stroke(ctx, "#0070f3");
         _M0FP315PingGuoMiaoMiao8moondraw3app21ffi__set__line__width(ctx, 1);
         _M0FP315PingGuoMiaoMiao8moondraw3app17ffi__stroke__rect(ctx, x1 < x2 ? x1 : x2, y1 < y2 ? y1 : y2, bw, bh);
         return;
@@ -5037,7 +5151,7 @@ body[data-tool="text"] canvas {
           const _Some = _bind$5;
           const _s = _Some;
           _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__dash(ctx, true);
-          _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__set__stroke(ctx, "#2f6fed");
+          _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__set__stroke(ctx, "#0070f3");
           _M0FP315PingGuoMiaoMiao8moondraw3app21ffi__set__line__width(ctx, 1.6);
           _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__begin__path(ctx);
           const _p$3 = _s.x + _s.w * 0.5;
@@ -5055,23 +5169,6 @@ body[data-tool="text"] canvas {
       }
     }
   }
-  function _M0FP315PingGuoMiaoMiao8moondraw3app9draw__hud(ctx, app, w, h) {
-    _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__dash(ctx, false);
-    _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "#eef2f8");
-    _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__begin__path(ctx);
-    _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__round__rect(ctx, 14, h - 44, 560, 30, 8);
-    _M0FP315PingGuoMiaoMiao8moondraw3app9ffi__fill(ctx);
-    _M0FP315PingGuoMiaoMiao8moondraw3app14ffi__set__fill(ctx, "#64748b");
-    _M0FP315PingGuoMiaoMiao8moondraw3app9set__font(ctx, 12, "400");
-    _M0FP315PingGuoMiaoMiao8moondraw3app21ffi__set__text__align(ctx, "left");
-    _M0FP315PingGuoMiaoMiao8moondraw3app15ffi__fill__text(ctx, "框选/Shift 多选 · 拖拽移动(自动吸附与对齐) · 滚轮缩放 · 双击改文字 · Ctrl+Z 撤销 · H 平移", 24, h - 29);
-    let label = `${_M0MPC13int3Int18to__string_2einner(_M0MPC16double6Double7to__int(app.zoom * 100), 10)}%`;
-    if (app.sel.len > 0) {
-      label = `选中 ${_M0MPC13int3Int18to__string_2einner(app.sel.len, 10)} · ${label}`;
-    }
-    _M0FP315PingGuoMiaoMiao8moondraw3app21ffi__set__text__align(ctx, "right");
-    _M0FP315PingGuoMiaoMiao8moondraw3app15ffi__fill__text(ctx, label, w - 24, h - 29);
-  }
   function _M0FP315PingGuoMiaoMiao8moondraw3app11render__all() {
     const c = _M0FP315PingGuoMiaoMiao8moondraw3app16ffi__dom__canvas("board");
     const ctx = _M0FP315PingGuoMiaoMiao8moondraw3app8ffi__ctx(c);
@@ -5084,7 +5181,8 @@ body[data-tool="text"] canvas {
     const v = _M0MP315PingGuoMiaoMiao8moondraw3app3App4view(_M0FP315PingGuoMiaoMiao8moondraw3app10app__state);
     _M0FP315PingGuoMiaoMiao8moondraw3app11draw__scene(ctx, v, _M0FP315PingGuoMiaoMiao8moondraw3app10app__state.scene, w, h, true);
     _M0FP315PingGuoMiaoMiao8moondraw3app13draw__overlay(ctx, _M0FP315PingGuoMiaoMiao8moondraw3app10app__state);
-    _M0FP315PingGuoMiaoMiao8moondraw3app9draw__hud(ctx, _M0FP315PingGuoMiaoMiao8moondraw3app10app__state, w, h);
+    const hint = _M0FP315PingGuoMiaoMiao8moondraw3app10app__state.sel.len > 0 ? `已选中 ${_M0MPC13int3Int18to__string_2einner(_M0FP315PingGuoMiaoMiao8moondraw3app10app__state.sel.len, 10)} 个 · Delete 删除` : "拖拽移动 · 滚轮缩放 · 双击改文字";
+    _M0FP315PingGuoMiaoMiao8moondraw3app8ffi__hud(hint, `${_M0MPC13int3Int18to__string_2einner(_M0MPC16double6Double7to__int(_M0FP315PingGuoMiaoMiao8moondraw3app10app__state.zoom * 100), 10)}%`, _M0FP315PingGuoMiaoMiao8moondraw3app10app__state.scene.shapes.len === 0);
   }
   function _M0FP315PingGuoMiaoMiao8moondraw3app11range__name(r) {
     switch (r) {
@@ -6592,8 +6690,8 @@ body[data-tool="text"] canvas {
   function _M0FP315PingGuoMiaoMiao8moondraw3app12import__text(text, name) {
     const lower = _M0MPC16string6String9to__lower(name);
     const head = _M0MPC16string10StringView9to__lower(_M0MPC16string6String4trim(text, undefined));
-    let looks_mermaid = _M0MPC16string6String8contains(lower, _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2282);
-    if (_M0MPC16string6String8contains(lower, _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2283) || (_M0MPC16string10StringView11has__prefix(head, _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2284) || _M0MPC16string10StringView11has__prefix(head, _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2285))) {
+    let looks_mermaid = _M0MPC16string6String8contains(lower, _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2279);
+    if (_M0MPC16string6String8contains(lower, _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2280) || (_M0MPC16string10StringView11has__prefix(head, _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2281) || _M0MPC16string10StringView11has__prefix(head, _M0FP315PingGuoMiaoMiao8moondraw3app12import__textN6recordS2282))) {
       looks_mermaid = true;
     }
     if (looks_mermaid) {
@@ -6667,11 +6765,18 @@ body[data-tool="text"] canvas {
 
 </script>
     <script>
-      const tools = Array.from(document.querySelectorAll(".tool"));
+      const tools = Array.from(document.querySelectorAll(".tools [data-tool]"));
       const setActiveTool = (name) => {
         document.body.dataset.tool = name;
         tools.forEach((b) => b.classList.toggle("active", b.dataset.tool === name));
       };
+
+      tools.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          ui_set_tool(btn.dataset.tool);
+          setActiveTool(btn.dataset.tool);
+        });
+      });
 
       boot();
 
@@ -6723,31 +6828,24 @@ body[data-tool="text"] canvas {
       renderTabs();
       window.addEventListener("focus", renderTabs);
 
-      // M0 layout probe: open index.html?diag=1 and read #status.
+      // layout probe: open index.html?diag=1 and read #status
       if (new URLSearchParams(location.search).get("diag")) {
         requestAnimationFrame(() => {
           const tb = document.querySelector(".topbar");
-          const ag = document.querySelector(".actiongroup");
           const cv = document.getElementById("board");
           const r = cv.getBoundingClientRect();
           document.getElementById("status").textContent =
             "DIAG win=" + innerWidth + "x" + innerHeight +
             " topbar=" + tb.scrollWidth + "/" + tb.clientWidth +
-            " actionsRight=" + Math.round(ag.getBoundingClientRect().right) +
-            " canvasCss=" + cv.clientWidth + "x" + cv.clientHeight +
-            " canvasRect=" + Math.round(r.width) + "x" + Math.round(r.height) +
+            " canvas=" + Math.round(r.width) + "x" + Math.round(r.height) +
             " dpr=" + devicePixelRatio +
             " backing=" + cv.width + "x" + cv.height;
+          document.getElementById("status").classList.add("show");
         });
       }
 
-      tools.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          ui_set_tool(btn.dataset.tool);
-          setActiveTool(btn.dataset.tool);
-        });
-      });
-
+      // ------------------------------------------------------- actions
+      const exportRange = () => document.getElementById("export-range").value;
       const SAMPLE_MERMAID = [
         "flowchart TD",
         "  A[上报工单] --> B{是否P1}",
@@ -6759,7 +6857,6 @@ body[data-tool="text"] canvas {
         "  F --> G",
       ].join("\n");
 
-      const exportRange = () => document.getElementById("export-range").value;
       const actions = {
         undo: () => ui_undo(),
         redo: () => ui_redo(),

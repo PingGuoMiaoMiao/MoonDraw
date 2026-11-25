@@ -326,10 +326,25 @@ extern "js" fn ffi_open_file(
   #| }
 
 ///|
+///| Canvas chrome lives in the DOM: hints, zoom, and the empty state.
+extern "js" fn ffi_hud(hint : String, zoom : String, empty : Bool) -> Unit =
+  #| (hint, zoom, empty) => {
+  #|   const h = document.getElementById("hud-hint");
+  #|   if (h) h.textContent = hint;
+  #|   const z = document.getElementById("hud-zoom");
+  #|   if (z) z.textContent = zoom;
+  #|   const e = document.getElementById("empty-state");
+  #|   if (e) e.style.display = empty ? "grid" : "none";
+  #| }
+
 extern "js" fn ffi_status(s : String) -> Unit =
   #| (s) => {
   #|   const el = document.getElementById("status");
-  #|   if (el) el.textContent = s;
+  #|   if (!el) return;
+  #|   el.textContent = s;
+  #|   el.classList.add("show");
+  #|   clearTimeout(el.__hideTimer);
+  #|   el.__hideTimer = setTimeout(() => el.classList.remove("show"), 2200);
   #| }
 
 ///|

@@ -58,7 +58,7 @@ pub fn scene_to_svg_in(
     match (a, bnode) {
       (Some(sa), Some(sb)) => {
         let pts = route(sa, sb)
-        b.write_string("<polyline fill=\"none\" stroke=\"#7b8794\" stroke-width=\"1.6\" points=\"")
+        b.write_string("<polyline fill=\"none\" stroke=\"#a3a3a3\" stroke-width=\"1.6\" points=\"")
         for p in pts {
           b.write_string(fmt(p.0))
           b.write_string(",")
@@ -79,7 +79,7 @@ pub fn scene_to_svg_in(
           let by = last.1 - uy * size
           let px = -uy * size * 0.45
           let py = ux * size * 0.45
-          b.write_string("<polygon fill=\"#7b8794\" points=\"")
+          b.write_string("<polygon fill=\"#a3a3a3\" points=\"")
           b.write_string(fmt(last.0))
           b.write_string(",")
           b.write_string(fmt(last.1))
@@ -199,8 +199,8 @@ pub fn scene_to_svg_in(
       b.write_string(fmt(center_y(s)))
       b.write_string("\" text-anchor=\"middle\" dominant-baseline=\"central\" font-family=\"'Microsoft YaHei', 'PingFang SC', sans-serif\" font-size=\"13\" fill=\"")
       match s.kind {
-        Text => b.write_string("#2f6fed")
-        _ => b.write_string("#1f2937")
+        Text => b.write_string("#0070f3")
+        _ => b.write_string("#171717")
       }
       b.write_string("\">")
       b.write_string(xml_escape(s.text))

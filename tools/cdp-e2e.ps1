@@ -320,6 +320,8 @@ try {
   $t1 = Tabs
   Assert 'M2 新建文档切到新标签' ($t1.docs.Count -eq 2 -and $t1.active -eq 1) "docs=$($t1.docs.Count) active=$($t1.active)"
   Assert 'M3 新文档是空的' ((ActiveShapes) -eq 0) "shapes=$(ActiveShapes)"
+  $emptyShown = Js 'getComputedStyle(document.getElementById("empty-state")).display'
+  Assert 'M3b 空白画布显示空状态' ($emptyShown -eq 'grid') "display=$emptyShown"
 
   # draw something in the new tab
   Js 'document.querySelector("[data-tool=round]").click()' | Out-Null
@@ -327,6 +329,8 @@ try {
   Drag (Scr 200 300) (Scr 340 380)
   $drawn = ActiveShapes
   Assert 'M4 新文档里能画' ($drawn -eq 1) "shapes=$drawn"
+  $emptyHidden = Js 'getComputedStyle(document.getElementById("empty-state")).display'
+  Assert 'M4b 有内容后隐藏空状态' ($emptyHidden -eq 'none') "display=$emptyHidden"
 
   # switch back to tab 0
   Js 'document.querySelectorAll(".tab")[0].click()' | Out-Null

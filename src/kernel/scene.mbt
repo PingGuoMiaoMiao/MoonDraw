@@ -6,9 +6,8 @@ pub fn new_scene() -> Scene {
 ///|
 pub fn fill_for(kind : ShapeKind) -> String {
   match kind {
-    Diamond => "#fff6e5"
-    Ellipse => "#e8faf1"
-    Text => "#ffffff"
+    Diamond => "#fafafa"
+    Ellipse => "#fafafa"
     _ => "#ffffff"
   }
 }
@@ -16,10 +15,8 @@ pub fn fill_for(kind : ShapeKind) -> String {
 ///|
 pub fn stroke_for(kind : ShapeKind) -> String {
   match kind {
-    Diamond => "#f59e0b"
-    Ellipse => "#10b981"
-    Text => "#2f6fed"
-    _ => "#8b9bb4"
+    Text => "#0070f3"
+    _ => "#d4d4d4"
   }
 }
 

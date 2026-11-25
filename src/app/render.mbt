@@ -5,36 +5,29 @@
 pub fn set_font(ctx : Ctx, size : Double, weight : String) -> Unit {
   ffi_set_font(
     ctx,
-    weight + " " + size.to_string() + "px 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif",
+    weight + " " + size.to_string() + "px -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif",
   )
 }
 
-///|
+///| Dot grid: 1px marks on a 20px lattice, drawn only when readable.
 pub fn draw_grid(ctx : Ctx, v : @k.View, w : Double, h : Double) -> Unit {
-  let step = 24.0 * v.zoom
-  if step < 11.0 {
+  let step = 20.0 * v.zoom
+  if step < 10.0 {
     return
   }
-  ffi_set_fill(ctx, "#e4e9f2")
-  let mut gx = v.cam_x
-  let mut steps = 0
-  while gx > 0.0 && steps < 400 {
-    gx = gx - step
-    steps = steps + 1
-  }
-  while gx < w {
-    ffi_fill_rect(ctx, gx, 0.0, 1.0, h)
-    gx = gx + step
-  }
-  let mut gy = v.cam_y
-  steps = 0
-  while gy > 0.0 && steps < 400 {
-    gy = gy - step
-    steps = steps + 1
-  }
-  while gy < h {
-    ffi_fill_rect(ctx, 0.0, gy, w, 1.0)
-    gy = gy + step
+  ffi_set_fill(ctx, "#e0e0e0")
+  let ox = v.cam_x - (v.cam_x / step).floor() * step
+  let oy = v.cam_y - (v.cam_y / step).floor() * step
+  let mut x = ox
+  let mut drawn = 0
+  while x < w && drawn < 200000 {
+    let mut y = oy
+    while y < h && drawn < 200000 {
+      ffi_fill_rect(ctx, x, y, 1.0, 1.0)
+      drawn = drawn + 1
+      y = y + step
+    }
+    x = x + step
   }
 }
 
@@ -74,7 +67,7 @@ pub fn draw_edges(ctx : Ctx, v : @k.View, scene : @k.Scene) -> Unit {
     match (@k.find_shape(scene, e.from), @k.find_shape(scene, e.to)) {
       (Some(sa), Some(sb)) => {
         let pts = @k.route(sa, sb)
-        ffi_set_stroke(ctx, "#7b8794")
+        ffi_set_stroke(ctx, "#a3a3a3")
         ffi_set_line_width(ctx, 1.6)
         ffi_begin_path(ctx)
         let mut first = true
@@ -91,7 +84,7 @@ pub fn draw_edges(ctx : Ctx, v : @k.View, scene : @k.Scene) -> Unit {
         ffi_stroke(ctx)
         let last = pts[pts.length() - 1]
         let prev = pts[pts.length() - 2]
-        ffi_set_fill(ctx, "#7b8794")
+        ffi_set_fill(ctx, "#a3a3a3")
         draw_arrow(
           ctx,
           @k.sx(v, prev.0),
@@ -106,11 +99,11 @@ pub fn draw_edges(ctx : Ctx, v : @k.View, scene : @k.Scene) -> Unit {
           let ly = @k.sy(v, (mid.1 + mid2.1) * 0.5)
           set_font(ctx, 12.0, "500")
           let tw = ffi_measure_text(ctx, e.label) + 14.0
-          ffi_set_fill(ctx, "#f4f6fa")
+          ffi_set_fill(ctx, "#ffffff")
           ffi_begin_path(ctx)
           ffi_round_rect(ctx, lx - tw * 0.5, ly - 10.0, tw, 20.0, 6.0)
           ffi_fill(ctx)
-          ffi_set_fill(ctx, "#475569")
+          ffi_set_fill(ctx, "#737373")
           ffi_set_text_align(ctx, "center")
           ffi_fill_text(ctx, e.label, lx, ly)
         }
@@ -130,7 +123,7 @@ pub fn draw_shape(ctx : Ctx, v : @k.View, s : @k.Shape) -> Unit {
   ffi_set_line_width(ctx, 1.5)
   match s.kind {
     @k.Text => {
-      ffi_set_fill(ctx, "#2f6fed")
+      ffi_set_fill(ctx, "#0070f3")
       set_font(ctx, 14.0 * v.zoom, "500")
       ffi_set_text_align(ctx, "center")
       ffi_fill_text(ctx, s.text, x + w * 0.5, y + h * 0.5)
@@ -169,7 +162,7 @@ pub fn draw_shape(ctx : Ctx, v : @k.View, s : @k.Shape) -> Unit {
     }
   }
   if s.text.length() > 0 {
-    ffi_set_fill(ctx, "#1f2937")
+    ffi_set_fill(ctx, "#171717")
     set_font(ctx, 13.0 * v.zoom, "400")
     ffi_set_text_align(ctx, "center")
     ffi_fill_text(ctx, s.text, x + w * 0.5, y + h * 0.5)
@@ -192,7 +185,8 @@ pub fn draw_scene(
   h : Double,
   grid : Bool,
 ) -> Unit {
-  ffi_set_fill(ctx, "#f4f6fa")
+  let bg = if grid { "#fafafa" } else { "#ffffff" }
+  ffi_set_fill(ctx, bg)
   ffi_fill_rect(ctx, 0.0, 0.0, w, h)
   if grid {
     draw_grid(ctx, v, w, h)
@@ -215,7 +209,7 @@ pub fn draw_overlay(ctx : Ctx, app : App) -> Unit {
           (Some(a), Some(b)) => {
             let pts = @k.route(a, b)
             ffi_set_dash(ctx, false)
-            ffi_set_stroke(ctx, "#2f6fed")
+            ffi_set_stroke(ctx, "#0070f3")
             ffi_set_line_width(ctx, 3.0)
             ffi_begin_path(ctx)
             let mut first = true
@@ -239,7 +233,7 @@ pub fn draw_overlay(ctx : Ctx, app : App) -> Unit {
   // Alignment guides.
   if app.guides.length() > 0 {
     ffi_set_dash(ctx, true)
-    ffi_set_stroke(ctx, "#e11d48")
+    ffi_set_stroke(ctx, "#ff0080")
     ffi_set_line_width(ctx, 1.0)
     for g in app.guides {
       ffi_begin_path(ctx)
@@ -251,7 +245,7 @@ pub fn draw_overlay(ctx : Ctx, app : App) -> Unit {
   }
   // Selection outlines.
   ffi_set_dash(ctx, false)
-  ffi_set_stroke(ctx, "#2f6fed")
+  ffi_set_stroke(ctx, "#0070f3")
   ffi_set_line_width(ctx, 2.0)
   for id in app.sel {
     match @k.find_shape(app.scene, id) {
@@ -293,9 +287,9 @@ pub fn draw_overlay(ctx : Ctx, app : App) -> Unit {
       let y2 = app.my
       let bw = @k.absd(x2 - x1)
       let bh = @k.absd(y2 - y1)
-      ffi_set_fill(ctx, "rgba(47,111,237,0.10)")
+      ffi_set_fill(ctx, "rgba(0,112,243,0.07)")
       ffi_fill_rect(ctx, @k.mind(x1, x2), @k.mind(y1, y2), bw, bh)
-      ffi_set_stroke(ctx, "#2f6fed")
+      ffi_set_stroke(ctx, "#0070f3")
       ffi_set_line_width(ctx, 1.0)
       ffi_stroke_rect(ctx, @k.mind(x1, x2), @k.mind(y1, y2), bw, bh)
     }
@@ -303,7 +297,7 @@ pub fn draw_overlay(ctx : Ctx, app : App) -> Unit {
       match @k.find_shape(app.scene, id) {
         Some(s) => {
           ffi_set_dash(ctx, true)
-          ffi_set_stroke(ctx, "#2f6fed")
+          ffi_set_stroke(ctx, "#0070f3")
           ffi_set_line_width(ctx, 1.6)
           ffi_begin_path(ctx)
           ffi_move_to(ctx, @k.sx(v, @k.center_x(s)), @k.sy(v, @k.center_y(s)))
@@ -315,30 +309,6 @@ pub fn draw_overlay(ctx : Ctx, app : App) -> Unit {
       }
     _ => ()
   }
-}
-
-///|
-pub fn draw_hud(ctx : Ctx, app : App, w : Double, h : Double) -> Unit {
-  ffi_set_dash(ctx, false)
-  ffi_set_fill(ctx, "#eef2f8")
-  ffi_begin_path(ctx)
-  ffi_round_rect(ctx, 14.0, h - 44.0, 560.0, 30.0, 8.0)
-  ffi_fill(ctx)
-  ffi_set_fill(ctx, "#64748b")
-  set_font(ctx, 12.0, "400")
-  ffi_set_text_align(ctx, "left")
-  ffi_fill_text(
-    ctx,
-    "框选/Shift 多选 · 拖拽移动(自动吸附与对齐) · 滚轮缩放 · 双击改文字 · Ctrl+Z 撤销 · H 平移",
-    24.0,
-    h - 29.0,
-  )
-  let mut label = (app.zoom * 100.0).to_int().to_string() + "%"
-  if app.sel.length() > 0 {
-    label = "选中 " + app.sel.length().to_string() + " · " + label
-  }
-  ffi_set_text_align(ctx, "right")
-  ffi_fill_text(ctx, label, w - 24.0, h - 29.0)
 }
 
 ///|
@@ -355,7 +325,12 @@ pub fn render_all() -> Unit {
   let v = app.view()
   draw_scene(ctx, v, app.scene, w, h, true)
   draw_overlay(ctx, app)
-  draw_hud(ctx, app, w, h)
+  let hint = if sel_count(app) > 0 {
+    "已选中 " + app.sel.length().to_string() + " 个 · Delete 删除"
+  } else {
+    "拖拽移动 · 滚轮缩放 · 双击改文字"
+  }
+  ffi_hud(hint, (app.zoom * 100.0).to_int().to_string() + "%", app.scene.shapes.length() == 0)
 }
 
 ///| What part of the document an export covers.
