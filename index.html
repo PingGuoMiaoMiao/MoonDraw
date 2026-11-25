@@ -7,94 +7,146 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body data-tool="select">
-    <header class="topbar">
-      <div class="brand">
-        <span class="mark">M</span>
-        <span class="name">MoonDraw</span>
-        <span class="chip">v0.1</span>
+    <div class="app">
+      <!-- ------------------------------------------------------------ top -->
+      <header class="topbar">
+        <div class="brand">
+          <span class="mark">M</span>
+          <span class="name">MoonDraw</span>
+          <span class="chip">v0.1</span>
+        </div>
+
+        <span class="sep"></span>
+
+        <div class="group">
+          <button class="ghost" data-action="open" title="打开 .moondraw / Mermaid 文件">打开</button>
+          <button class="ghost" data-action="saveFile" title="保存为 .moondraw 文件">保存</button>
+          <select id="export-range" class="select" title="导出范围">
+            <option value="all">整图</option>
+            <option value="selection">选区</option>
+            <option value="viewport">视口</option>
+          </select>
+          <button class="ghost" data-action="svg" title="导出 SVG">SVG</button>
+          <button class="ghost" data-action="png" title="导出 PNG">PNG</button>
+        </div>
+
+        <span class="sep"></span>
+
+        <div class="group">
+          <button class="ghost" data-action="undo" title="撤销 (Ctrl+Z)">撤销</button>
+          <button class="ghost" data-action="redo" title="重做 (Ctrl+Shift+Z)">重做</button>
+          <button class="ghost" data-action="dist-h" title="横向等间距（需选中 3+ 图形）">横分布</button>
+          <button class="ghost" data-action="dist-v" title="纵向等间距（需选中 3+ 图形）">纵分布</button>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="group">
+          <button class="ghost" data-action="mermaid" title="导入示例 Mermaid 流程图">Mermaid</button>
+          <button class="ghost" data-action="demo" title="载入示例">示例</button>
+          <button class="ghost danger" data-action="clear" title="清空画布">清空</button>
+        </div>
+      </header>
+
+      <!-- ----------------------------------------------------------- work -->
+      <div class="work">
+        <aside class="rail" role="group" aria-label="工具">
+          <button class="rail-btn active" data-tool="select" title="选择 (V)">
+            <span class="ico">↖</span><span class="lbl">选择</span>
+          </button>
+          <button class="rail-btn" data-tool="rect" title="矩形 (R)">
+            <span class="ico">▭</span><span class="lbl">矩形</span>
+          </button>
+          <button class="rail-btn" data-tool="round" title="圆角矩形 (U)">
+            <span class="ico">▢</span><span class="lbl">圆角</span>
+          </button>
+          <button class="rail-btn" data-tool="diamond" title="菱形 (D)">
+            <span class="ico">◇</span><span class="lbl">菱形</span>
+          </button>
+          <button class="rail-btn" data-tool="ellipse" title="椭圆 (O)">
+            <span class="ico">◯</span><span class="lbl">椭圆</span>
+          </button>
+          <button class="rail-btn" data-tool="text" title="文本 (T)">
+            <span class="ico">T</span><span class="lbl">文本</span>
+          </button>
+          <button class="rail-btn" data-tool="edge" title="连线 (L)">
+            <span class="ico">→</span><span class="lbl">连线</span>
+          </button>
+          <button class="rail-btn" data-tool="hand" title="平移 (H)">
+            <span class="ico">✋</span><span class="lbl">平移</span>
+          </button>
+        </aside>
+
+        <main class="stage">
+          <canvas id="board"></canvas>
+          <div class="empty" id="empty-state">
+            <div class="empty-title">空白画布</div>
+            <div class="empty-sub">从左侧选一个工具拖拽绘制，或点击 <kbd>示例</kbd></div>
+          </div>
+          <div id="status" class="toast"></div>
+        </main>
+
+        <aside class="panel" aria-label="属性">
+          <div class="panel-head">属性</div>
+          <div class="panel-body">
+            <p class="panel-empty" id="panel-empty">未选中对象</p>
+
+            <section class="panel-sec" id="panel-geom">
+              <h4>位置与尺寸</h4>
+              <div class="grid2">
+                <label>X <input id="p-x" type="number" step="1" /></label>
+                <label>Y <input id="p-y" type="number" step="1" /></label>
+                <label>宽 <input id="p-w" type="number" step="1" min="8" /></label>
+                <label>高 <input id="p-h" type="number" step="1" min="8" /></label>
+              </div>
+            </section>
+
+            <section class="panel-sec" id="panel-paint">
+              <h4>外观</h4>
+              <div class="row">
+                <label class="swatch" title="填充">
+                  <input id="p-fill" type="color" /><span>填充</span>
+                </label>
+                <label class="swatch" title="描边">
+                  <input id="p-stroke" type="color" /><span>描边</span>
+                </label>
+              </div>
+            </section>
+
+            <section class="panel-sec" id="panel-text">
+              <h4>文本</h4>
+              <input id="p-text" type="text" class="wide" placeholder="双击图形也可编辑" />
+            </section>
+
+            <section class="panel-sec" id="panel-kind">
+              <h4>类型</h4>
+              <p class="panel-value" id="p-kind">—</p>
+            </section>
+          </div>
+        </aside>
       </div>
 
-      <div class="tools" role="group" aria-label="工具">
-        <button class="icon active" data-tool="select" title="选择 (V)" aria-label="选择">
-          <span class="ico">↖</span>
-        </button>
-        <button class="icon" data-tool="rect" title="矩形 (R)" aria-label="矩形">
-          <span class="ico">▭</span>
-        </button>
-        <button class="icon" data-tool="round" title="圆角矩形 (U)" aria-label="圆角矩形">
-          <span class="ico">▢</span>
-        </button>
-        <button class="icon" data-tool="diamond" title="菱形 (D)" aria-label="菱形">
-          <span class="ico">◇</span>
-        </button>
-        <button class="icon" data-tool="ellipse" title="椭圆 (O)" aria-label="椭圆">
-          <span class="ico">◯</span>
-        </button>
-        <button class="icon" data-tool="text" title="文本 (T)" aria-label="文本">
-          <span class="ico">T</span>
-        </button>
-        <button class="icon" data-tool="edge" title="连线 (L)" aria-label="连线">
-          <span class="ico">→</span>
-        </button>
-        <button class="icon" data-tool="hand" title="平移 (H)" aria-label="平移">
-          <span class="ico">✋</span>
-        </button>
-      </div>
+      <!-- --------------------------------------------------------- bottom -->
+      <footer class="bottombar">
+        <div class="tabs" id="tabs"></div>
+        <button class="tab-add" id="tab-add" title="新建文档 (Ctrl+T)" aria-label="新建文档">+</button>
 
-      <span class="sep"></span>
+        <span class="spacer"></span>
 
-      <div class="group">
-        <button class="ghost" data-action="undo" title="撤销 (Ctrl+Z)">撤销</button>
-        <button class="ghost" data-action="redo" title="重做 (Ctrl+Shift+Z)">重做</button>
-        <button class="ghost" data-action="fit" title="适配视图 (F)">适配</button>
-        <button class="ghost" data-action="dist-h" title="横向等间距（需选中 3+ 图形）">横分布</button>
-        <button class="ghost" data-action="dist-v" title="纵向等间距（需选中 3+ 图形）">纵分布</button>
-      </div>
+        <span class="hint" id="hud-hint">拖拽移动 · 滚轮缩放 · 双击改文字</span>
 
-      <span class="sep"></span>
-
-      <div class="group">
-        <button class="ghost" data-action="open" title="打开 .moondraw / Mermaid 文件">打开</button>
-        <button class="ghost" data-action="saveFile" title="保存为 .moondraw 文件">保存</button>
-        <select id="export-range" class="select" title="导出范围">
-          <option value="all">整图</option>
-          <option value="selection">选区</option>
-          <option value="viewport">视口</option>
-        </select>
-        <button class="ghost" data-action="svg" title="导出 SVG">SVG</button>
-        <button class="ghost" data-action="png" title="导出 PNG">PNG</button>
-      </div>
-
-      <span class="spacer"></span>
-
-      <div class="group">
-        <button class="ghost" data-action="mermaid" title="导入示例 Mermaid 流程图">Mermaid</button>
-        <button class="ghost" data-action="demo" title="载入示例">示例</button>
-        <button class="ghost danger" data-action="clear" title="清空画布">清空</button>
-      </div>
-    </header>
-
-    <nav class="tabbar" aria-label="文档">
-      <div class="tabs" id="tabs"></div>
-      <button class="tab-add" id="tab-add" title="新建文档 (Ctrl+T)" aria-label="新建文档">+</button>
-    </nav>
-
-    <main class="stage">
-      <canvas id="board"></canvas>
-      <div class="empty" id="empty-state">
-        <div class="empty-title">空白画布</div>
-        <div class="empty-sub">选一个工具拖拽绘制，或按 <kbd>示例</kbd> 载入流程图</div>
-      </div>
-      <div class="hud">
-        <span id="hud-hint">拖拽移动 · 滚轮缩放 · 双击改文字</span>
-        <span id="hud-zoom">100%</span>
-      </div>
-      <div id="status" class="toast"></div>
-    </main>
+        <div class="zoom">
+          <button class="zbtn" data-action="zoom-out" title="缩小">−</button>
+          <button class="zval" data-action="zoom-reset" id="hud-zoom" title="重置为 100%">100%</button>
+          <button class="zbtn" data-action="zoom-in" title="放大">+</button>
+          <button class="zbtn wide" data-action="fit" title="适配视图 (F)">适配</button>
+        </div>
+      </footer>
+    </div>
 
     <script src="_build/js/release/build/app/app.js"></script>
     <script>
-      const tools = Array.from(document.querySelectorAll(".tools [data-tool]"));
+      const tools = Array.from(document.querySelectorAll(".rail [data-tool]"));
       const setActiveTool = (name) => {
         document.body.dataset.tool = name;
         tools.forEach((b) => b.classList.toggle("active", b.dataset.tool === name));
@@ -157,21 +209,76 @@
       renderTabs();
       window.addEventListener("focus", renderTabs);
 
-      // layout probe: open index.html?diag=1 and read #status
-      if (new URLSearchParams(location.search).get("diag")) {
-        requestAnimationFrame(() => {
-          const tb = document.querySelector(".topbar");
-          const cv = document.getElementById("board");
-          const r = cv.getBoundingClientRect();
-          document.getElementById("status").textContent =
-            "DIAG win=" + innerWidth + "x" + innerHeight +
-            " topbar=" + tb.scrollWidth + "/" + tb.clientWidth +
-            " canvas=" + Math.round(r.width) + "x" + Math.round(r.height) +
-            " dpr=" + devicePixelRatio +
-            " backing=" + cv.width + "x" + cv.height;
-          document.getElementById("status").classList.add("show");
-        });
-      }
+      // ------------------------------------------------- property panel
+      const panel = {
+        empty: document.getElementById("panel-empty"),
+        geom: document.getElementById("panel-geom"),
+        paint: document.getElementById("panel-paint"),
+        text: document.getElementById("panel-text"),
+        kind: document.getElementById("panel-kind"),
+        x: document.getElementById("p-x"),
+        y: document.getElementById("p-y"),
+        w: document.getElementById("p-w"),
+        h: document.getElementById("p-h"),
+        fill: document.getElementById("p-fill"),
+        stroke: document.getElementById("p-stroke"),
+        label: document.getElementById("p-text"),
+        kindText: document.getElementById("p-kind"),
+      };
+
+      let lastPanelJson = null;
+      window.applyPanel = function (json) {
+        if (json === lastPanelJson) return;
+        lastPanelJson = json;
+        const active = document.activeElement;
+        if (active && panel.geom.parentElement.contains(active)) return; // don't fight typing
+
+        const data = json === "null" ? null : JSON.parse(json);
+        const show = (el, on) => {
+          el.style.display = on ? "" : "none";
+        };
+        if (!data) {
+          panel.empty.style.display = "";
+          show(panel.geom, false);
+          show(panel.paint, false);
+          show(panel.text, false);
+          show(panel.kind, false);
+          return;
+        }
+        panel.empty.style.display = "none";
+        const single = data.kind !== "multi" && data.kind !== "edge";
+        show(panel.geom, single);
+        show(panel.paint, single);
+        show(panel.text, single);
+        show(panel.kind, true);
+        if (single) {
+          panel.x.value = data.x;
+          panel.y.value = data.y;
+          panel.w.value = data.w;
+          panel.h.value = data.h;
+          panel.fill.value = data.fill || "#ffffff";
+          panel.stroke.value = data.stroke || "#d4d4d4";
+          panel.label.value = data.text || "";
+        } else if (data.kind === "multi") {
+          panel.label.value = "";
+        }
+        panel.kindText.textContent =
+          data.kind === "multi" ? `已选中 ${data.count} 个图形` :
+          data.kind === "edge" ? `连线${data.label ? "：" + data.label : ""}` :
+          data.kind;
+      };
+
+      const commitGeom = (field, el) => () => {
+        const v = parseFloat(el.value);
+        if (!Number.isNaN(v)) ui_set_geom(field, v);
+      };
+      panel.x.addEventListener("change", commitGeom("x", panel.x));
+      panel.y.addEventListener("change", commitGeom("y", panel.y));
+      panel.w.addEventListener("change", commitGeom("w", panel.w));
+      panel.h.addEventListener("change", commitGeom("h", panel.h));
+      panel.fill.addEventListener("input", () => ui_set_paint("fill", panel.fill.value));
+      panel.stroke.addEventListener("input", () => ui_set_paint("stroke", panel.stroke.value));
+      panel.label.addEventListener("change", () => ui_set_shape_text(panel.label.value));
 
       // ------------------------------------------------------- actions
       const exportRange = () => document.getElementById("export-range").value;
@@ -202,6 +309,9 @@
         mermaid: () => ui_import_mermaid(SAMPLE_MERMAID),
         demo: () => ui_demo(),
         clear: () => ui_clear(),
+        "zoom-in": () => ui_zoom(1.2),
+        "zoom-out": () => ui_zoom(1 / 1.2),
+        "zoom-reset": () => ui_zoom_reset(),
       };
       document.querySelectorAll("[data-action]").forEach((btn) => {
         btn.addEventListener("click", () => actions[btn.dataset.action]?.());
@@ -230,6 +340,28 @@
         if (toolKeys[k]) setActiveTool(toolKeys[k]);
         if (e.key === "Escape") setActiveTool("select");
       });
+
+      // boot() ran before the panel existed; sync it once now.
+      lastPanelJson = null;
+      applyPanel(ui_selection_panel());
+
+      // layout probe: open index.html?diag=1 and read #status
+      if (new URLSearchParams(location.search).get("diag")) {
+        requestAnimationFrame(() => {
+          const tb = document.querySelector(".topbar");
+          const cv = document.getElementById("board");
+          const r = cv.getBoundingClientRect();
+          const pn = document.querySelector(".panel").getBoundingClientRect();
+          document.getElementById("status").textContent =
+            "DIAG win=" + innerWidth + "x" + innerHeight +
+            " topbar=" + tb.scrollWidth + "/" + tb.clientWidth +
+            " canvas=" + Math.round(r.width) + "x" + Math.round(r.height) +
+            " panelW=" + Math.round(pn.width) +
+            " dpr=" + devicePixelRatio +
+            " backing=" + cv.width + "x" + cv.height;
+          document.getElementById("status").classList.add("show");
+        });
+      }
     </script>
   </body>
 </html>

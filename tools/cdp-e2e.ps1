@@ -477,8 +477,48 @@ try {
   Start-Sleep -Milliseconds 250
   Assert 'O6 少于三个图形时给出提示' ((Status) -match '至少 3') (Status)
 
+  # ------------------------------------- P properties panel (left rail shell)
+  Js 'ui_new_doc()' | Out-Null
+  Start-Sleep -Milliseconds 250
+  Js 'document.querySelector("[data-tool=rect]").click()' | Out-Null
+  Start-Sleep -Milliseconds 120
+  Drag (Scr 200 200) (Scr 340 280)
+  Start-Sleep -Milliseconds 250
+
+  $panel = (Js 'ui_selection_panel()') | ConvertFrom-Json
+  Assert 'P1 单选后属性面板有数据' ($panel.kind -eq 'rect' -and $panel.count -eq 1) "kind=$($panel.kind)"
+  Assert 'P2 面板回显几何' ($panel.w -gt 50 -and $panel.h -gt 30) "w=$($panel.w) h=$($panel.h)"
+  $domX = Js 'document.getElementById("p-x").value'
+  Assert 'P3 DOM 输入框已同步' ([math]::Abs([double]$domX - [double]$panel.x) -lt 1) "dom=$domX model=$($panel.x)"
+
+  # edit geometry through the panel
+  Js '(function(){const e=document.getElementById("p-w"); e.value="240"; e.dispatchEvent(new Event("change"));})()' | Out-Null
+  Start-Sleep -Milliseconds 300
+  $afterW = ((Doc).shapes[0].w)
+  Assert 'P4 面板改宽度写回模型' ([math]::Abs([double]$afterW - 240) -lt 1) "w=$afterW"
+
+  # edit colour through the panel
+  Js '(function(){const e=document.getElementById("p-fill"); e.value="#ebf5ff"; e.dispatchEvent(new Event("input"));})()' | Out-Null
+  Start-Sleep -Milliseconds 300
+  $afterFill = ((Doc).shapes[0].fill)
+  Assert 'P5 面板改填充写回模型' ($afterFill -eq '#ebf5ff') "fill=$afterFill"
+
+  # zoom controls
+  $z0 = Js 'document.getElementById("hud-zoom").textContent'
+  Js 'document.querySelector("[data-action=zoom-in]").click()' | Out-Null
+  Start-Sleep -Milliseconds 250
+  $z1 = Js 'document.getElementById("hud-zoom").textContent'
+  Assert 'P6 缩放按钮生效' ($z0 -ne $z1) "$z0 -> $z1"
+
+  # deselect clears the panel
+  Key 'Escape' 'Escape' 27 0
+  Start-Sleep -Milliseconds 250
+  $panelEmpty = Js 'ui_selection_panel()'
+  Assert 'P7 取消选中后面板清空' ($panelEmpty -eq 'null') "json=$panelEmpty"
+
   Write-Host ""
   if ($script:failures -eq 0) { Write-Host "ALL PASS" } else { Write-Host "FAILURES: $($script:failures)" }
+
   $ws.CloseAsync([Net.WebSockets.WebSocketCloseStatus]::NormalClosure, 'done', [Threading.CancellationToken]::None).Wait(5000) | Out-Null
   exit $script:failures
 }

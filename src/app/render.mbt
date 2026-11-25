@@ -331,6 +331,7 @@ pub fn render_all() -> Unit {
     "拖拽移动 · 滚轮缩放 · 双击改文字"
   }
   ffi_hud(hint, (app.zoom * 100.0).to_int().to_string() + "%", app.scene.shapes.length() == 0)
+  ffi_panel(selection_panel_json())
 }
 
 ///| What part of the document an export covers.

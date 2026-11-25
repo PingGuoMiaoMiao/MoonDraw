@@ -1,8 +1,8 @@
 """Prefix kernel symbols with @k. inside the app package.
 
-Token-level rewrite that respects string/char literals and comments, skips
-field/method positions (anything after a dot) and never touches names the app
-package defines itself.
+Token-level rewrite that respects string/char literals, comments, parameter
+labels (`name : Type`) and raw `#|` JavaScript lines. Names the app package
+defines itself are never touched, and already-qualified `@k.x` stays as is.
 """
 
 import glob
@@ -27,8 +27,8 @@ def scan_defs(paths):
     return names
 
 
-def prefix_file(path, targets):
-    src = io.open(path, encoding="utf-8").read()
+def prefix_line(src, targets):
+    """Rewrite one line, keeping literals and comments intact."""
     out = []
     i = 0
     n = len(src)
@@ -37,11 +37,8 @@ def prefix_file(path, targets):
         two = src[i : i + 2]
 
         if two == "//":
-            j = src.find("\n", i)
-            j = n if j < 0 else j
-            out.append(src[i:j])
-            i = j
-            continue
+            out.append(src[i:])
+            break
         if two == "/*":
             j = src.find("*/", i + 2)
             j = n if j < 0 else j + 2
@@ -62,12 +59,12 @@ def prefix_file(path, targets):
             i = j
             continue
         if ch == APOS:
-            # char literal like 'a' or '\n'
             j = i + 1
             if j < n and src[j] == "\\":
                 j += 3
             else:
                 j += 2
+            j = min(j, n)
             out.append(src[i:j])
             i = j
             continue
@@ -76,7 +73,9 @@ def prefix_file(path, targets):
         if m:
             word = m.group(0)
             prev = out[-1][-1] if out and out[-1] else ""
-            if word in targets and prev != ".":
+            rest = src[i + len(word) :]
+            is_label = rest.lstrip().startswith(":")
+            if word in targets and prev != "." and not is_label:
                 out.append("@k." + word)
             else:
                 out.append(word)
@@ -85,8 +84,18 @@ def prefix_file(path, targets):
 
         out.append(ch)
         i += 1
+    return "".join(out)
 
-    io.open(path, "w", encoding="utf-8", newline="\n").write("".join(out))
+
+def prefix_file(path, targets):
+    raw = io.open(path, encoding="utf-8").read()
+    lines = []
+    for line in raw.split("\n"):
+        if line.lstrip().startswith("#|"):
+            lines.append(line)  # raw JavaScript body
+        else:
+            lines.append(prefix_line(line, targets))
+    io.open(path, "w", encoding="utf-8", newline="\n").write("\n".join(lines))
 
 
 def main():
@@ -96,7 +105,6 @@ def main():
     app_names = scan_defs(app_files)
     targets = kernel_names - app_names
     print(f"kernel names={len(kernel_names)} app names={len(app_names)} to prefix={len(targets)}")
-    io.open(".kexports.txt", "w", encoding="utf-8").write("\n".join(sorted(targets)))
     for path in app_files:
         prefix_file(path, targets)
     print(f"prefixed {len(app_files)} app files")

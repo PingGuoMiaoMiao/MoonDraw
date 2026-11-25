@@ -326,6 +326,12 @@ extern "js" fn ffi_open_file(
   #| }
 
 ///|
+///| Push the selection description into the properties panel.
+extern "js" fn ffi_panel(json : String) -> Unit =
+  #| (json) => {
+  #|   if (typeof window.applyPanel === "function") window.applyPanel(json);
+  #| }
+
 ///| Canvas chrome lives in the DOM: hints, zoom, and the empty state.
 extern "js" fn ffi_hud(hint : String, zoom : String, empty : Bool) -> Unit =
   #| (hint, zoom, empty) => {
