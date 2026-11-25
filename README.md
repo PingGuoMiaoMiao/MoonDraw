@@ -170,4 +170,6 @@ shell/
 
 ## 许可
 
-MIT。
+本仓库代码采用 MIT（见 `LICENSE`）。
+
+构建产物会把 `moonbit-community/elk`（EPL-2.0）内联进单文件，分发义务与源码出处见 [THIRD_PARTY.md](THIRD_PARTY.md)。
