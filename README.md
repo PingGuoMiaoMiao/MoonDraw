@@ -4,7 +4,7 @@
 
 **在线试用：<https://pingguomiaomiao.github.io/MoonDraw/>**（纯静态，GitHub Pages 托管，无需服务器；也支持离线双击本地文件）
 
-**安装（mooncakes）：** `moon add PingGuoMiaoMiao/moondraw@0.1.0` — 可直接消费 `moondraw/kernel`（纯逻辑，js / wasm / native 均可运行）
+**安装（mooncakes）：** `moon add PingGuoMiaoMiao/moondraw@0.1.2` — 可直接消费 `moondraw/kernel`（纯逻辑，js / wasm / native 均可运行）
 
 UI 逻辑、文档模型、命中测试、正交连线路由、撤销栈、SVG 导出、Mermaid 解析与自动布局全部是纯 MoonBit；只通过一层很薄的 `extern "js"` 绑定调用 Canvas 2D 与 DOM。
 

@@ -94,8 +94,8 @@ test "group bounds cover the members" {
     }
     None => fail("expected bounds")
   }
-  assert_true(group_bounds(app, 9999).is_none())
-  assert_true(group_bounds(app, 0).is_none())
+  assert_true(group_bounds(app, 9999) is None)
+  assert_true(group_bounds(app, 0) is None)
 }
 
 ///|
