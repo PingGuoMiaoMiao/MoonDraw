@@ -6,7 +6,7 @@ MoonDraw：基于 MoonBit 的流程图与白板编辑器
 
 ## 二、项目摘要
 
-MoonDraw 是一个用 MoonBit 编写的流程图 / 白板编辑器。文档模型、命中测试、正交连线路由、选择集与吸附、撤销栈、SVG 导出、Mermaid 解析与自动布局、等间距分布等全部逻辑用 MoonBit 实现，仅在画布绘制与浏览器事件处保留一层很薄的 `extern "js"` 绑定。
+MoonDraw 是一个用 MoonBit 编写的流程图 / 白板编辑器，已发布为纯静态站点（GitHub Pages，无服务器、无后端）：<https://pingguomiaomiao.github.io/MoonDraw/>。文档模型、命中测试、正交连线路由、选择集与吸附、撤销栈、SVG 导出、Mermaid 解析与自动布局、等间距分布等全部逻辑用 MoonBit 实现，仅在画布绘制与浏览器事件处保留一层很薄的 `extern "js"` 绑定。
 
 项目把"编辑器内核"与"宿主"彻底分开：内核不接触 DOM，可在任意后端测试；前端产物是一个 245 KB 的单文件网页，同一份代码可通过便携 exe 双击运行，也可套 Tauri 壳变成独立窗口程序。
 
@@ -199,3 +199,5 @@ Canvas 不具备 IME 能力。文本编辑采用浮动 `<textarea>` 覆盖层，
 自检脚本同时暴露过真实缺陷（Mermaid 裸引用覆盖标签），已修复并补了回归测试。这说明自检不是形式主义。
 
 工程已公开于 https://github.com/PingGuoMiaoMiao/MoonDraw，采用仓库既有的 MIT 许可。
+
+在线版本由 	ools/publish-pages.ps1 把前端构建成单文件（JS/CSS 内联）写入 docs/，GitHub Pages 直接托管该目录，不依赖任何服务端或 CI 密钥。

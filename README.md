@@ -1,6 +1,9 @@
 # MoonDraw
 
-用 MoonBit 写的流程图 / 白板编辑器。UI 逻辑、文档模型、命中测试、正交连线路由、撤销栈、SVG 导出、Mermaid 解析与自动布局全部是纯 MoonBit；只通过一层很薄的 `extern "js"` 绑定调用 Canvas 2D 与 DOM。
+用 MoonBit 写的流程图 / 白板编辑器。
+
+**在线试用：<https://pingguomiaomiao.github.io/MoonDraw/>**（纯静态，GitHub Pages 托管，无需服务器；也支持离线双击本地文件）
+UI 逻辑、文档模型、命中测试、正交连线路由、撤销栈、SVG 导出、Mermaid 解析与自动布局全部是纯 MoonBit；只通过一层很薄的 `extern "js"` 绑定调用 Canvas 2D 与 DOM。
 
 当前进度：**M0（技术验证）+ M1（内核）+ M2（多选/吸附/连线）+ M3（文件与互操作）+ M4（便携 exe 壳）完成**。
 
@@ -34,6 +37,7 @@ moon run src/cmd_mermaid_preview --target js
 
 ```bash
 pwsh tools/verify.ps1                 # 一条命令：check + 单测 + 构建 + 产物新鲜度 + 端到端
+pwsh tools/publish-pages.ps1          # 生成 docs/index.html（Pages 用的单文件，已提交）
 moon test --target js                 # 51 个用例（内核 18 + 应用 33）
 moon test --target native             # 18 个纯内核用例（内核与 DOM 无关的证明）
 moon build --target native            # 内核 + 命令行示例，不需要浏览器
