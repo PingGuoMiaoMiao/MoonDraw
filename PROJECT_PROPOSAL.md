@@ -183,7 +183,7 @@ Canvas 不具备 IME 能力。文本编辑采用浮动 `<textarea>` 覆盖层，
 
 ## 十五、自检结果
 
-使用赛事验收脚本（MoonBit Hackathon Acceptance）对本仓库自检，结果如实记录：
+使用赛事验收脚本（MoonBit Hackathon Acceptance）对公开仓库 PingGuoMiaoMiao/MoonDraw 自检：**8 项全部通过（8 pass / 0 warn / 0 fail）**。
 
 | 检查项 | 结果 | 证据 |
 |---|---|---|
@@ -198,4 +198,4 @@ Canvas 不具备 IME 能力。文本编辑采用浮动 `<textarea>` 覆盖层，
 
 自检脚本同时暴露过真实缺陷（Mermaid 裸引用覆盖标签），已修复并补了回归测试。这说明自检不是形式主义。
 
-当前工程位于本地工作副本中，尚未推送为公开仓库；按赛事"公开仓库 + 可追溯提交历史"的要求，收尾阶段需要完成仓库公开。
+工程已公开于 https://github.com/PingGuoMiaoMiao/MoonDraw，采用仓库既有的 MIT 许可。
