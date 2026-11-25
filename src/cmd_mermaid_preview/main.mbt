@@ -5,13 +5,13 @@ fn sample() -> String {
 }
 
 fn main {
-  let doc = @moondraw.parse_mermaid(sample())
+  let doc = @k.parse_mermaid(sample())
   println("节点: " + doc.nodes.length().to_string() + "  连线: " + doc.edges.length().to_string())
-  let sc = @moondraw.scene_from_mermaid(doc)
+  let sc = @k.scene_from_mermaid(doc)
   for s in sc.shapes {
     println("  " + s.text + "  @(" + s.x.to_int().to_string() + "," + s.y.to_int().to_string() + ")")
   }
-  let svg = @moondraw.scene_to_svg(sc)
+  let svg = @k.scene_to_svg(sc)
   println("SVG: " + svg.length().to_string() + " 字节")
   println(svg)
 }

@@ -1,5 +1,5 @@
 import {
-  "demo/moondraw" @moondraw,
+  "PingGuoMiaoMiao/moondraw/kernel" @k,
 }
 
 pkgtype(kind: "executable")

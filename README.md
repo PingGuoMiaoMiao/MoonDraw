@@ -34,7 +34,9 @@ moon run src/cmd_mermaid_preview --target js
 
 ```bash
 pwsh tools/verify.ps1                 # 一条命令：check + 单测 + 构建 + 产物新鲜度 + 端到端
-moon test --target js                 # 50 个内核用例
+moon test --target js                 # 51 个用例（内核 18 + 应用 33）
+moon test --target native             # 18 个纯内核用例（内核与 DOM 无关的证明）
+moon build --target native            # 内核 + 命令行示例，不需要浏览器
 pwsh tools/cdp-e2e.ps1                # 59 项端到端断言（需要本机 Chrome）
 pwsh tools/cdp-shot.ps1               # 生成 docs/*.png 截图
 ```
@@ -62,7 +64,7 @@ pwsh tools/cdp-shot.ps1               # 生成 docs/*.png 截图
 ## 架构
 
 ```
-src/
+src/kernel/         纯 MoonBit 内核：不引用 FFI，js / native / wasm 都能构建
   types.mbt      Shape / Edge / Scene / View / Drag / App 数据结构
   geom.mbt       命中测试、正交路由、点到线段距离
   scene.mbt      增删改查、示例文档、JSON 序列化（含转义）、包围盒
@@ -73,11 +75,18 @@ src/
   render.mbt     Canvas 绘制：网格、边、图形、选中框、框选框、对齐线、HUD、离屏导出
   app.mbt        交互状态机、撤销栈、文本编辑、文件读写、对外 API
   ffi.mbt        唯一的 JS 边界（canvas / 事件 / 文件 / 下载 / 存储 / JSON）
-  kernel_wbtest.mbt   内核单测（几何/选择/删除/吸附/序列化）
+  bench.mbt      内核基准（时钟由调用方注入，保持纯函数）
+  view.mbt       相机变换
+  shape_ops.mbt  字段变更的具名操作
+  kernel_wbtest.mbt   内核单测
   import_wbtest.mbt   Mermaid 解析与布局单测
+src/app/            JS 后端：交互状态机 + Canvas 渲染 + 文件 IO
+  app.mbt render.mbt ffi.mbt docs.mbt scene_json.mbt types_app.mbt
+  select.mbt arrange.mbt
+  *_wbtest.mbt
 tools/
   build-exe.ps1  内联前端 + 编译便携壳 → dist/moondraw.html、dist/MoonDraw.exe
-  cdp-e2e.ps1    30 项端到端断言：真实鼠标/键盘事件 → 状态 → 持久化 → 磁盘文件
+  cdp-e2e.ps1    59 项端到端断言：真实鼠标/键盘事件 → 状态 → 持久化 → 磁盘文件
   cdp-shot.ps1   抓取 board / multi-select / band-select / mermaid-import 截图
 shell/
   launcher/      零依赖 Rust 便携壳（460 KB，内嵌前端，Edge/Chrome app 模式）
@@ -120,7 +129,8 @@ shell/
 | 等间距分布 | 三图形拖拽后点横分布 → 间距 220/220，两端 104..784 不变；撤销能恢复 200/240 的不均匀原状 |
 | 高 DPI 后备存储 | CSS 1230×612 → 后备 2460×1224（dpr=2） |
 | 工具栏不溢出 | 1440/1180/980/760 四档 `scrollWidth == clientWidth` |
-| 内核性能 | 1000 节点：JSON 3.2–4.5 ms / 152 KB，SVG 8.7–10.4 ms / 274 KB（Node，冷启） |
+| 内核性能 | 1000 节点：JSON 1.9–10 ms / 152 KB，SVG 4–24 ms / 274 KB（Node，冷启） |
+| 跨后端 | moon build --target native 成功，产物 cmd_mermaid_preview.exe；native 18 项内核测试通过 |
 
 端到端抓到过两个单测漏掉的真 bug：`delete_selected` 忘了记快照（Delete 后无法撤销）、Mermaid 的 `|标签|` 被当成链接符吞掉。都已修复并被断言覆盖。
 
@@ -151,4 +161,4 @@ shell/
 
 ## 许可
 
-Apache-2.0。
+MIT。

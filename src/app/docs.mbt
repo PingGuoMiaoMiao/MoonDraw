@@ -18,7 +18,7 @@ pub fn stash_active() -> Unit {
     return
   }
   let d = app_state.docs[app_state.active]
-  d.json = scene_to_json(app_state.scene)
+  d.json = @k.scene_to_json(app_state.scene)
   d.cam_x = app_state.cam_x
   d.cam_y = app_state.cam_y
   d.zoom = app_state.zoom
@@ -38,7 +38,7 @@ pub fn default_name(index : Int) -> String {
 fn load_doc(d : Doc) -> Unit {
   let js = ffi_parse_json(d.json)
   if ffi_is_null(js) {
-    app_state.scene = new_scene()
+    app_state.scene = @k.new_scene()
   } else {
     app_state.scene = scene_from_json(js)
   }
@@ -78,9 +78,9 @@ pub fn switch_doc(i : Int) -> Unit {
 pub fn new_doc_state() -> Unit {
   stash_active()
   let name = default_name(app_state.docs.length())
-  app_state.docs.push(make_doc(name, scene_to_json(new_scene())))
+  app_state.docs.push(make_doc(name, @k.scene_to_json(@k.new_scene())))
   app_state.active = app_state.docs.length() - 1
-  app_state.scene = new_scene()
+  app_state.scene = @k.new_scene()
   app_state.cam_x = 90.0
   app_state.cam_y = 70.0
   app_state.zoom = 1.0
@@ -105,8 +105,8 @@ pub fn close_doc_state(i : Int) -> Unit {
     return
   }
   if app_state.docs.length() == 1 {
-    app_state.scene = new_scene()
-    app_state.docs[0] = make_doc(default_name(0), scene_to_json(new_scene()))
+    app_state.scene = @k.new_scene()
+    app_state.docs[0] = make_doc(default_name(0), @k.scene_to_json(@k.new_scene()))
     app_state.active = 0
     sel_clear(app_state)
     app_state.undo_len = 0
@@ -169,7 +169,7 @@ pub fn docs_to_json() -> String {
       b.write_string(",")
     }
     b.write_string("{\"name\":\"")
-    b.write_string(json_escape(d.name))
+    b.write_string(@k.json_escape(d.name))
     b.write_string("\",\"cam_x\":")
     b.write_string(d.cam_x.to_string())
     b.write_string(",\"cam_y\":")
@@ -200,7 +200,7 @@ pub fn docs_from_json(text : String) -> Bool {
     let o = ffi_index(arr, i)
     let name = ffi_str(ffi_get(o, "name"))
     let js = ffi_get(o, "scene")
-    let json = if ffi_is_null(js) { scene_to_json(new_scene()) } else { ffi_stringify(js) }
+    let json = if ffi_is_null(js) { @k.scene_to_json(@k.new_scene()) } else { ffi_stringify(js) }
     docs.push(Doc::{
       name: if name.length() > 0 { name } else { default_name(i) },
       json: json,
@@ -235,7 +235,7 @@ pub fn docs_summary_json() -> String {
       b.write_string(",")
     }
     b.write_string("{\"name\":\"")
-    b.write_string(json_escape(app_state.docs[i].name))
+    b.write_string(@k.json_escape(app_state.docs[i].name))
     b.write_string("\"}")
   }
   b.write_string("]}")

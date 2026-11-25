@@ -1,0 +1,8 @@
+Warning: [0001]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\ffi.mbt:48:16 ]
+    │
+ 48 │ extern "js" fn ffi_now() -> Double =
+    │                ───┬───  
+    │                   ╰───── Warning (unused_value): Unused function 'ffi_now'
+────╯
+Finished. moon: ran 3 tasks, now up to date (1 warnings, 0 errors)

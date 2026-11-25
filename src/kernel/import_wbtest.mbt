@@ -87,19 +87,6 @@ test "layout handles left-right direction" {
 }
 
 ///|
-test "imported scene serializes and exports" {
-  let doc = parse_mermaid("flowchart TD\n A[开始] --> B[结束]")
-  let sc = scene_from_mermaid(doc)
-  let json = scene_to_json(sc)
-  let back = scene_from_json(ffi_parse_json(json))
-  assert_eq(back.shapes.length(), 2)
-  assert_eq(back.edges.length(), 1)
-  let svg = scene_to_svg(back)
-  assert_true(svg.contains("开始"))
-  assert_true(svg.contains("结束"))
-}
-
-///|
 test "depth computation tolerates cycles" {
   let keys = ["a", "b", "c"]
   let edges = [(0, 1), (1, 2), (2, 0)]

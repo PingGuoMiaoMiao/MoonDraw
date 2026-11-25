@@ -3,14 +3,14 @@
 
 ///|
 fn empty_docs() -> Unit {
-  app_state.scene = new_scene()
+  app_state.scene = @k.new_scene()
   app_state.cam_x = 90.0
   app_state.cam_y = 70.0
   app_state.zoom = 1.0
   app_state.docs = [
     Doc::{
       name: default_name(0),
-      json: scene_to_json(app_state.scene),
+      json: @k.scene_to_json(app_state.scene),
       cam_x: 90.0,
       cam_y: 70.0,
       zoom: 1.0,
@@ -24,7 +24,7 @@ fn empty_docs() -> Unit {
 ///|
 test "new doc creates a tab and leaves the old one intact" {
   empty_docs()
-  let _ = add_shape(app_state.scene, Rect, 0.0, 0.0, 100.0, 60.0, "在文档一")
+  let _ = @k.add_shape(app_state.scene, @k.Rect, 0.0, 0.0, 100.0, 60.0, "在文档一")
   new_doc_state()
   assert_eq(doc_count(), 2)
   assert_eq(app_state.active, 1)
@@ -62,11 +62,11 @@ test "switching to the same tab is a no-op" {
 ///|
 test "closing the active tab activates a neighbour" {
   empty_docs()
-  let _ = add_shape(app_state.scene, Rect, 0.0, 0.0, 10.0, 10.0, "A")
+  let _ = @k.add_shape(app_state.scene, @k.Rect, 0.0, 0.0, 10.0, 10.0, "A")
   new_doc_state()
-  let _ = add_shape(app_state.scene, Rect, 0.0, 0.0, 10.0, 10.0, "B")
+  let _ = @k.add_shape(app_state.scene, @k.Rect, 0.0, 0.0, 10.0, 10.0, "B")
   new_doc_state()
-  let _ = add_shape(app_state.scene, Rect, 0.0, 0.0, 10.0, 10.0, "C")
+  let _ = @k.add_shape(app_state.scene, @k.Rect, 0.0, 0.0, 10.0, 10.0, "C")
   assert_eq(doc_count(), 3)
   // Close the middle tab while it is not active.
   close_doc_state(1)
@@ -83,7 +83,7 @@ test "closing the active tab activates a neighbour" {
 ///|
 test "closing the last tab empties it instead of removing" {
   empty_docs()
-  let _ = add_shape(app_state.scene, Rect, 0.0, 0.0, 10.0, 10.0, "only")
+  let _ = @k.add_shape(app_state.scene, @k.Rect, 0.0, 0.0, 10.0, 10.0, "only")
   close_doc_state(0)
   assert_eq(doc_count(), 1)
   assert_eq(app_state.scene.shapes.length(), 0)
@@ -94,10 +94,10 @@ test "closing the last tab empties it instead of removing" {
 test "documents round-trip through JSON" {
   empty_docs()
   let _ = rename_doc_state(0, "流程 A")
-  let _ = add_shape(app_state.scene, Rect, 5.0, 6.0, 100.0, 60.0, "节点")
+  let _ = @k.add_shape(app_state.scene, @k.Rect, 5.0, 6.0, 100.0, 60.0, "节点")
   new_doc_state()
   let _ = rename_doc_state(1, "流程 B")
-  let _ = add_shape(app_state.scene, Diamond, 0.0, 0.0, 80.0, 80.0, "判断")
+  let _ = @k.add_shape(app_state.scene, @k.Diamond, 0.0, 0.0, 80.0, 80.0, "判断")
 
   let json = docs_to_json()
   assert_true(json.contains("流程 A"))

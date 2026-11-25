@@ -68,7 +68,7 @@ pub fn primary_id(app : App) -> Int {
 pub fn move_selection(app : App, dx : Double, dy : Double) -> Unit {
   for item in app.drag_from {
     let (id, x0, y0) = item
-    match find_shape(app.scene, id) {
+    match @k.find_shape(app.scene, id) {
       Some(s) => {
         s.x = x0 + dx
         s.y = y0 + dy
@@ -89,7 +89,7 @@ pub fn selection_bounds(app : App) -> (Double, Double, Double, Double) {
   let mut max_y = 0.0
   let mut first = true
   for id in app.sel {
-    match find_shape(app.scene, id) {
+    match @k.find_shape(app.scene, id) {
       Some(s) =>
         if first {
           min_x = s.x
@@ -98,10 +98,10 @@ pub fn selection_bounds(app : App) -> (Double, Double, Double, Double) {
           max_y = s.y + s.h
           first = false
         } else {
-          min_x = mind(min_x, s.x)
-          min_y = mind(min_y, s.y)
-          max_x = maxd(max_x, s.x + s.w)
-          max_y = maxd(max_y, s.y + s.h)
+          min_x = @k.mind(min_x, s.x)
+          min_y = @k.mind(min_y, s.y)
+          max_x = @k.maxd(max_x, s.x + s.w)
+          max_y = @k.maxd(max_y, s.y + s.h)
         }
       None => ()
     }
@@ -111,16 +111,16 @@ pub fn selection_bounds(app : App) -> (Double, Double, Double, Double) {
 
 ///| Shapes fully inside a world-space rectangle (rubber band).
 pub fn shapes_in_rect(
-  scene : Scene,
+  scene : @k.Scene,
   x1 : Double,
   y1 : Double,
   x2 : Double,
   y2 : Double,
 ) -> Array[Int] {
-  let lx = mind(x1, x2)
-  let ly = mind(y1, y2)
-  let hx = maxd(x1, x2)
-  let hy = maxd(y1, y2)
+  let lx = @k.mind(x1, x2)
+  let ly = @k.mind(y1, y2)
+  let hx = @k.maxd(x1, x2)
+  let hy = @k.maxd(y1, y2)
   let out : Array[Int] = []
   for s in scene.shapes {
     if s.x >= lx && s.y >= ly && s.x + s.w <= hx && s.y + s.h <= hy {
@@ -131,13 +131,13 @@ pub fn shapes_in_rect(
 }
 
 ///| Topmost connector under a world point.
-pub fn edge_at(scene : Scene, x : Double, y : Double) -> Edge? {
+pub fn edge_at(scene : @k.Scene, x : Double, y : Double) -> @k.Edge? {
   let mut i = scene.edges.length() - 1
   while i >= 0 {
     let e = scene.edges[i]
-    match (find_shape(scene, e.from), find_shape(scene, e.to)) {
+    match (@k.find_shape(scene, e.from), @k.find_shape(scene, e.to)) {
       (Some(a), Some(b)) =>
-        if hit_polyline(route(a, b), x, y) {
+        if @k.hit_polyline(@k.route(a, b), x, y) {
           return Some(e)
         }
       _ => ()
@@ -148,8 +148,8 @@ pub fn edge_at(scene : Scene, x : Double, y : Double) -> Edge? {
 }
 
 ///| Remove a connector by id.
-pub fn remove_edge(scene : Scene, id : Int) -> Unit {
-  let kept : Array[Edge] = []
+pub fn remove_edge(scene : @k.Scene, id : Int) -> Unit {
+  let kept : Array[@k.Edge] = []
   for e in scene.edges {
     if e.id != id {
       kept.push(e)
@@ -165,7 +165,7 @@ pub fn delete_selection(app : App) -> Bool {
   }
   let ids = app.sel
   for id in ids {
-    remove_shape(app.scene, id)
+    @k.remove_shape(app.scene, id)
   }
   if app.sel_edge >= 0 {
     remove_edge(app.scene, app.sel_edge)
@@ -230,22 +230,22 @@ pub fn align_box(
     // Vertical guides: match left / center / right.
     for pair in [(bl, sl), (bcx, scx), (br, sr)] {
       let delta = pair.1 - pair.0
-      if absd(delta) <= tol && absd(delta) < absd(best_dx) {
+      if @k.absd(delta) <= tol && @k.absd(delta) < @k.absd(best_dx) {
         best_dx = delta
         gx = pair.1
-        gx_from = mind(bt, st)
-        gx_to = maxd(bb, sb)
+        gx_from = @k.mind(bt, st)
+        gx_to = @k.maxd(bb, sb)
         has_x = true
       }
     }
     // Horizontal guides: match top / middle / bottom.
     for pair in [(bt, st), (bcy, scy), (bb, sb)] {
       let delta = pair.1 - pair.0
-      if absd(delta) <= tol && absd(delta) < absd(best_dy) {
+      if @k.absd(delta) <= tol && @k.absd(delta) < @k.absd(best_dy) {
         best_dy = delta
         gy = pair.1
-        gy_from = mind(bl, sl)
-        gy_to = maxd(br, sr)
+        gy_from = @k.mind(bl, sl)
+        gy_to = @k.maxd(br, sr)
         has_y = true
       }
     }

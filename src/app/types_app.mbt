@@ -1,46 +1,15 @@
-///| Shape kinds supported by the editor.
-pub enum ShapeKind {
-  Rect
-  Round
-  Diamond
-  Ellipse
-  Text
+// App-side records: a tab holds the serialised form of every inactive doc.
+
+///| One tab. Holds the serialized scene for every *inactive* document; the
+///| active one lives in `App.scene` so hot paths never touch JSON.
+pub struct Doc {
+  mut name : String
+  mut json : String
+  mut cam_x : Double
+  mut cam_y : Double
+  mut zoom : Double
 }
 
-///| A diagram node.
-pub struct Shape {
-  mut id : Int
-  kind : ShapeKind
-  mut x : Double
-  mut y : Double
-  mut w : Double
-  mut h : Double
-  mut text : String
-  mut fill : String
-  mut stroke : String
-}
-
-///| A directed connector between two nodes.
-pub struct Edge {
-  mut id : Int
-  from : Int
-  to : Int
-  mut label : String
-}
-
-///| The document.
-pub struct Scene {
-  mut shapes : Array[Shape]
-  mut edges : Array[Edge]
-  mut next_id : Int
-}
-
-///| A camera: world -> screen is `world * zoom + cam`.
-pub struct View {
-  cam_x : Double
-  cam_y : Double
-  zoom : Double
-}
 
 ///| Current pointer gesture.
 pub enum Drag {
@@ -55,19 +24,9 @@ pub enum Drag {
   Connect(Int)
 }
 
-///| One tab. Holds the serialized scene for every *inactive* document; the
-///| active one lives in `App.scene` so hot paths never touch JSON.
-pub struct Doc {
-  mut name : String
-  mut json : String
-  mut cam_x : Double
-  mut cam_y : Double
-  mut zoom : Double
-}
-
 ///| Editor state.
 pub struct App {
-  mut scene : Scene
+  mut scene : @k.Scene
   mut cam_x : Double
   mut cam_y : Double
   mut zoom : Double
@@ -91,3 +50,9 @@ pub struct App {
   redo : Array[String]
   mut redo_len : Int
 }
+
+///|
+pub fn App::view(self : App) -> @k.View {
+  @k.View::{ cam_x: self.cam_x, cam_y: self.cam_y, zoom: self.zoom }
+}
+

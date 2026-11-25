@@ -4,7 +4,7 @@ let legacy_key : String = "moondraw_scene_v1"
 
 ///| Global editor state. One document, one viewport.
 pub let app_state : App = App::{
-  scene: demo_scene(),
+  scene: @k.demo_scene(),
   cam_x: 90.0,
   cam_y: 70.0,
   zoom: 1.0,
@@ -36,9 +36,9 @@ pub fn persist() -> Unit {
 ///|
 pub fn snapshot() -> Unit {
   if app_state.undo_len < app_state.undo.length() {
-    app_state.undo[app_state.undo_len] = scene_to_json(app_state.scene)
+    app_state.undo[app_state.undo_len] = @k.scene_to_json(app_state.scene)
   } else {
-    app_state.undo.push(scene_to_json(app_state.scene))
+    app_state.undo.push(@k.scene_to_json(app_state.scene))
   }
   app_state.undo_len = app_state.undo_len + 1
   app_state.redo_len = 0
@@ -69,7 +69,7 @@ fn load_json(json : String) -> Unit {
 ///|
 pub fn undo() -> Unit {
   if app_state.undo_len > 0 {
-    push_redo(scene_to_json(app_state.scene))
+    push_redo(@k.scene_to_json(app_state.scene))
     app_state.undo_len = app_state.undo_len - 1
     load_json(app_state.undo[app_state.undo_len])
     persist()
@@ -83,7 +83,7 @@ pub fn undo() -> Unit {
 ///|
 pub fn redo() -> Unit {
   if app_state.redo_len > 0 {
-    let json = scene_to_json(app_state.scene)
+    let json = @k.scene_to_json(app_state.scene)
     app_state.redo_len = app_state.redo_len - 1
     if app_state.undo_len < app_state.undo.length() {
       app_state.undo[app_state.undo_len] = json
@@ -105,17 +105,17 @@ pub fn redo() -> Unit {
 // ---------------------------------------------------------------------------
 
 ///|
-fn tool_kind(t : String) -> ShapeKind {
+fn tool_kind(t : String) -> @k.ShapeKind {
   if t == "round" {
-    Round
+    @k.Round
   } else if t == "diamond" {
-    Diamond
+    @k.Diamond
   } else if t == "ellipse" {
-    Ellipse
+    @k.Ellipse
   } else if t == "text" {
-    Text
+    @k.Text
   } else {
-    Rect
+    @k.Rect
   }
 }
 
@@ -148,11 +148,11 @@ fn open_editor_for(shape_id : Int) -> Unit {
   if ffi_editor_open() {
     return
   }
-  match find_shape(app_state.scene, shape_id) {
+  match @k.find_shape(app_state.scene, shape_id) {
     Some(s) => {
       let c = ffi_dom_canvas("board")
-      let left = ffi_origin_x(c) + sx(app_state.view(), s.x)
-      let top = ffi_origin_y(c) + sy(app_state.view(), s.y)
+      let left = ffi_origin_x(c) + @k.sx(app_state.view(), s.x)
+      let top = ffi_origin_y(c) + @k.sy(app_state.view(), s.y)
       ffi_open_editor(
         left,
         top,
@@ -162,7 +162,7 @@ fn open_editor_for(shape_id : Int) -> Unit {
         editor_font(),
         fn(v) {
           snapshot()
-          s.text = v
+          s.set_text(v)
           persist()
           render_all()
           ffi_status("文字已更新")
@@ -181,18 +181,18 @@ fn open_editor_for_edge(edge_id : Int) -> Unit {
   for e in app_state.scene.edges {
     if e.id == edge_id {
       match (
-          find_shape(app_state.scene, e.from),
-          find_shape(app_state.scene, e.to),
+          @k.find_shape(app_state.scene, e.from),
+          @k.find_shape(app_state.scene, e.to),
         ) {
         (Some(a), Some(b)) => {
-          let pts = route(a, b)
+          let pts = @k.route(a, b)
           let mid = pts[1]
           let mid2 = pts[2]
           let wx = (mid.0 + mid2.0) * 0.5
           let wy = (mid.1 + mid2.1) * 0.5
           let c = ffi_dom_canvas("board")
-          let left = ffi_origin_x(c) + sx(app_state.view(), wx) - 60.0
-          let top = ffi_origin_y(c) + sy(app_state.view(), wy) - 17.0
+          let left = ffi_origin_x(c) + @k.sx(app_state.view(), wx) - 60.0
+          let top = ffi_origin_y(c) + @k.sy(app_state.view(), wy) - 17.0
           ffi_open_editor(
             left,
             top,
@@ -202,7 +202,7 @@ fn open_editor_for_edge(edge_id : Int) -> Unit {
             editor_font(),
             fn(v) {
               snapshot()
-              e.label = v
+              e.set_label(v)
               persist()
               render_all()
               ffi_status("连线标签已更新")
@@ -221,8 +221,8 @@ fn open_editor_at(wx : Double, wy : Double) -> Unit {
     return
   }
   let c = ffi_dom_canvas("board")
-  let left = ffi_origin_x(c) + sx(app_state.view(), wx)
-  let top = ffi_origin_y(c) + sy(app_state.view(), wy)
+  let left = ffi_origin_x(c) + @k.sx(app_state.view(), wx)
+  let top = ffi_origin_y(c) + @k.sy(app_state.view(), wy)
   ffi_open_editor(
     left,
     top,
@@ -233,7 +233,7 @@ fn open_editor_at(wx : Double, wy : Double) -> Unit {
     fn(v) {
       if v.length() > 0 {
         snapshot()
-        let s = add_shape(app_state.scene, Text, wx, wy, 160.0, 36.0, v)
+        let s = @k.add_shape(app_state.scene, @k.Text, wx, wy, 160.0, 36.0, v)
         sel_only(app_state, s.id)
         persist()
         render_all()
@@ -253,13 +253,13 @@ fn handle_at(x : Double, y : Double) -> Int {
   if id < 0 {
     return -1
   }
-  match find_shape(app_state.scene, id) {
+  match @k.find_shape(app_state.scene, id) {
     Some(s) => {
       let mut hit = -1
       for i = 0; i < 4; i = i + 1 {
-        let p = handle_pos(s, i)
-        let dx = absd(sx(app_state.view(), p.0) - x)
-        let dy = absd(sy(app_state.view(), p.1) - y)
+        let p = @k.handle_pos(s, i)
+        let dx = @k.absd(@k.sx(app_state.view(), p.0) - x)
+        let dy = @k.absd(@k.sy(app_state.view(), p.1) - y)
         if dx <= 9.0 && dy <= 9.0 {
           hit = i
         }
@@ -274,7 +274,7 @@ fn handle_at(x : Double, y : Double) -> Int {
 fn begin_move(grab_x : Double, grab_y : Double) -> Unit {
   let from : Array[(Int, Double, Double)] = []
   for id in app_state.sel {
-    match find_shape(app_state.scene, id) {
+    match @k.find_shape(app_state.scene, id) {
       Some(s) => from.push((id, s.x, s.y))
       None => ()
     }
@@ -288,8 +288,8 @@ fn on_down(x : Double, y : Double, button : Int, shift : Bool) -> Unit {
   app_state.mx = x
   app_state.my = y
   app_state.guides = []
-  let wx = wx_of(app_state.view(), x)
-  let wy = wy_of(app_state.view(), y)
+  let wx = @k.wx_of(app_state.view(), x)
+  let wy = @k.wy_of(app_state.view(), y)
   if button == 1 || (button == 0 && app_state.tool == "hand") {
     app_state.drag = Pan(x, y, app_state.cam_x, app_state.cam_y)
     return
@@ -303,7 +303,7 @@ fn on_down(x : Double, y : Double, button : Int, shift : Bool) -> Unit {
         render_all()
         return
       }
-      match shape_at(app_state.scene, wx, wy) {
+      match @k.shape_at(app_state.scene, wx, wy) {
         Some(s) => {
           if shift {
             sel_toggle(app_state, s.id)
@@ -334,7 +334,7 @@ fn on_down(x : Double, y : Double, button : Int, shift : Bool) -> Unit {
       render_all()
     }
     "edge" =>
-      match shape_at(app_state.scene, wx, wy) {
+      match @k.shape_at(app_state.scene, wx, wy) {
         Some(s) => {
           sel_only(app_state, s.id)
           app_state.drag = Connect(s.id)
@@ -348,7 +348,7 @@ fn on_down(x : Double, y : Double, button : Int, shift : Bool) -> Unit {
     _ => {
       snapshot()
       let p = snap_point(app_state, wx, wy)
-      let s = add_shape(
+      let s = @k.add_shape(
         app_state.scene,
         tool_kind(app_state.tool),
         p.0,
@@ -365,7 +365,7 @@ fn on_down(x : Double, y : Double, button : Int, shift : Bool) -> Unit {
 }
 
 ///|
-fn apply_resize(s : Shape, corner : Int, wx : Double, wy : Double) -> Unit {
+fn apply_resize(s : @k.Shape, corner : Int, wx : Double, wy : Double) -> Unit {
   let snap = snap_point(app_state, wx, wy)
   let px = snap.0
   let py = snap.1
@@ -407,8 +407,8 @@ fn apply_resize(s : Shape, corner : Int, wx : Double, wy : Double) -> Unit {
 fn on_move(x : Double, y : Double) -> Unit {
   app_state.mx = x
   app_state.my = y
-  let wx = wx_of(app_state.view(), x)
-  let wy = wy_of(app_state.view(), y)
+  let wx = @k.wx_of(app_state.view(), x)
+  let wy = @k.wy_of(app_state.view(), y)
   match app_state.drag {
     Move(gx, gy) => {
       let mut dx = wx - gx
@@ -440,19 +440,19 @@ fn on_move(x : Double, y : Double) -> Unit {
       render_all()
     }
     Create(id, ox, oy) =>
-      match find_shape(app_state.scene, id) {
+      match @k.find_shape(app_state.scene, id) {
         Some(s) => {
           let p = snap_point(app_state, wx, wy)
-          s.x = mind(ox, p.0)
-          s.y = mind(oy, p.1)
-          s.w = absd(p.0 - ox)
-          s.h = absd(p.1 - oy)
+          s.x = @k.mind(ox, p.0)
+          s.y = @k.mind(oy, p.1)
+          s.w = @k.absd(p.0 - ox)
+          s.h = @k.absd(p.1 - oy)
           render_all()
         }
         None => ()
       }
     Resize(id, corner) =>
-      match find_shape(app_state.scene, id) {
+      match @k.find_shape(app_state.scene, id) {
         Some(s) => {
           apply_resize(s, corner, wx, wy)
           render_all()
@@ -471,28 +471,27 @@ fn on_move(x : Double, y : Double) -> Unit {
 
 ///|
 fn on_up(x : Double, y : Double) -> Unit {
-  let wx = wx_of(app_state.view(), x)
-  let wy = wy_of(app_state.view(), y)
+  let wx = @k.wx_of(app_state.view(), x)
+  let wy = @k.wy_of(app_state.view(), y)
   match app_state.drag {
     Create(id, _, _) =>
-      match find_shape(app_state.scene, id) {
+      match @k.find_shape(app_state.scene, id) {
         Some(s) => {
           if s.w < 12.0 || s.h < 12.0 {
             s.x = s.x - 70.0
             s.y = s.y - 32.0
-            s.w = 140.0
-            s.h = 64.0
+            s.resize_to(140.0, 64.0)
           }
           ffi_status("已创建 · 双击可输入文字")
         }
         None => ()
       }
     Connect(from) =>
-      match shape_at(app_state.scene, wx, wy) {
+      match @k.shape_at(app_state.scene, wx, wy) {
         Some(t) =>
           if t.id != from {
             snapshot()
-            let _ = add_edge(app_state.scene, from, t.id, "")
+            let _ = @k.add_edge(app_state.scene, from, t.id, "")
             sel_only(app_state, t.id)
             ffi_status("已创建连线")
           }
@@ -513,9 +512,9 @@ fn on_up(x : Double, y : Double) -> Unit {
 
 ///|
 fn on_dbl(x : Double, y : Double) -> Unit {
-  let wx = wx_of(app_state.view(), x)
-  let wy = wy_of(app_state.view(), y)
-  match shape_at(app_state.scene, wx, wy) {
+  let wx = @k.wx_of(app_state.view(), x)
+  let wy = @k.wy_of(app_state.view(), y)
+  match @k.shape_at(app_state.scene, wx, wy) {
     Some(s) => open_editor_for(s.id)
     None =>
       match edge_at(app_state.scene, wx, wy) {
@@ -540,8 +539,8 @@ fn on_wheel(x : Double, y : Double, dy : Double) -> Unit {
   if next > 3.0 {
     next = 3.0
   }
-  let wx = wx_of(app_state.view(), x)
-  let wy = wy_of(app_state.view(), y)
+  let wx = @k.wx_of(app_state.view(), x)
+  let wy = @k.wy_of(app_state.view(), y)
   app_state.zoom = next
   app_state.cam_x = x - wx * next
   app_state.cam_y = y - wy * next
@@ -639,7 +638,7 @@ pub fn boot() -> Unit {
     app_state.docs = [
       Doc::{
         name: default_name(0),
-        json: scene_to_json(app_state.scene),
+        json: @k.scene_to_json(app_state.scene),
         cam_x: app_state.cam_x,
         cam_y: app_state.cam_y,
         zoom: app_state.zoom,
@@ -707,7 +706,7 @@ pub fn ui_export_svg(mode : String) -> Unit {
     Viewport => 0.0
     _ => 48.0
   }
-  let svg = scene_to_svg_in(app_state.scene, export_bounds(r), pad)
+  let svg = @k.scene_to_svg_in(app_state.scene, export_bounds(r), pad)
   ffi_download_text(
     "moondraw-" + mode + ".svg",
     svg,
@@ -724,7 +723,7 @@ pub fn ui_export_png(mode : String) -> Unit {
 ///|
 pub fn ui_clear() -> Unit {
   snapshot()
-  clear_scene(app_state.scene)
+  @k.clear_scene(app_state.scene)
   sel_clear(app_state)
   persist()
   ffi_status("画布已清空")
@@ -734,7 +733,7 @@ pub fn ui_clear() -> Unit {
 ///|
 pub fn ui_demo() -> Unit {
   snapshot()
-  app_state.scene = demo_scene()
+  app_state.scene = @k.demo_scene()
   app_state.cam_x = 90.0
   app_state.cam_y = 70.0
   app_state.zoom = 1.0
@@ -786,7 +785,7 @@ pub fn ui_fit() -> Unit {
   let c = ffi_dom_canvas("board")
   let w = ffi_client_width(c)
   let h = ffi_client_height(c)
-  let b = scene_bounds(app_state.scene)
+  let b = @k.scene_bounds(app_state.scene)
   if b.2 - b.0 > 1.0 && b.3 - b.1 > 1.0 {
     let zx = (w - 120.0) / (b.2 - b.0)
     let zy = (h - 120.0) / (b.3 - b.1)
@@ -805,51 +804,7 @@ pub fn ui_fit() -> Unit {
   }
 }
 
-///| Serialize a 1000-node document end to end (kernel cost only, no canvas).
-pub fn kernel_bench(count : Int) -> Unit {
-  let sc = new_scene()
-  let cols = 40
-  for i = 0; i < count; i = i + 1 {
-    let col = i % cols
-    let row = i / cols
-    let _ = add_shape(
-      sc,
-      Rect,
-      col.to_double() * 200.0,
-      row.to_double() * 120.0,
-      150.0,
-      64.0,
-      "节点 " + i.to_string(),
-    )
-    if i > 0 {
-      let _ = add_edge(sc, i, i + 1, "")
-    }
-  }
-  let t0 = ffi_now()
-  let json = scene_to_json(sc)
-  let t1 = ffi_now()
-  let svg = scene_to_svg(sc)
-  let t2 = ffi_now()
-  let b = StringBuilder(size_hint=96)
-  b.write_string(count.to_string())
-  b.write_string(" 节点 · JSON ")
-  b.write_string((t1 - t0).to_string())
-  b.write_string(" ms / ")
-  b.write_string(json.length().to_string())
-  b.write_string(" B · SVG ")
-  b.write_string((t2 - t1).to_string())
-  b.write_string(" ms / ")
-  b.write_string(svg.length().to_string())
-  b.write_string(" B")
-  log("KERNEL " + b.to_string())
-}
-
-// ---------------------------------------------------------------------------
-// Files (M3)
-// ---------------------------------------------------------------------------
-
-///|
-fn replace_scene(sc : Scene, fit : Bool) -> Unit {
+fn replace_scene(sc : @k.Scene, fit : Bool) -> Unit {
   snapshot()
   app_state.scene = sc
   sel_clear(app_state)
@@ -870,12 +825,12 @@ fn import_text(text : String, name : String) -> Unit {
     looks_mermaid = true
   }
   if looks_mermaid {
-    let doc = parse_mermaid(text)
+    let doc = @k.parse_mermaid(text)
     if doc.nodes.length() == 0 {
       ffi_status("Mermaid 解析失败：没有识别到节点")
       return
     }
-    let sc = scene_from_mermaid(doc)
+    let sc = @k.scene_from_mermaid(doc)
     replace_scene(sc, true)
     rename_doc(app_state.active, name)
     let msg = StringBuilder(size_hint=64)
@@ -915,7 +870,7 @@ pub fn ui_open_file() -> Unit {
 pub fn ui_save_file() -> Unit {
   ffi_download_text(
     "moondraw.moondraw",
-    scene_to_json(app_state.scene),
+    @k.scene_to_json(app_state.scene),
     "application/json",
   )
   ffi_status("已保存 moondraw.moondraw")

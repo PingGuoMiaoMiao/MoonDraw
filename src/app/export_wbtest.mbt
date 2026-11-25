@@ -12,10 +12,10 @@ test "export range names map both ways" {
 
 ///|
 test "svg crop honours the requested box plus padding" {
-  let sc = new_scene()
-  let _ = add_shape(sc, Rect, 1000.0, 1000.0, 200.0, 100.0, "远端")
+  let sc = @k.new_scene()
+  let _ = @k.add_shape(sc, @k.Rect, 1000.0, 1000.0, 200.0, 100.0, "远端")
   // Export only a 0..100 box; the shape outside must not change the viewport.
-  let svg = scene_to_svg_in(sc, (0.0, 0.0, 100.0, 50.0), 10.0)
+  let svg = @k.scene_to_svg_in(sc, (0.0, 0.0, 100.0, 50.0), 10.0)
   assert_true(svg.contains("width=\"120\""))
   assert_true(svg.contains("height=\"70\""))
   assert_true(svg.contains("viewBox=\"-10 -10 120 70\""))
@@ -25,8 +25,8 @@ test "svg crop honours the requested box plus padding" {
 
 ///|
 test "svg crop rejects degenerate boxes" {
-  let sc = new_scene()
-  let svg = scene_to_svg_in(sc, (5.0, 5.0, 5.0, 5.0), 0.0)
+  let sc = @k.new_scene()
+  let svg = @k.scene_to_svg_in(sc, (5.0, 5.0, 5.0, 5.0), 0.0)
   assert_true(svg.contains("width=\"1\""))
   assert_true(svg.contains("height=\"1\""))
 }

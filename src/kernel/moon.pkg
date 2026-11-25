@@ -1,0 +1,1 @@
+// 纯 MoonBit 内核：不引用任何 FFI，可在 js / wasm / wasm-gc / native 上构建。

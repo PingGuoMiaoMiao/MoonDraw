@@ -1,0 +1,7 @@
+refactor: split into moondraw/kernel (pure) and moondraw/app (js-only)
+
+- kernel: types/scene/geom/svg/mermaid/layout/view/shape_ops/bench, no FFI at all
+- app: interaction state machine, rendering, file IO; supported_targets = "+js"
+- moon build --target native now succeeds and produces cmd_mermaid_preview.exe
+- field mutation funnelled through shape_ops so the kernel owns the semantics
+- licence aligned with the repository's MIT

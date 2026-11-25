@@ -10,7 +10,7 @@ Write-Host '[1/4] moon build --target js --release'
 moon build --target js --release | Out-Null
 if ($LASTEXITCODE -ne 0) { throw 'moon build failed' }
 
-$jsPath = Join-Path $root '_build\js\release\build\moondraw.js'
+$jsPath = Join-Path $root '_build\js\release\build\app\app.js'
 if (-not (Test-Path $jsPath)) { throw "missing $jsPath" }
 $js = Get-Content -Raw -Encoding UTF8 $jsPath
 $css = Get-Content -Raw -Encoding UTF8 (Join-Path $root 'style.css')
@@ -18,7 +18,7 @@ $html = Get-Content -Raw -Encoding UTF8 (Join-Path $root 'index.html')
 
 Write-Host '[2/4] inline js + css into one html'
 $html = $html.Replace('<link rel="stylesheet" href="style.css" />', "<style>`n$css`n</style>")
-$html = $html.Replace('<script src="_build/js/release/build/moondraw.js"></script>', "<script>`n$js`n</script>")
+$html = $html.Replace('<script src="_build/js/release/build/app/app.js"></script>', "<script>`n$js`n</script>")
 if ($html -match 'src="_build' -or $html -match 'href="style\.css"') {
   throw 'inlining failed: external references remain'
 }

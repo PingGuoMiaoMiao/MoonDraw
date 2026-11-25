@@ -1,3 +1,9 @@
+import {
+  "PingGuoMiaoMiao/moondraw/kernel" @k,
+}
+
+supported_targets = "+js"
+
 options(
   targets: {
     "ffi.mbt": ["js"],

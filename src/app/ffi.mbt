@@ -45,7 +45,8 @@ extern "js" fn ffi_origin_y(c : Canvas) -> Double =
   #| (c) => c.getBoundingClientRect().top
 
 ///|
-extern "js" fn ffi_now() -> Double =
+///| Monotonic milliseconds; passed into the kernel benchmark.
+pub extern "js" fn ffi_now() -> Double =
   #| () => performance.now()
 
 ///| Size the backing store to `css size * dpr` and keep it in sync.

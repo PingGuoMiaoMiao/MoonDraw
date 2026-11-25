@@ -2,31 +2,6 @@
 // code draws the interactive canvas and the offscreen export canvas.
 
 ///|
-pub fn App::view(self : App) -> View {
-  View::{ cam_x: self.cam_x, cam_y: self.cam_y, zoom: self.zoom }
-}
-
-///|
-pub fn sx(v : View, wx : Double) -> Double {
-  wx * v.zoom + v.cam_x
-}
-
-///|
-pub fn sy(v : View, wy : Double) -> Double {
-  wy * v.zoom + v.cam_y
-}
-
-///|
-pub fn wx_of(v : View, x : Double) -> Double {
-  (x - v.cam_x) / v.zoom
-}
-
-///|
-pub fn wy_of(v : View, y : Double) -> Double {
-  (y - v.cam_y) / v.zoom
-}
-
-///|
 pub fn set_font(ctx : Ctx, size : Double, weight : String) -> Unit {
   ffi_set_font(
     ctx,
@@ -35,7 +10,7 @@ pub fn set_font(ctx : Ctx, size : Double, weight : String) -> Unit {
 }
 
 ///|
-pub fn draw_grid(ctx : Ctx, v : View, w : Double, h : Double) -> Unit {
+pub fn draw_grid(ctx : Ctx, v : @k.View, w : Double, h : Double) -> Unit {
   let step = 24.0 * v.zoom
   if step < 11.0 {
     return
@@ -73,7 +48,7 @@ pub fn draw_arrow(
 ) -> Unit {
   let dx = x2 - x1
   let dy = y2 - y1
-  let len = sqrt_d(dx * dx + dy * dy)
+  let len = @k.sqrt_d(dx * dx + dy * dy)
   if len < 0.001 {
     return
   }
@@ -93,19 +68,19 @@ pub fn draw_arrow(
 }
 
 ///|
-pub fn draw_edges(ctx : Ctx, v : View, scene : Scene) -> Unit {
+pub fn draw_edges(ctx : Ctx, v : @k.View, scene : @k.Scene) -> Unit {
   ffi_set_dash(ctx, false)
   for e in scene.edges {
-    match (find_shape(scene, e.from), find_shape(scene, e.to)) {
+    match (@k.find_shape(scene, e.from), @k.find_shape(scene, e.to)) {
       (Some(sa), Some(sb)) => {
-        let pts = route(sa, sb)
+        let pts = @k.route(sa, sb)
         ffi_set_stroke(ctx, "#7b8794")
         ffi_set_line_width(ctx, 1.6)
         ffi_begin_path(ctx)
         let mut first = true
         for p in pts {
-          let x = sx(v, p.0)
-          let y = sy(v, p.1)
+          let x = @k.sx(v, p.0)
+          let y = @k.sy(v, p.1)
           if first {
             ffi_move_to(ctx, x, y)
             first = false
@@ -119,16 +94,16 @@ pub fn draw_edges(ctx : Ctx, v : View, scene : Scene) -> Unit {
         ffi_set_fill(ctx, "#7b8794")
         draw_arrow(
           ctx,
-          sx(v, prev.0),
-          sy(v, prev.1),
-          sx(v, last.0),
-          sy(v, last.1),
+          @k.sx(v, prev.0),
+          @k.sy(v, prev.1),
+          @k.sx(v, last.0),
+          @k.sy(v, last.1),
         )
         if e.label.length() > 0 {
           let mid = pts[1]
           let mid2 = pts[2]
-          let lx = sx(v, (mid.0 + mid2.0) * 0.5)
-          let ly = sy(v, (mid.1 + mid2.1) * 0.5)
+          let lx = @k.sx(v, (mid.0 + mid2.0) * 0.5)
+          let ly = @k.sy(v, (mid.1 + mid2.1) * 0.5)
           set_font(ctx, 12.0, "500")
           let tw = ffi_measure_text(ctx, e.label) + 14.0
           ffi_set_fill(ctx, "#f4f6fa")
@@ -146,15 +121,15 @@ pub fn draw_edges(ctx : Ctx, v : View, scene : Scene) -> Unit {
 }
 
 ///|
-pub fn draw_shape(ctx : Ctx, v : View, s : Shape) -> Unit {
-  let x = sx(v, s.x)
-  let y = sy(v, s.y)
+pub fn draw_shape(ctx : Ctx, v : @k.View, s : @k.Shape) -> Unit {
+  let x = @k.sx(v, s.x)
+  let y = @k.sy(v, s.y)
   let w = s.w * v.zoom
   let h = s.h * v.zoom
   ffi_set_dash(ctx, false)
   ffi_set_line_width(ctx, 1.5)
   match s.kind {
-    Text => {
+    @k.Text => {
       ffi_set_fill(ctx, "#2f6fed")
       set_font(ctx, 14.0 * v.zoom, "500")
       ffi_set_text_align(ctx, "center")
@@ -166,13 +141,13 @@ pub fn draw_shape(ctx : Ctx, v : View, s : Shape) -> Unit {
   ffi_set_fill(ctx, s.fill)
   ffi_set_stroke(ctx, s.stroke)
   match s.kind {
-    Round => {
+    @k.Round => {
       ffi_begin_path(ctx)
       ffi_round_rect(ctx, x, y, w, h, 9.0 * v.zoom)
       ffi_fill(ctx)
       ffi_stroke(ctx)
     }
-    Diamond => {
+    @k.Diamond => {
       ffi_begin_path(ctx)
       ffi_move_to(ctx, x + w * 0.5, y)
       ffi_line_to(ctx, x + w, y + h * 0.5)
@@ -182,7 +157,7 @@ pub fn draw_shape(ctx : Ctx, v : View, s : Shape) -> Unit {
       ffi_fill(ctx)
       ffi_stroke(ctx)
     }
-    Ellipse => {
+    @k.Ellipse => {
       ffi_begin_path(ctx)
       ffi_ellipse(ctx, x + w * 0.5, y + h * 0.5, w * 0.5, h * 0.5)
       ffi_fill(ctx)
@@ -202,7 +177,7 @@ pub fn draw_shape(ctx : Ctx, v : View, s : Shape) -> Unit {
 }
 
 ///|
-pub fn draw_shapes(ctx : Ctx, v : View, scene : Scene) -> Unit {
+pub fn draw_shapes(ctx : Ctx, v : @k.View, scene : @k.Scene) -> Unit {
   for s in scene.shapes {
     draw_shape(ctx, v, s)
   }
@@ -211,8 +186,8 @@ pub fn draw_shapes(ctx : Ctx, v : View, scene : Scene) -> Unit {
 ///| Draw the document itself: background, optional grid, edges, shapes.
 pub fn draw_scene(
   ctx : Ctx,
-  v : View,
-  scene : Scene,
+  v : @k.View,
+  scene : @k.Scene,
   w : Double,
   h : Double,
   grid : Bool,
@@ -234,19 +209,19 @@ pub fn draw_overlay(ctx : Ctx, app : App) -> Unit {
     for e in app.scene.edges {
       if e.id == app.sel_edge {
         match (
-            find_shape(app.scene, e.from),
-            find_shape(app.scene, e.to),
+            @k.find_shape(app.scene, e.from),
+            @k.find_shape(app.scene, e.to),
           ) {
           (Some(a), Some(b)) => {
-            let pts = route(a, b)
+            let pts = @k.route(a, b)
             ffi_set_dash(ctx, false)
             ffi_set_stroke(ctx, "#2f6fed")
             ffi_set_line_width(ctx, 3.0)
             ffi_begin_path(ctx)
             let mut first = true
             for p in pts {
-              let x = sx(v, p.0)
-              let y = sy(v, p.1)
+              let x = @k.sx(v, p.0)
+              let y = @k.sy(v, p.1)
               if first {
                 ffi_move_to(ctx, x, y)
                 first = false
@@ -268,8 +243,8 @@ pub fn draw_overlay(ctx : Ctx, app : App) -> Unit {
     ffi_set_line_width(ctx, 1.0)
     for g in app.guides {
       ffi_begin_path(ctx)
-      ffi_move_to(ctx, sx(v, g.0), sy(v, g.1))
-      ffi_line_to(ctx, sx(v, g.2), sy(v, g.3))
+      ffi_move_to(ctx, @k.sx(v, g.0), @k.sy(v, g.1))
+      ffi_line_to(ctx, @k.sx(v, g.2), @k.sy(v, g.3))
       ffi_stroke(ctx)
     }
     ffi_set_dash(ctx, false)
@@ -279,12 +254,12 @@ pub fn draw_overlay(ctx : Ctx, app : App) -> Unit {
   ffi_set_stroke(ctx, "#2f6fed")
   ffi_set_line_width(ctx, 2.0)
   for id in app.sel {
-    match find_shape(app.scene, id) {
+    match @k.find_shape(app.scene, id) {
       Some(s) =>
         ffi_stroke_rect(
           ctx,
-          sx(v, s.x),
-          sy(v, s.y),
+          @k.sx(v, s.x),
+          @k.sy(v, s.y),
           s.w * v.zoom,
           s.h * v.zoom,
         )
@@ -294,13 +269,13 @@ pub fn draw_overlay(ctx : Ctx, app : App) -> Unit {
   // Handles only make sense for a single selection.
   let primary = primary_id(app)
   if primary >= 0 {
-    match find_shape(app.scene, primary) {
+    match @k.find_shape(app.scene, primary) {
       Some(s) => {
         ffi_set_fill(ctx, "#ffffff")
         for i = 0; i < 4; i = i + 1 {
-          let p = handle_pos(s, i)
-          let hx = sx(v, p.0)
-          let hy = sy(v, p.1)
+          let p = @k.handle_pos(s, i)
+          let hx = @k.sx(v, p.0)
+          let hy = @k.sy(v, p.1)
           ffi_fill_rect(ctx, hx - 4.0, hy - 4.0, 8.0, 8.0)
           ffi_set_line_width(ctx, 1.5)
           ffi_stroke_rect(ctx, hx - 4.0, hy - 4.0, 8.0, 8.0)
@@ -312,26 +287,26 @@ pub fn draw_overlay(ctx : Ctx, app : App) -> Unit {
   // Rubber band / connector preview.
   match app.drag {
     Band(ax, ay) => {
-      let x1 = sx(v, ax)
-      let y1 = sy(v, ay)
+      let x1 = @k.sx(v, ax)
+      let y1 = @k.sy(v, ay)
       let x2 = app.mx
       let y2 = app.my
-      let bw = absd(x2 - x1)
-      let bh = absd(y2 - y1)
+      let bw = @k.absd(x2 - x1)
+      let bh = @k.absd(y2 - y1)
       ffi_set_fill(ctx, "rgba(47,111,237,0.10)")
-      ffi_fill_rect(ctx, mind(x1, x2), mind(y1, y2), bw, bh)
+      ffi_fill_rect(ctx, @k.mind(x1, x2), @k.mind(y1, y2), bw, bh)
       ffi_set_stroke(ctx, "#2f6fed")
       ffi_set_line_width(ctx, 1.0)
-      ffi_stroke_rect(ctx, mind(x1, x2), mind(y1, y2), bw, bh)
+      ffi_stroke_rect(ctx, @k.mind(x1, x2), @k.mind(y1, y2), bw, bh)
     }
     Connect(id) =>
-      match find_shape(app.scene, id) {
+      match @k.find_shape(app.scene, id) {
         Some(s) => {
           ffi_set_dash(ctx, true)
           ffi_set_stroke(ctx, "#2f6fed")
           ffi_set_line_width(ctx, 1.6)
           ffi_begin_path(ctx)
-          ffi_move_to(ctx, sx(v, center_x(s)), sy(v, center_y(s)))
+          ffi_move_to(ctx, @k.sx(v, @k.center_x(s)), @k.sy(v, @k.center_y(s)))
           ffi_line_to(ctx, app.mx, app.my)
           ffi_stroke(ctx)
           ffi_set_dash(ctx, false)
@@ -418,17 +393,17 @@ pub fn export_bounds(r : ExportRange) -> (Double, Double, Double, Double) {
       let w = ffi_client_width(c)
       let h = ffi_client_height(c)
       let v = app_state.view()
-      (wx_of(v, 0.0), wy_of(v, 0.0), wx_of(v, w), wy_of(v, h))
+      (@k.wx_of(v, 0.0), @k.wy_of(v, 0.0), @k.wx_of(v, w), @k.wy_of(v, h))
     }
     Selection => {
       let b = selection_bounds(app_state)
       if app_state.sel.length() == 0 {
-        scene_bounds(app_state.scene)
+        @k.scene_bounds(app_state.scene)
       } else {
         b
       }
     }
-    All => scene_bounds(app_state.scene)
+    All => @k.scene_bounds(app_state.scene)
   }
 }
 
@@ -442,25 +417,25 @@ pub fn export_png_range(r : ExportRange, scale : Double) -> Unit {
     Viewport => true
     _ => false
   }
-  let pw = if is_vp { maxd(cw * scale, 1.0) } else { 0.0 }
-  let ph = if is_vp { maxd(ch * scale, 1.0) } else { 0.0 }
+  let pw = if is_vp { @k.maxd(cw * scale, 1.0) } else { 0.0 }
+  let ph = if is_vp { @k.maxd(ch * scale, 1.0) } else { 0.0 }
   let b = export_bounds(r)
   let pad = match r {
     Viewport => 0.0
     _ => 48.0
   }
-  let ww = maxd(b.2 - b.0, 1.0) + pad * 2.0
-  let wh = maxd(b.3 - b.1, 1.0) + pad * 2.0
+  let ww = @k.maxd(b.2 - b.0, 1.0) + pad * 2.0
+  let wh = @k.maxd(b.3 - b.1, 1.0) + pad * 2.0
   let mut s = scale
   let limit = 8192.0
   if ww * s > limit || wh * s > limit {
-    let fit = mind(limit / ww, limit / wh)
+    let fit = @k.mind(limit / ww, limit / wh)
     if fit < s {
       s = fit
     }
   }
-  let out_w = if is_vp { pw } else { maxd(ww * s, 1.0) }
-  let out_h = if is_vp { ph } else { maxd(wh * s, 1.0) }
+  let out_w = if is_vp { pw } else { @k.maxd(ww * s, 1.0) }
+  let out_h = if is_vp { ph } else { @k.maxd(wh * s, 1.0) }
   let canvas = ffi_new_canvas(out_w, out_h)
   let ctx = ffi_ctx(canvas)
   ffi_set_canvas_size(canvas, out_w, out_h, 1.0)
@@ -469,14 +444,14 @@ pub fn export_png_range(r : ExportRange, scale : Double) -> Unit {
     // Viewport: what is on screen, just denser — same camera, scaled.
     Viewport => {
       let base = app_state.view()
-      View::{
+      @k.View::{
         cam_x: base.cam_x * scale,
         cam_y: base.cam_y * scale,
         zoom: base.zoom * scale,
       }
     }
     _ =>
-      View::{
+      @k.View::{
         cam_x: -b.0 * s + pad * s,
         cam_y: -b.1 * s + pad * s,
         zoom: s,

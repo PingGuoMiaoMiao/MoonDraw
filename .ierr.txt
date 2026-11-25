@@ -1,0 +1,1742 @@
+Error: [4021]
+   ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:7:10 ]
+   │
+ 7 │   scene: demo_scene(),
+   │          ─────┬────  
+   │               ╰────── The value identifier demo_scene is unbound.
+───╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:39:42 ]
+    │
+ 39 │     app_state.undo[app_state.undo_len] = scene_to_json(app_state.scene)
+    │                                          ──────┬──────  
+    │                                                ╰──────── The value identifier scene_to_json is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:41:25 ]
+    │
+ 41 │     app_state.undo.push(scene_to_json(app_state.scene))
+    │                         ──────┬──────  
+    │                               ╰──────── The value identifier scene_to_json is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:72:15 ]
+    │
+ 72 │     push_redo(scene_to_json(app_state.scene))
+    │               ──────┬──────  
+    │                     ╰──────── The value identifier scene_to_json is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:86:16 ]
+    │
+ 86 │     let json = scene_to_json(app_state.scene)
+    │                ──────┬──────  
+    │                      ╰──────── The value identifier scene_to_json is unbound.
+────╯
+Error: [4032]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:108:29 ]
+     │
+ 108 │ fn tool_kind(t : String) -> ShapeKind {
+     │                             ────┬────  
+     │                                 ╰────── The type ShapeKind is undefined.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:151:9 ]
+     │
+ 151 │   match find_shape(app_state.scene, shape_id) {
+     │         ─────┬────  
+     │              ╰────── The value identifier find_shape is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:154:36 ]
+     │
+ 154 │       let left = ffi_origin_x(c) + sx(app_state.view(), s.x)
+     │                                    ─┬  
+     │                                     ╰── The value identifier sx is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:155:35 ]
+     │
+ 155 │       let top = ffi_origin_y(c) + sy(app_state.view(), s.y)
+     │                                   ─┬  
+     │                                    ╰── The value identifier sy is unbound.
+─────╯
+Warning: [0013]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:182:8 ]
+     │
+ 182 │     if e.id == edge_id {
+     │        ┬  
+     │        ╰── Warning (unresolved_type_variable): The type of this expression is _/0, which contains unresolved type variables. The type variable is default to Unit.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:182:8 ]
+     │
+ 182 │     if e.id == edge_id {
+     │        ──┬─  
+     │          ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:184:11 ]
+     │
+ 184 │           find_shape(app_state.scene, e.from),
+     │           ─────┬────  
+     │                ╰────── The value identifier find_shape is unbound.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:184:39 ]
+     │
+ 184 │           find_shape(app_state.scene, e.from),
+     │                                       ───┬──  
+     │                                          ╰──── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:185:11 ]
+     │
+ 185 │           find_shape(app_state.scene, e.to),
+     │           ─────┬────  
+     │                ╰────── The value identifier find_shape is unbound.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:185:39 ]
+     │
+ 185 │           find_shape(app_state.scene, e.to),
+     │                                       ──┬─  
+     │                                         ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:188:21 ]
+     │
+ 188 │           let pts = route(a, b)
+     │                     ──┬──  
+     │                       ╰──── The value identifier route is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:194:40 ]
+     │
+ 194 │           let left = ffi_origin_x(c) + sx(app_state.view(), wx) - 60.0
+     │                                        ─┬  
+     │                                         ╰── The value identifier sx is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:195:39 ]
+     │
+ 195 │           let top = ffi_origin_y(c) + sy(app_state.view(), wy) - 17.0
+     │                                       ─┬  
+     │                                        ╰── The value identifier sy is unbound.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:201:13 ]
+     │
+ 201 │             e.label,
+     │             ───┬───  
+     │                ╰───── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4015]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:205:17 ]
+     │
+ 205 │               e.set_label(v)
+     │                 ────┬────  
+     │                     ╰────── Type _/0 has no method set_label.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:224:32 ]
+     │
+ 224 │   let left = ffi_origin_x(c) + sx(app_state.view(), wx)
+     │                                ─┬  
+     │                                 ╰── The value identifier sx is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:225:31 ]
+     │
+ 225 │   let top = ffi_origin_y(c) + sy(app_state.view(), wy)
+     │                               ─┬  
+     │                                ╰── The value identifier sy is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:236:17 ]
+     │
+ 236 │         let s = add_shape(app_state.scene, Text, wx, wy, 160.0, 36.0, v)
+     │                 ────┬────  
+     │                     ╰────── The value identifier add_shape is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:256:9 ]
+     │
+ 256 │   match find_shape(app_state.scene, id) {
+     │         ─────┬────  
+     │              ╰────── The value identifier find_shape is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:260:17 ]
+     │
+ 260 │         let p = handle_pos(s, i)
+     │                 ─────┬────  
+     │                      ╰────── The value identifier handle_pos is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:261:18 ]
+     │
+ 261 │         let dx = absd(sx(app_state.view(), p.0) - x)
+     │                  ──┬─  
+     │                    ╰─── The value identifier absd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:261:23 ]
+     │
+ 261 │         let dx = absd(sx(app_state.view(), p.0) - x)
+     │                       ─┬  
+     │                        ╰── The value identifier sx is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:262:18 ]
+     │
+ 262 │         let dy = absd(sy(app_state.view(), p.1) - y)
+     │                  ──┬─  
+     │                    ╰─── The value identifier absd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:262:23 ]
+     │
+ 262 │         let dy = absd(sy(app_state.view(), p.1) - y)
+     │                       ─┬  
+     │                        ╰── The value identifier sy is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:277:11 ]
+     │
+ 277 │     match find_shape(app_state.scene, id) {
+     │           ─────┬────  
+     │                ╰────── The value identifier find_shape is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:291:12 ]
+     │
+ 291 │   let wx = wx_of(app_state.view(), x)
+     │            ──┬──  
+     │              ╰──── The value identifier wx_of is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:292:12 ]
+     │
+ 292 │   let wy = wy_of(app_state.view(), y)
+     │            ──┬──  
+     │              ╰──── The value identifier wy_of is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:306:13 ]
+     │
+ 306 │       match shape_at(app_state.scene, wx, wy) {
+     │             ────┬───  
+     │                 ╰───── The value identifier shape_at is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:337:13 ]
+     │
+ 337 │       match shape_at(app_state.scene, wx, wy) {
+     │             ────┬───  
+     │                 ╰───── The value identifier shape_at is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:351:15 ]
+     │
+ 351 │       let s = add_shape(
+     │               ────┬────  
+     │                   ╰────── The value identifier add_shape is unbound.
+─────╯
+Error: [4032]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:368:21 ]
+     │
+ 368 │ fn apply_resize(s : Shape, corner : Int, wx : Double, wy : Double) -> Unit {
+     │                     ──┬──  
+     │                       ╰──── The type Shape is undefined.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:410:12 ]
+     │
+ 410 │   let wx = wx_of(app_state.view(), x)
+     │            ──┬──  
+     │              ╰──── The value identifier wx_of is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:411:12 ]
+     │
+ 411 │   let wy = wy_of(app_state.view(), y)
+     │            ──┬──  
+     │              ╰──── The value identifier wy_of is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:443:13 ]
+     │
+ 443 │       match find_shape(app_state.scene, id) {
+     │             ─────┬────  
+     │                  ╰────── The value identifier find_shape is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:446:17 ]
+     │
+ 446 │           s.x = mind(ox, p.0)
+     │                 ──┬─  
+     │                   ╰─── The value identifier mind is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:447:17 ]
+     │
+ 447 │           s.y = mind(oy, p.1)
+     │                 ──┬─  
+     │                   ╰─── The value identifier mind is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:448:17 ]
+     │
+ 448 │           s.w = absd(p.0 - ox)
+     │                 ──┬─  
+     │                   ╰─── The value identifier absd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:449:17 ]
+     │
+ 449 │           s.h = absd(p.1 - oy)
+     │                 ──┬─  
+     │                   ╰─── The value identifier absd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:455:13 ]
+     │
+ 455 │       match find_shape(app_state.scene, id) {
+     │             ─────┬────  
+     │                  ╰────── The value identifier find_shape is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:474:12 ]
+     │
+ 474 │   let wx = wx_of(app_state.view(), x)
+     │            ──┬──  
+     │              ╰──── The value identifier wx_of is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:475:12 ]
+     │
+ 475 │   let wy = wy_of(app_state.view(), y)
+     │            ──┬──  
+     │              ╰──── The value identifier wy_of is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:478:13 ]
+     │
+ 478 │       match find_shape(app_state.scene, id) {
+     │             ─────┬────  
+     │                  ╰────── The value identifier find_shape is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:490:13 ]
+     │
+ 490 │       match shape_at(app_state.scene, wx, wy) {
+     │             ────┬───  
+     │                 ╰───── The value identifier shape_at is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:494:21 ]
+     │
+ 494 │             let _ = add_edge(app_state.scene, from, t.id, "")
+     │                     ────┬───  
+     │                         ╰───── The value identifier add_edge is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:515:12 ]
+     │
+ 515 │   let wx = wx_of(app_state.view(), x)
+     │            ──┬──  
+     │              ╰──── The value identifier wx_of is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:516:12 ]
+     │
+ 516 │   let wy = wy_of(app_state.view(), y)
+     │            ──┬──  
+     │              ╰──── The value identifier wy_of is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:517:9 ]
+     │
+ 517 │   match shape_at(app_state.scene, wx, wy) {
+     │         ────┬───  
+     │             ╰───── The value identifier shape_at is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:542:12 ]
+     │
+ 542 │   let wx = wx_of(app_state.view(), x)
+     │            ──┬──  
+     │              ╰──── The value identifier wx_of is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:543:12 ]
+     │
+ 543 │   let wy = wy_of(app_state.view(), y)
+     │            ──┬──  
+     │              ╰──── The value identifier wy_of is unbound.
+─────╯
+Warning: [0013]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:576:14 ]
+     │
+ 576 │     all.push(s.id)
+     │              ┬  
+     │              ╰── Warning (unresolved_type_variable): The type of this expression is _/0, which contains unresolved type variables. The type variable is default to Unit.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:576:14 ]
+     │
+ 576 │     all.push(s.id)
+     │              ──┬─  
+     │                ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:641:15 ]
+     │
+ 641 │         json: scene_to_json(app_state.scene),
+     │               ──────┬──────  
+     │                     ╰──────── The value identifier scene_to_json is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:709:13 ]
+     │
+ 709 │   let svg = scene_to_svg_in(app_state.scene, export_bounds(r), pad)
+     │             ───────┬───────  
+     │                    ╰───────── The value identifier scene_to_svg_in is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:726:3 ]
+     │
+ 726 │   clear_scene(app_state.scene)
+     │   ─────┬─────  
+     │        ╰─────── The value identifier clear_scene is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:736:21 ]
+     │
+ 736 │   app_state.scene = demo_scene()
+     │                     ─────┬────  
+     │                          ╰────── The value identifier demo_scene is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:788:11 ]
+     │
+ 788 │   let b = scene_bounds(app_state.scene)
+     │           ──────┬─────  
+     │                 ╰─────── The value identifier scene_bounds is unbound.
+─────╯
+Error: [4032]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:807:23 ]
+     │
+ 807 │ fn replace_scene(sc : Scene, fit : Bool) -> Unit {
+     │                       ──┬──  
+     │                         ╰──── The type Scene is undefined.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:828:15 ]
+     │
+ 828 │     let doc = parse_mermaid(text)
+     │               ──────┬──────  
+     │                     ╰──────── The value identifier parse_mermaid is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:833:14 ]
+     │
+ 833 │     let sc = scene_from_mermaid(doc)
+     │              ─────────┬────────  
+     │                       ╰────────── The value identifier scene_from_mermaid is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\app.mbt:873:5 ]
+     │
+ 873 │     scene_to_json(app_state.scene),
+     │     ──────┬──────  
+     │           ╰──────── The value identifier scene_to_json is unbound.
+─────╯
+Error: [4032]
+   ╭─[ D:\moonbit-compition\_moondraw\src\app\arrange.mbt:5:41 ]
+   │
+ 5 │ fn collect_selected(app : App) -> Array[Shape] {
+   │                                         ──┬──  
+   │                                           ╰──── The type Shape is undefined.
+───╯
+Error: [4032]
+   ╭─[ D:\moonbit-compition\_moondraw\src\app\arrange.mbt:6:19 ]
+   │
+ 6 │   let out : Array[Shape] = []
+   │                   ──┬──  
+   │                     ╰──── The type Shape is undefined.
+───╯
+Error: [4021]
+   ╭─[ D:\moonbit-compition\_moondraw\src\app\arrange.mbt:8:11 ]
+   │
+ 8 │     match find_shape(app.scene, id) {
+   │           ─────┬────  
+   │                ╰────── The value identifier find_shape is unbound.
+───╯
+Error: [4032]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\arrange.mbt:17:27 ]
+    │
+ 17 │ fn sort_by(shapes : Array[Shape], horiz : Bool) -> Array[Shape] {
+    │                           ──┬──  
+    │                             ╰──── The type Shape is undefined.
+────╯
+Error: [4032]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\arrange.mbt:17:58 ]
+    │
+ 17 │ fn sort_by(shapes : Array[Shape], horiz : Bool) -> Array[Shape] {
+    │                                                          ──┬──  
+    │                                                            ╰──── The type Shape is undefined.
+────╯
+Error: [4032]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\arrange.mbt:18:19 ]
+    │
+ 18 │   let out : Array[Shape] = []
+    │                   ──┬──  
+    │                     ╰──── The type Shape is undefined.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\arrange.mbt:20:26 ]
+    │
+ 20 │     let key = if horiz { center_x(s) } else { center_y(s) }
+    │                          ────┬───  
+    │                              ╰───── The value identifier center_x is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\arrange.mbt:20:47 ]
+    │
+ 20 │     let key = if horiz { center_x(s) } else { center_y(s) }
+    │                                               ────┬───  
+    │                                                   ╰───── The value identifier center_y is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\arrange.mbt:24:33 ]
+    │
+ 24 │       let prev_key = if horiz { center_x(prev) } else { center_y(prev) }
+    │                                 ────┬───  
+    │                                     ╰───── The value identifier center_x is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\arrange.mbt:24:57 ]
+    │
+ 24 │       let prev_key = if horiz { center_x(prev) } else { center_y(prev) }
+    │                                                         ────┬───  
+    │                                                             ╰───── The value identifier center_y is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\docs.mbt:21:12 ]
+    │
+ 21 │   d.json = scene_to_json(app_state.scene)
+    │            ──────┬──────  
+    │                  ╰──────── The value identifier scene_to_json is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\docs.mbt:41:23 ]
+    │
+ 41 │     app_state.scene = new_scene()
+    │                       ────┬────  
+    │                           ╰────── The value identifier new_scene is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\docs.mbt:81:38 ]
+    │
+ 81 │   app_state.docs.push(make_doc(name, scene_to_json(new_scene())))
+    │                                      ──────┬──────  
+    │                                            ╰──────── The value identifier scene_to_json is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\docs.mbt:81:52 ]
+    │
+ 81 │   app_state.docs.push(make_doc(name, scene_to_json(new_scene())))
+    │                                                    ────┬────  
+    │                                                        ╰────── The value identifier new_scene is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\docs.mbt:83:21 ]
+    │
+ 83 │   app_state.scene = new_scene()
+    │                     ────┬────  
+    │                         ╰────── The value identifier new_scene is unbound.
+────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\docs.mbt:108:23 ]
+     │
+ 108 │     app_state.scene = new_scene()
+     │                       ────┬────  
+     │                           ╰────── The value identifier new_scene is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\docs.mbt:109:51 ]
+     │
+ 109 │     app_state.docs[0] = make_doc(default_name(0), scene_to_json(new_scene()))
+     │                                                   ──────┬──────  
+     │                                                         ╰──────── The value identifier scene_to_json is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\docs.mbt:109:65 ]
+     │
+ 109 │     app_state.docs[0] = make_doc(default_name(0), scene_to_json(new_scene()))
+     │                                                                 ────┬────  
+     │                                                                     ╰────── The value identifier new_scene is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\docs.mbt:172:20 ]
+     │
+ 172 │     b.write_string(json_escape(d.name))
+     │                    ─────┬─────  
+     │                         ╰─────── The value identifier json_escape is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\docs.mbt:203:37 ]
+     │
+ 203 │     let json = if ffi_is_null(js) { scene_to_json(new_scene()) } else { ffi_stringify(js) }
+     │                                     ──────┬──────  
+     │                                           ╰──────── The value identifier scene_to_json is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\docs.mbt:203:51 ]
+     │
+ 203 │     let json = if ffi_is_null(js) { scene_to_json(new_scene()) } else { ffi_stringify(js) }
+     │                                                   ────┬────  
+     │                                                       ╰────── The value identifier new_scene is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\docs.mbt:238:20 ]
+     │
+ 238 │     b.write_string(json_escape(app_state.docs[i].name))
+     │                    ─────┬─────  
+     │                         ╰─────── The value identifier json_escape is unbound.
+─────╯
+Warning: [0001]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\ffi.mbt:48:16 ]
+    │
+ 48 │ extern "js" fn ffi_now() -> Double =
+    │                ───┬───  
+    │                   ╰───── Warning (unused_value): Unused function 'ffi_now'
+────╯
+Warning: [0029]
+   ╭─[ D:\moonbit-compition\_moondraw\src\app\moon.pkg:2:3 ]
+   │
+ 2 │   "PingGuoMiaoMiao/moondraw/kernel" @k,
+   │   ────────────────┬────────────────  
+   │                   ╰────────────────── Warning (unused_package): Unused package 'PingGuoMiaoMiao/moondraw/kernel'
+───╯
+Warning: [0029]
+   ╭─[ D:\moonbit-compition\_moondraw\src\app\moon.pkg:2:37 ]
+   │
+ 2 │   "PingGuoMiaoMiao/moondraw/kernel" @k,
+   │                                     ─┬  
+   │                                      ╰── Warning (unused_package): Unused package alias 'k'
+───╯
+Error: [4032]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:13:33 ]
+    │
+ 13 │ pub fn draw_grid(ctx : Ctx, v : View, w : Double, h : Double) -> Unit {
+    │                                 ──┬─  
+    │                                   ╰─── The type View is undefined.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:51:13 ]
+    │
+ 51 │   let len = sqrt_d(dx * dx + dy * dy)
+    │             ───┬──  
+    │                ╰──── The value identifier sqrt_d is unbound.
+────╯
+Error: [4032]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:71:34 ]
+    │
+ 71 │ pub fn draw_edges(ctx : Ctx, v : View, scene : Scene) -> Unit {
+    │                                  ──┬─  
+    │                                    ╰─── The type View is undefined.
+────╯
+Error: [4032]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:71:48 ]
+    │
+ 71 │ pub fn draw_edges(ctx : Ctx, v : View, scene : Scene) -> Unit {
+    │                                                ──┬──  
+    │                                                  ╰──── The type Scene is undefined.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:74:12 ]
+    │
+ 74 │     match (find_shape(scene, e.from), find_shape(scene, e.to)) {
+    │            ─────┬────  
+    │                 ╰────── The value identifier find_shape is unbound.
+────╯
+Warning: [0013]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:74:30 ]
+    │
+ 74 │     match (find_shape(scene, e.from), find_shape(scene, e.to)) {
+    │                              ┬  
+    │                              ╰── Warning (unresolved_type_variable): The type of this expression is _/0, which contains unresolved type variables. The type variable is default to Unit.
+────╯
+Error: [4028]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:74:30 ]
+    │
+ 74 │     match (find_shape(scene, e.from), find_shape(scene, e.to)) {
+    │                              ───┬──  
+    │                                 ╰──── This expression has type _/0, which is a unknown type and not a struct.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:74:39 ]
+    │
+ 74 │     match (find_shape(scene, e.from), find_shape(scene, e.to)) {
+    │                                       ─────┬────  
+    │                                            ╰────── The value identifier find_shape is unbound.
+────╯
+Error: [4028]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:74:57 ]
+    │
+ 74 │     match (find_shape(scene, e.from), find_shape(scene, e.to)) {
+    │                                                         ──┬─  
+    │                                                           ╰─── This expression has type _/0, which is a unknown type and not a struct.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:76:19 ]
+    │
+ 76 │         let pts = route(sa, sb)
+    │                   ──┬──  
+    │                     ╰──── The value identifier route is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:82:19 ]
+    │
+ 82 │           let x = sx(v, p.0)
+    │                   ─┬  
+    │                    ╰── The value identifier sx is unbound.
+────╯
+Warning: [0013]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:82:25 ]
+    │
+ 82 │           let x = sx(v, p.0)
+    │                         ┬  
+    │                         ╰── Warning (unresolved_type_variable): The type of this expression is _/0, which contains unresolved type variables. The type variable is default to Unit.
+────╯
+Error: [4014]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:82:25 ]
+    │
+ 82 │           let x = sx(v, p.0)
+    │                         ─┬─  
+    │                          ╰─── Type Mismatch
+        has type : _/0
+        wanted   : tuple
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:83:19 ]
+    │
+ 83 │           let y = sy(v, p.1)
+    │                   ─┬  
+    │                    ╰── The value identifier sy is unbound.
+────╯
+Error: [4014]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:83:25 ]
+    │
+ 83 │           let y = sy(v, p.1)
+    │                         ─┬─  
+    │                          ╰─── Type Mismatch
+        has type : _/0
+        wanted   : tuple
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:97:11 ]
+    │
+ 97 │           sx(v, prev.0),
+    │           ─┬  
+    │            ╰── The value identifier sx is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:98:11 ]
+    │
+ 98 │           sy(v, prev.1),
+    │           ─┬  
+    │            ╰── The value identifier sy is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:99:11 ]
+    │
+ 99 │           sx(v, last.0),
+    │           ─┬  
+    │            ╰── The value identifier sx is unbound.
+────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:100:11 ]
+     │
+ 100 │           sy(v, last.1),
+     │           ─┬  
+     │            ╰── The value identifier sy is unbound.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:102:12 ]
+     │
+ 102 │         if e.label.length() > 0 {
+     │            ───┬───  
+     │               ╰───── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:105:20 ]
+     │
+ 105 │           let lx = sx(v, (mid.0 + mid2.0) * 0.5)
+     │                    ─┬  
+     │                     ╰── The value identifier sx is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:106:20 ]
+     │
+ 106 │           let ly = sy(v, (mid.1 + mid2.1) * 0.5)
+     │                    ─┬  
+     │                     ╰── The value identifier sy is unbound.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:108:42 ]
+     │
+ 108 │           let tw = ffi_measure_text(ctx, e.label) + 14.0
+     │                                          ───┬───  
+     │                                             ╰───── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:115:30 ]
+     │
+ 115 │           ffi_fill_text(ctx, e.label, lx, ly)
+     │                              ───┬───  
+     │                                 ╰───── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4032]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:124:34 ]
+     │
+ 124 │ pub fn draw_shape(ctx : Ctx, v : View, s : Shape) -> Unit {
+     │                                  ──┬─  
+     │                                    ╰─── The type View is undefined.
+─────╯
+Error: [4032]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:124:44 ]
+     │
+ 124 │ pub fn draw_shape(ctx : Ctx, v : View, s : Shape) -> Unit {
+     │                                            ──┬──  
+     │                                              ╰──── The type Shape is undefined.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:125:11 ]
+     │
+ 125 │   let x = sx(v, s.x)
+     │           ─┬  
+     │            ╰── The value identifier sx is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:126:11 ]
+     │
+ 126 │   let y = sy(v, s.y)
+     │           ─┬  
+     │            ╰── The value identifier sy is unbound.
+─────╯
+Error: [4032]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:180:35 ]
+     │
+ 180 │ pub fn draw_shapes(ctx : Ctx, v : View, scene : Scene) -> Unit {
+     │                                   ──┬─  
+     │                                     ╰─── The type View is undefined.
+─────╯
+Error: [4032]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:180:49 ]
+     │
+ 180 │ pub fn draw_shapes(ctx : Ctx, v : View, scene : Scene) -> Unit {
+     │                                                 ──┬──  
+     │                                                   ╰──── The type Scene is undefined.
+─────╯
+Error: [4032]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:189:7 ]
+     │
+ 189 │   v : View,
+     │       ──┬─  
+     │         ╰─── The type View is undefined.
+─────╯
+Error: [4032]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:190:11 ]
+     │
+ 190 │   scene : Scene,
+     │           ──┬──  
+     │             ╰──── The type Scene is undefined.
+─────╯
+Warning: [0013]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:210:10 ]
+     │
+ 210 │       if e.id == app.sel_edge {
+     │          ┬  
+     │          ╰── Warning (unresolved_type_variable): The type of this expression is _/0, which contains unresolved type variables. The type variable is default to Unit.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:210:10 ]
+     │
+ 210 │       if e.id == app.sel_edge {
+     │          ──┬─  
+     │            ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:212:13 ]
+     │
+ 212 │             find_shape(app.scene, e.from),
+     │             ─────┬────  
+     │                  ╰────── The value identifier find_shape is unbound.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:212:35 ]
+     │
+ 212 │             find_shape(app.scene, e.from),
+     │                                   ───┬──  
+     │                                      ╰──── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:213:13 ]
+     │
+ 213 │             find_shape(app.scene, e.to),
+     │             ─────┬────  
+     │                  ╰────── The value identifier find_shape is unbound.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:213:35 ]
+     │
+ 213 │             find_shape(app.scene, e.to),
+     │                                   ──┬─  
+     │                                     ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:216:23 ]
+     │
+ 216 │             let pts = route(a, b)
+     │                       ──┬──  
+     │                         ╰──── The value identifier route is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:223:23 ]
+     │
+ 223 │               let x = sx(v, p.0)
+     │                       ─┬  
+     │                        ╰── The value identifier sx is unbound.
+─────╯
+Warning: [0013]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:223:29 ]
+     │
+ 223 │               let x = sx(v, p.0)
+     │                             ┬  
+     │                             ╰── Warning (unresolved_type_variable): The type of this expression is _/0, which contains unresolved type variables. The type variable is default to Unit.
+─────╯
+Error: [4014]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:223:29 ]
+     │
+ 223 │               let x = sx(v, p.0)
+     │                             ─┬─  
+     │                              ╰─── Type Mismatch
+        has type : _/0
+        wanted   : tuple
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:224:23 ]
+     │
+ 224 │               let y = sy(v, p.1)
+     │                       ─┬  
+     │                        ╰── The value identifier sy is unbound.
+─────╯
+Error: [4014]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:224:29 ]
+     │
+ 224 │               let y = sy(v, p.1)
+     │                             ─┬─  
+     │                              ╰─── Type Mismatch
+        has type : _/0
+        wanted   : tuple
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:246:24 ]
+     │
+ 246 │       ffi_move_to(ctx, sx(v, g.0), sy(v, g.1))
+     │                        ─┬  
+     │                         ╰── The value identifier sx is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:246:36 ]
+     │
+ 246 │       ffi_move_to(ctx, sx(v, g.0), sy(v, g.1))
+     │                                    ─┬  
+     │                                     ╰── The value identifier sy is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:247:24 ]
+     │
+ 247 │       ffi_line_to(ctx, sx(v, g.2), sy(v, g.3))
+     │                        ─┬  
+     │                         ╰── The value identifier sx is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:247:36 ]
+     │
+ 247 │       ffi_line_to(ctx, sx(v, g.2), sy(v, g.3))
+     │                                    ─┬  
+     │                                     ╰── The value identifier sy is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:257:11 ]
+     │
+ 257 │     match find_shape(app.scene, id) {
+     │           ─────┬────  
+     │                ╰────── The value identifier find_shape is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:261:11 ]
+     │
+ 261 │           sx(v, s.x),
+     │           ─┬  
+     │            ╰── The value identifier sx is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:262:11 ]
+     │
+ 262 │           sy(v, s.y),
+     │           ─┬  
+     │            ╰── The value identifier sy is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:272:11 ]
+     │
+ 272 │     match find_shape(app.scene, primary) {
+     │           ─────┬────  
+     │                ╰────── The value identifier find_shape is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:276:19 ]
+     │
+ 276 │           let p = handle_pos(s, i)
+     │                   ─────┬────  
+     │                        ╰────── The value identifier handle_pos is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:277:20 ]
+     │
+ 277 │           let hx = sx(v, p.0)
+     │                    ─┬  
+     │                     ╰── The value identifier sx is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:278:20 ]
+     │
+ 278 │           let hy = sy(v, p.1)
+     │                    ─┬  
+     │                     ╰── The value identifier sy is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:290:16 ]
+     │
+ 290 │       let x1 = sx(v, ax)
+     │                ─┬  
+     │                 ╰── The value identifier sx is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:291:16 ]
+     │
+ 291 │       let y1 = sy(v, ay)
+     │                ─┬  
+     │                 ╰── The value identifier sy is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:294:16 ]
+     │
+ 294 │       let bw = absd(x2 - x1)
+     │                ──┬─  
+     │                  ╰─── The value identifier absd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:295:16 ]
+     │
+ 295 │       let bh = absd(y2 - y1)
+     │                ──┬─  
+     │                  ╰─── The value identifier absd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:297:26 ]
+     │
+ 297 │       ffi_fill_rect(ctx, mind(x1, x2), mind(y1, y2), bw, bh)
+     │                          ──┬─  
+     │                            ╰─── The value identifier mind is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:297:40 ]
+     │
+ 297 │       ffi_fill_rect(ctx, mind(x1, x2), mind(y1, y2), bw, bh)
+     │                                        ──┬─  
+     │                                          ╰─── The value identifier mind is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:300:28 ]
+     │
+ 300 │       ffi_stroke_rect(ctx, mind(x1, x2), mind(y1, y2), bw, bh)
+     │                            ──┬─  
+     │                              ╰─── The value identifier mind is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:300:42 ]
+     │
+ 300 │       ffi_stroke_rect(ctx, mind(x1, x2), mind(y1, y2), bw, bh)
+     │                                          ──┬─  
+     │                                            ╰─── The value identifier mind is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:303:13 ]
+     │
+ 303 │       match find_shape(app.scene, id) {
+     │             ─────┬────  
+     │                  ╰────── The value identifier find_shape is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:309:28 ]
+     │
+ 309 │           ffi_move_to(ctx, sx(v, center_x(s)), sy(v, center_y(s)))
+     │                            ─┬  
+     │                             ╰── The value identifier sx is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:309:34 ]
+     │
+ 309 │           ffi_move_to(ctx, sx(v, center_x(s)), sy(v, center_y(s)))
+     │                                  ────┬───  
+     │                                      ╰───── The value identifier center_x is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:309:48 ]
+     │
+ 309 │           ffi_move_to(ctx, sx(v, center_x(s)), sy(v, center_y(s)))
+     │                                                ─┬  
+     │                                                 ╰── The value identifier sy is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:309:54 ]
+     │
+ 309 │           ffi_move_to(ctx, sx(v, center_x(s)), sy(v, center_y(s)))
+     │                                                      ────┬───  
+     │                                                          ╰───── The value identifier center_y is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:396:8 ]
+     │
+ 396 │       (wx_of(v, 0.0), wy_of(v, 0.0), wx_of(v, w), wy_of(v, h))
+     │        ──┬──  
+     │          ╰──── The value identifier wx_of is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:396:23 ]
+     │
+ 396 │       (wx_of(v, 0.0), wy_of(v, 0.0), wx_of(v, w), wy_of(v, h))
+     │                       ──┬──  
+     │                         ╰──── The value identifier wy_of is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:396:38 ]
+     │
+ 396 │       (wx_of(v, 0.0), wy_of(v, 0.0), wx_of(v, w), wy_of(v, h))
+     │                                      ──┬──  
+     │                                        ╰──── The value identifier wx_of is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:396:51 ]
+     │
+ 396 │       (wx_of(v, 0.0), wy_of(v, 0.0), wx_of(v, w), wy_of(v, h))
+     │                                                   ──┬──  
+     │                                                     ╰──── The value identifier wy_of is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:401:9 ]
+     │
+ 401 │         scene_bounds(app_state.scene)
+     │         ──────┬─────  
+     │               ╰─────── The value identifier scene_bounds is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:406:12 ]
+     │
+ 406 │     All => scene_bounds(app_state.scene)
+     │            ──────┬─────  
+     │                  ╰─────── The value identifier scene_bounds is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:420:23 ]
+     │
+ 420 │   let pw = if is_vp { maxd(cw * scale, 1.0) } else { 0.0 }
+     │                       ──┬─  
+     │                         ╰─── The value identifier maxd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:421:23 ]
+     │
+ 421 │   let ph = if is_vp { maxd(ch * scale, 1.0) } else { 0.0 }
+     │                       ──┬─  
+     │                         ╰─── The value identifier maxd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:427:12 ]
+     │
+ 427 │   let ww = maxd(b.2 - b.0, 1.0) + pad * 2.0
+     │            ──┬─  
+     │              ╰─── The value identifier maxd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:428:12 ]
+     │
+ 428 │   let wh = maxd(b.3 - b.1, 1.0) + pad * 2.0
+     │            ──┬─  
+     │              ╰─── The value identifier maxd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:432:15 ]
+     │
+ 432 │     let fit = mind(limit / ww, limit / wh)
+     │               ──┬─  
+     │                 ╰─── The value identifier mind is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:437:38 ]
+     │
+ 437 │   let out_w = if is_vp { pw } else { maxd(ww * s, 1.0) }
+     │                                      ──┬─  
+     │                                        ╰─── The value identifier maxd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:438:38 ]
+     │
+ 438 │   let out_h = if is_vp { ph } else { maxd(wh * s, 1.0) }
+     │                                      ──┬─  
+     │                                        ╰─── The value identifier maxd is unbound.
+─────╯
+Error: [4024]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:447:7 ]
+     │
+ 447 │       View::{
+     │       ──┬─  
+     │         ╰─── The type/trait View is not found.
+─────╯
+Error: [4033]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:447:7 ]
+     │
+ 447 │ ╭─▶       View::{
+     ┆ ┆   
+ 451 │ ├─▶       }
+     │ │             
+     │ ╰───────────── There is no record definition with the fields: cam_x, cam_y, zoom.
+─────╯
+Error: [4024]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:454:7 ]
+     │
+ 454 │       View::{
+     │       ──┬─  
+     │         ╰─── The type/trait View is not found.
+─────╯
+Error: [4033]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\render.mbt:454:7 ]
+     │
+ 454 │ ╭─▶       View::{
+     ┆ ┆   
+ 458 │ ├─▶       }
+     │ │             
+     │ ╰───────────── There is no record definition with the fields: cam_x, cam_y, zoom.
+─────╯
+Error: [4032]
+   ╭─[ D:\moonbit-compition\_moondraw\src\app\scene_json.mbt:5:43 ]
+   │
+ 5 │ pub fn scene_from_json(root : JsValue) -> Scene {
+   │                                           ──┬──  
+   │                                             ╰──── The type Scene is undefined.
+───╯
+Error: [4021]
+   ╭─[ D:\moonbit-compition\_moondraw\src\app\scene_json.mbt:6:12 ]
+   │
+ 6 │   let sc = new_scene()
+   │            ────┬────  
+   │                ╰────── The value identifier new_scene is unbound.
+───╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\scene_json.mbt:12:16 ]
+    │
+ 12 │     let kind = kind_from_name(ffi_str(ffi_get(o, "kind")))
+    │                ───────┬──────  
+    │                       ╰──────── The value identifier kind_from_name is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\scene_json.mbt:13:13 ]
+    │
+ 13 │     let s = add_shape(
+    │             ────┬────  
+    │                 ╰────── The value identifier add_shape is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\scene_json.mbt:33:13 ]
+    │
+ 33 │     let e = add_edge(
+    │             ────┬───  
+    │                 ╰───── The value identifier add_edge is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:71:11 ]
+    │
+ 71 │     match find_shape(app.scene, id) {
+    │           ─────┬────  
+    │                ╰────── The value identifier find_shape is unbound.
+────╯
+Error: [4021]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:92:11 ]
+    │
+ 92 │     match find_shape(app.scene, id) {
+    │           ─────┬────  
+    │                ╰────── The value identifier find_shape is unbound.
+────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:101:19 ]
+     │
+ 101 │           min_x = mind(min_x, s.x)
+     │                   ──┬─  
+     │                     ╰─── The value identifier mind is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:102:19 ]
+     │
+ 102 │           min_y = mind(min_y, s.y)
+     │                   ──┬─  
+     │                     ╰─── The value identifier mind is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:103:19 ]
+     │
+ 103 │           max_x = maxd(max_x, s.x + s.w)
+     │                   ──┬─  
+     │                     ╰─── The value identifier maxd is unbound.
+─────╯
+Error: [4018]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:103:35 ]
+     │
+ 103 │           max_x = maxd(max_x, s.x + s.w)
+     │                                   ┬  
+     │                                   ╰── Type Unit does not implement trait Add: no `impl` is defined
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:104:19 ]
+     │
+ 104 │           max_y = maxd(max_y, s.y + s.h)
+     │                   ──┬─  
+     │                     ╰─── The value identifier maxd is unbound.
+─────╯
+Error: [4018]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:104:35 ]
+     │
+ 104 │           max_y = maxd(max_y, s.y + s.h)
+     │                                   ┬  
+     │                                   ╰── Type Unit does not implement trait Add: no `impl` is defined
+─────╯
+Error: [4032]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:114:11 ]
+     │
+ 114 │   scene : Scene,
+     │           ──┬──  
+     │             ╰──── The type Scene is undefined.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:120:12 ]
+     │
+ 120 │   let lx = mind(x1, x2)
+     │            ──┬─  
+     │              ╰─── The value identifier mind is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:121:12 ]
+     │
+ 121 │   let ly = mind(y1, y2)
+     │            ──┬─  
+     │              ╰─── The value identifier mind is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:122:12 ]
+     │
+ 122 │   let hx = maxd(x1, x2)
+     │            ──┬─  
+     │              ╰─── The value identifier maxd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:123:12 ]
+     │
+ 123 │   let hy = maxd(y1, y2)
+     │            ──┬─  
+     │              ╰─── The value identifier maxd is unbound.
+─────╯
+Warning: [0013]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:126:8 ]
+     │
+ 126 │     if s.x >= lx && s.y >= ly && s.x + s.w <= hx && s.y + s.h <= hy {
+     │        ┬  
+     │        ╰── Warning (unresolved_type_variable): The type of this expression is _/0, which contains unresolved type variables. The type variable is default to Unit.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:126:8 ]
+     │
+ 126 │     if s.x >= lx && s.y >= ly && s.x + s.w <= hx && s.y + s.h <= hy {
+     │        ─┬─  
+     │         ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:126:21 ]
+     │
+ 126 │     if s.x >= lx && s.y >= ly && s.x + s.w <= hx && s.y + s.h <= hy {
+     │                     ─┬─  
+     │                      ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:126:34 ]
+     │
+ 126 │     if s.x >= lx && s.y >= ly && s.x + s.w <= hx && s.y + s.h <= hy {
+     │                                  ─┬─  
+     │                                   ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4018]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:126:38 ]
+     │
+ 126 │     if s.x >= lx && s.y >= ly && s.x + s.w <= hx && s.y + s.h <= hy {
+     │                                      ┬  
+     │                                      ╰── Type Unit does not implement trait Add: no `impl` is defined
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:126:40 ]
+     │
+ 126 │     if s.x >= lx && s.y >= ly && s.x + s.w <= hx && s.y + s.h <= hy {
+     │                                        ─┬─  
+     │                                         ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:126:53 ]
+     │
+ 126 │     if s.x >= lx && s.y >= ly && s.x + s.w <= hx && s.y + s.h <= hy {
+     │                                                     ─┬─  
+     │                                                      ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4018]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:126:57 ]
+     │
+ 126 │     if s.x >= lx && s.y >= ly && s.x + s.w <= hx && s.y + s.h <= hy {
+     │                                                         ┬  
+     │                                                         ╰── Type Unit does not implement trait Add: no `impl` is defined
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:126:59 ]
+     │
+ 126 │     if s.x >= lx && s.y >= ly && s.x + s.w <= hx && s.y + s.h <= hy {
+     │                                                           ─┬─  
+     │                                                            ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:127:16 ]
+     │
+ 127 │       out.push(s.id)
+     │                ──┬─  
+     │                  ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4032]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:134:24 ]
+     │
+ 134 │ pub fn edge_at(scene : Scene, x : Double, y : Double) -> Edge? {
+     │                        ──┬──  
+     │                          ╰──── The type Scene is undefined.
+─────╯
+Error: [4032]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:134:58 ]
+     │
+ 134 │ pub fn edge_at(scene : Scene, x : Double, y : Double) -> Edge? {
+     │                                                          ──┬─  
+     │                                                            ╰─── The type Edge is undefined.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:138:12 ]
+     │
+ 138 │     match (find_shape(scene, e.from), find_shape(scene, e.to)) {
+     │            ─────┬────  
+     │                 ╰────── The value identifier find_shape is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:138:39 ]
+     │
+ 138 │     match (find_shape(scene, e.from), find_shape(scene, e.to)) {
+     │                                       ─────┬────  
+     │                                            ╰────── The value identifier find_shape is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:140:12 ]
+     │
+ 140 │         if hit_polyline(route(a, b), x, y) {
+     │            ──────┬─────  
+     │                  ╰─────── The value identifier hit_polyline is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:140:25 ]
+     │
+ 140 │         if hit_polyline(route(a, b), x, y) {
+     │                         ──┬──  
+     │                           ╰──── The value identifier route is unbound.
+─────╯
+Error: [4032]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:151:28 ]
+     │
+ 151 │ pub fn remove_edge(scene : Scene, id : Int) -> Unit {
+     │                            ──┬──  
+     │                              ╰──── The type Scene is undefined.
+─────╯
+Error: [4032]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:152:20 ]
+     │
+ 152 │   let kept : Array[Edge] = []
+     │                    ──┬─  
+     │                      ╰─── The type Edge is undefined.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:154:8 ]
+     │
+ 154 │     if e.id != id {
+     │        ──┬─  
+     │          ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:168:5 ]
+     │
+ 168 │     remove_shape(app.scene, id)
+     │     ──────┬─────  
+     │           ╰─────── The value identifier remove_shape is unbound.
+─────╯
+Warning: [0013]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:221:25 ]
+     │
+ 221 │     if is_selected(app, s.id) {
+     │                         ┬  
+     │                         ╰── Warning (unresolved_type_variable): The type of this expression is _/0, which contains unresolved type variables. The type variable is default to Unit.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:221:25 ]
+     │
+ 221 │     if is_selected(app, s.id) {
+     │                         ──┬─  
+     │                           ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:224:14 ]
+     │
+ 224 │     let sl = s.x
+     │              ─┬─  
+     │               ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:225:14 ]
+     │
+ 225 │     let sr = s.x + s.w
+     │              ─┬─  
+     │               ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:225:20 ]
+     │
+ 225 │     let sr = s.x + s.w
+     │                    ─┬─  
+     │                     ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:226:20 ]
+     │
+ 226 │     let scx = sl + s.w * 0.5
+     │                    ─┬─  
+     │                     ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:227:14 ]
+     │
+ 227 │     let st = s.y
+     │              ─┬─  
+     │               ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:228:14 ]
+     │
+ 228 │     let sb = s.y + s.h
+     │              ─┬─  
+     │               ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:228:20 ]
+     │
+ 228 │     let sb = s.y + s.h
+     │                    ─┬─  
+     │                     ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4028]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:229:20 ]
+     │
+ 229 │     let scy = st + s.h * 0.5
+     │                    ─┬─  
+     │                     ╰─── This expression has type _/0, which is a unknown type and not a struct.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:233:10 ]
+     │
+ 233 │       if absd(delta) <= tol && absd(delta) < absd(best_dx) {
+     │          ──┬─  
+     │            ╰─── The value identifier absd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:233:32 ]
+     │
+ 233 │       if absd(delta) <= tol && absd(delta) < absd(best_dx) {
+     │                                ──┬─  
+     │                                  ╰─── The value identifier absd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:233:46 ]
+     │
+ 233 │       if absd(delta) <= tol && absd(delta) < absd(best_dx) {
+     │                                              ──┬─  
+     │                                                ╰─── The value identifier absd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:236:19 ]
+     │
+ 236 │         gx_from = mind(bt, st)
+     │                   ──┬─  
+     │                     ╰─── The value identifier mind is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:237:17 ]
+     │
+ 237 │         gx_to = maxd(bb, sb)
+     │                 ──┬─  
+     │                   ╰─── The value identifier maxd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:244:10 ]
+     │
+ 244 │       if absd(delta) <= tol && absd(delta) < absd(best_dy) {
+     │          ──┬─  
+     │            ╰─── The value identifier absd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:244:32 ]
+     │
+ 244 │       if absd(delta) <= tol && absd(delta) < absd(best_dy) {
+     │                                ──┬─  
+     │                                  ╰─── The value identifier absd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:244:46 ]
+     │
+ 244 │       if absd(delta) <= tol && absd(delta) < absd(best_dy) {
+     │                                              ──┬─  
+     │                                                ╰─── The value identifier absd is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:247:19 ]
+     │
+ 247 │         gy_from = mind(bl, sl)
+     │                   ──┬─  
+     │                     ╰─── The value identifier mind is unbound.
+─────╯
+Error: [4021]
+     ╭─[ D:\moonbit-compition\_moondraw\src\app\select.mbt:248:17 ]
+     │
+ 248 │         gy_to = maxd(br, sr)
+     │                 ──┬─  
+     │                   ╰─── The value identifier maxd is unbound.
+─────╯
+Error: [4032]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\types_app.mbt:29:15 ]
+    │
+ 29 │   mut scene : Scene
+    │               ──┬──  
+    │                 ╰──── The type Scene is undefined.
+────╯
+Error: [4032]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\types_app.mbt:55:33 ]
+    │
+ 55 │ pub fn App::view(self : App) -> View {
+    │                                 ──┬─  
+    │                                   ╰─── The type View is undefined.
+────╯
+Error: [4024]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\types_app.mbt:56:3 ]
+    │
+ 56 │   View::{ cam_x: self.cam_x, cam_y: self.cam_y, zoom: self.zoom }
+    │   ──┬─  
+    │     ╰─── The type/trait View is not found.
+────╯
+Error: [4033]
+    ╭─[ D:\moonbit-compition\_moondraw\src\app\types_app.mbt:56:3 ]
+    │
+ 56 │   View::{ cam_x: self.cam_x, cam_y: self.cam_y, zoom: self.zoom }
+    │   ───────────────────────────────┬───────────────────────────────  
+    │                                  ╰───────────────────────────────── There is no record definition with the fields: cam_x, cam_y, zoom.
+────╯
+Error: [4037]
+   ╭─[ D:\moonbit-compition\_moondraw\src\cmd_mermaid_preview\main.mbt:8:13 ]
+   │
+ 8 │   let doc = @moondraw.parse_mermaid(sample())
+   │             ───────────┬───────────  
+   │                        ╰───────────── Cannot use @moondraw: package moondraw is not imported.
+───╯
+Error: [4037]
+    ╭─[ D:\moonbit-compition\_moondraw\src\cmd_mermaid_preview\main.mbt:10:12 ]
+    │
+ 10 │   let sc = @moondraw.scene_from_mermaid(doc)
+    │            ──────────────┬─────────────  
+    │                          ╰─────────────── Cannot use @moondraw: package moondraw is not imported.
+────╯
+Warning: [0013]
+    ╭─[ D:\moonbit-compition\_moondraw\src\cmd_mermaid_preview\main.mbt:12:20 ]
+    │
+ 12 │     println("  " + s.text + "  @(" + s.x.to_int().to_string() + "," + s.y.to_int().to_string() + ")")
+    │                    ┬  
+    │                    ╰── Warning (unresolved_type_variable): The type of this expression is _/0, which contains unresolved type variables. The type variable is default to Unit.
+────╯
+Error: [4028]
+    ╭─[ D:\moonbit-compition\_moondraw\src\cmd_mermaid_preview\main.mbt:12:20 ]
+    │
+ 12 │     println("  " + s.text + "  @(" + s.x.to_int().to_string() + "," + s.y.to_int().to_string() + ")")
+    │                    ───┬──  
+    │                       ╰──── This expression has type _/0, which is a unknown type and not a struct.
+────╯
+Error: [4028]
+    ╭─[ D:\moonbit-compition\_moondraw\src\cmd_mermaid_preview\main.mbt:12:38 ]
+    │
+ 12 │     println("  " + s.text + "  @(" + s.x.to_int().to_string() + "," + s.y.to_int().to_string() + ")")
+    │                                      ─┬─  
+    │                                       ╰─── This expression has type _/0, which is a unknown type and not a struct.
+────╯
+Error: [4028]
+    ╭─[ D:\moonbit-compition\_moondraw\src\cmd_mermaid_preview\main.mbt:12:71 ]
+    │
+ 12 │     println("  " + s.text + "  @(" + s.x.to_int().to_string() + "," + s.y.to_int().to_string() + ")")
+    │                                                                       ─┬─  
+    │                                                                        ╰─── This expression has type _/0, which is a unknown type and not a struct.
+────╯
+Error: [4037]
+    ╭─[ D:\moonbit-compition\_moondraw\src\cmd_mermaid_preview\main.mbt:14:13 ]
+    │
+ 14 │   let svg = @moondraw.scene_to_svg(sc)
+    │             ───────────┬──────────  
+    │                        ╰──────────── Cannot use @moondraw: package moondraw is not imported.
+────╯
+Warning: [0029]
+   ╭─[ D:\moonbit-compition\_moondraw\src\cmd_mermaid_preview\moon.pkg:2:3 ]
+   │
+ 2 │   "PingGuoMiaoMiao/moondraw/kernel" @k,
+   │   ────────────────┬────────────────  
+   │                   ╰────────────────── Warning (unused_package): Unused package 'PingGuoMiaoMiao/moondraw/kernel'
+───╯
+Warning: [0029]
+   ╭─[ D:\moonbit-compition\_moondraw\src\cmd_mermaid_preview\moon.pkg:2:37 ]
+   │
+ 2 │   "PingGuoMiaoMiao/moondraw/kernel" @k,
+   │                                     ─┬  
+   │                                      ╰── Warning (unused_package): Unused package alias 'k'
+───╯
+Warning: [0009]
+    ╭─[ D:\moonbit-compition\_moondraw\src\kernel\types.mbt:39:12 ]
+    │
+ 39 │ pub struct View {
+    │            ──┬─  
+    │              ╰─── Warning (struct_never_constructed): The struct View is never constructed
+────╯
+Failed with 16 warnings, 232 errors.

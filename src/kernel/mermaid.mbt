@@ -6,7 +6,7 @@
 // not a painted picture.
 
 ///|
-pub enum Direction {
+pub(all) enum Direction {
   TopDown
   LeftRight
 }

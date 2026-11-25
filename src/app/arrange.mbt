@@ -2,10 +2,10 @@
 // vertically with equal edge-to-edge gaps. The two extreme shapes stay put.
 
 ///|
-fn collect_selected(app : App) -> Array[Shape] {
-  let out : Array[Shape] = []
+fn collect_selected(app : App) -> Array[@k.Shape] {
+  let out : Array[@k.Shape] = []
   for id in app.sel {
-    match find_shape(app.scene, id) {
+    match @k.find_shape(app.scene, id) {
       Some(s) => out.push(s)
       None => ()
     }
@@ -14,14 +14,14 @@ fn collect_selected(app : App) -> Array[Shape] {
 }
 
 ///| Stable insertion sort of shapes by a key.
-fn sort_by(shapes : Array[Shape], horiz : Bool) -> Array[Shape] {
-  let out : Array[Shape] = []
+fn sort_by(shapes : Array[@k.Shape], horiz : Bool) -> Array[@k.Shape] {
+  let out : Array[@k.Shape] = []
   for s in shapes {
-    let key = if horiz { center_x(s) } else { center_y(s) }
+    let key = if horiz { @k.center_x(s) } else { @k.center_y(s) }
     let mut pos = out.length()
     while pos > 0 {
       let prev = out[pos - 1]
-      let prev_key = if horiz { center_x(prev) } else { center_y(prev) }
+      let prev_key = if horiz { @k.center_x(prev) } else { @k.center_y(prev) }
       if prev_key <= key {
         break
       }
