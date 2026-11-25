@@ -588,6 +588,42 @@ try {
   $ys = @($d.shapes | ForEach-Object { [double]$_.y } | Sort-Object -Unique)
   Assert 'R4 分层布局产生多个层级' ($ys.Count -ge 3) "distinct y=$($ys.Count)"
 
+  # ------------------------------------------------- S grouping (feature gap)
+  Js 'ui_new_doc()' | Out-Null
+  Start-Sleep -Milliseconds 250
+  Js 'document.querySelector("[data-tool=rect]").click()' | Out-Null
+  Drag (Scr 100 120) (Scr 200 180)
+  Drag (Scr 300 120) (Scr 400 180)
+  Start-Sleep -Milliseconds 200
+  Key 'a' 'KeyA' 65 2
+  Start-Sleep -Milliseconds 200
+  Js 'document.querySelector("[data-action=group]").click()' | Out-Null
+  Start-Sleep -Milliseconds 350
+  $gid = ((Doc).shapes | ForEach-Object { $_.group } | Select-Object -First 1)
+  Assert 'S1 组合写入 group 字段' ([int]$gid -gt 0) "group=$gid"
+  Assert 'S2 组合状态提示' ((Status) -match '已组合') (Status)
+
+  # clicking one member must select the whole group
+  Key 'Escape' 'Escape' 27 0
+  Start-Sleep -Milliseconds 150
+  Drag (Scr 150 150) (Scr 151 151)
+  Start-Sleep -Milliseconds 250
+  $selCount = (Js 'JSON.parse(ui_selection_panel()).count')
+  Assert 'S3 点击成员选中整组' ([int]$selCount -eq 2) "count=$selCount"
+
+  # moving the group moves both shapes
+  $bx = ((Doc).shapes | ForEach-Object { [double]$_.x } | Sort-Object)
+  Drag (Scr 150 150) (Scr 210 200)
+  Start-Sleep -Milliseconds 300
+  $ax = ((Doc).shapes | ForEach-Object { [double]$_.x } | Sort-Object)
+  Assert 'S4 整组一起移动' ([math]::Abs(($ax[0] - $bx[0]) - ($ax[1] - $bx[1])) -lt 0.5) "dx0=$($ax[0]-$bx[0]) dx1=$($ax[1]-$bx[1])"
+
+  # ungroup releases them
+  Js 'document.querySelector("[data-action=ungroup]").click()' | Out-Null
+  Start-Sleep -Milliseconds 350
+  $gid2 = ((Doc).shapes | ForEach-Object { $_.group } | Select-Object -First 1)
+  Assert 'S5 解组清零 group' ([int]$gid2 -eq 0) "group=$gid2"
+
   Write-Host ""
   if ($script:failures -eq 0) { Write-Host "ALL PASS" } else { Write-Host "FAILURES: $($script:failures)" }
 

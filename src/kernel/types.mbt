@@ -23,6 +23,7 @@ pub(all) struct Shape {
   mut text : String
   mut fill : String
   mut stroke : String
+  mut group : Int
 }
 
 ///| A directed connector between two nodes.

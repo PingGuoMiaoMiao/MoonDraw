@@ -39,3 +39,8 @@ pub fn Edge::set_label(self : Edge, label : String) -> Unit {
 pub fn Edge::reassign_id(self : Edge, id : Int) -> Unit {
   self.id = id
 }
+
+///|
+pub fn Shape::set_group(self : Shape, group : Int) -> Unit {
+  self.group = group
+}

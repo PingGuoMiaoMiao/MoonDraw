@@ -226,3 +226,29 @@ pub fn ui_elk_algorithms() -> String {
   b.write_string("]")
   b.to_string()
 }
+
+///| Group the current selection so it selects and moves as one.
+pub fn ui_group() -> Unit {
+  if app_state.sel.length() < 2 {
+    ffi_status("组合需要选中至少 2 个图形")
+    return
+  }
+  snapshot()
+  if group_selection(app_state) {
+    persist()
+    ffi_status("已组合 · " + app_state.sel.length().to_string() + " 个图形")
+    render_all()
+  }
+}
+
+///| Break the selection out of its groups.
+pub fn ui_ungroup() -> Unit {
+  snapshot()
+  if ungroup_selection(app_state) {
+    persist()
+    ffi_status("已解组")
+    render_all()
+  } else {
+    ffi_status("选中的图形不在任何组里")
+  }
+}

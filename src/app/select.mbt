@@ -261,3 +261,92 @@ pub fn align_box(
   let dy = if has_y { best_dy } else { 0.0 }
   (dx, dy, guides)
 }
+
+// ---------------------------------------------------------------------------
+// Grouping: shapes sharing a non-zero group id select and move together.
+// ---------------------------------------------------------------------------
+
+///| Highest group id in the document (0 when nothing is grouped).
+pub fn max_group(scene : @k.Scene) -> Int {
+  let mut top = 0
+  for s in scene.shapes {
+    if s.group > top {
+      top = s.group
+    }
+  }
+  top
+}
+
+///| Select every shape that belongs to the same group as id.
+pub fn expand_to_group(app : App, id : Int) -> Unit {
+  match @k.find_shape(app.scene, id) {
+    Some(s) =>
+      if s.group != 0 {
+        for other in app.scene.shapes {
+          if other.group == s.group && !is_selected(app, other.id) {
+            app.sel.push(other.id)
+          }
+        }
+      }
+    None => ()
+  }
+}
+
+///| Put the current selection into a new group.
+pub fn group_selection(app : App) -> Bool {
+  if app.sel.length() < 2 {
+    return false
+  }
+  let gid = max_group(app.scene) + 1
+  for s in app.scene.shapes {
+    if is_selected(app, s.id) {
+      s.set_group(gid)
+    }
+  }
+  true
+}
+
+///| Remove the selection from its groups.
+pub fn ungroup_selection(app : App) -> Bool {
+  let mut changed = false
+  for s in app.scene.shapes {
+    if is_selected(app, s.id) && s.group != 0 {
+      s.set_group(0)
+      changed = true
+    }
+  }
+  changed
+}
+
+///| Bounding box of one group, or None when the id is unknown.
+pub fn group_bounds(app : App, gid : Int) -> (Double, Double, Double, Double)? {
+  if gid == 0 {
+    return None
+  }
+  let mut min_x = 0.0
+  let mut min_y = 0.0
+  let mut max_x = 0.0
+  let mut max_y = 0.0
+  let mut first = true
+  for s in app.scene.shapes {
+    if s.group == gid {
+      if first {
+        min_x = s.x
+        min_y = s.y
+        max_x = s.x + s.w
+        max_y = s.y + s.h
+        first = false
+      } else {
+        min_x = @k.mind(min_x, s.x)
+        min_y = @k.mind(min_y, s.y)
+        max_x = @k.maxd(max_x, s.x + s.w)
+        max_y = @k.maxd(max_y, s.y + s.h)
+      }
+    }
+  }
+  if first {
+    None
+  } else {
+    Some((min_x, min_y, max_x, max_y))
+  }
+}

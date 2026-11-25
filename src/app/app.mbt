@@ -311,6 +311,7 @@ fn on_down(x : Double, y : Double, button : Int, shift : Bool) -> Unit {
           } else if !is_selected(app_state, s.id) {
             sel_only(app_state, s.id)
           }
+          expand_to_group(app_state, s.id)
           if is_selected(app_state, s.id) {
             snapshot()
             begin_move(wx, wy)

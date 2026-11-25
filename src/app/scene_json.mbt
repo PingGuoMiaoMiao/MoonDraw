@@ -22,6 +22,10 @@ pub fn scene_from_json(root : JsValue) -> @k.Scene {
     let id = ffi_num(ffi_get(o, "id")).to_int()
     s.reassign_id(id)
     s.restyle(ffi_str(ffi_get(o, "fill")), ffi_str(ffi_get(o, "stroke")))
+    let g = ffi_num(ffi_get(o, "group"))
+    if g > 0.0 {
+      s.set_group(g.to_int())
+    }
     if id > max_id {
       max_id = id
     }

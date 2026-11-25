@@ -278,6 +278,36 @@ pub fn draw_overlay(ctx : Ctx, app : App) -> Unit {
       None => ()
     }
   }
+  // Group outlines: one dashed box per group that owns a selected member.
+  let seen_groups : Array[Int] = []
+  for id in app.sel {
+    match @k.find_shape(app.scene, id) {
+      Some(s) =>
+        if s.group != 0 && !seen_groups.contains(s.group) {
+          seen_groups.push(s.group)
+          match group_bounds(app, s.group) {
+            Some(b) => {
+              ffi_set_dash(ctx, true)
+              ffi_set_stroke(ctx, "#a3a3a3")
+              ffi_set_line_width(ctx, 1.0)
+              ffi_begin_path(ctx)
+              ffi_round_rect(
+                ctx,
+                @k.sx(v, b.0) - 6.0,
+                @k.sy(v, b.1) - 6.0,
+                (b.2 - b.0) * v.zoom + 12.0,
+                (b.3 - b.1) * v.zoom + 12.0,
+                4.0,
+              )
+              ffi_stroke(ctx)
+              ffi_set_dash(ctx, false)
+            }
+            None => ()
+          }
+        }
+      None => ()
+    }
+  }
   // Rubber band / connector preview.
   match app.drag {
     Band(ax, ay) => {

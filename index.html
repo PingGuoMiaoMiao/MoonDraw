@@ -166,6 +166,14 @@
               </div>
             </section>
 
+            <section class="panel-sec" id="panel-group">
+              <h4>编组</h4>
+              <div class="btnrow two">
+                <button class="mini wide" data-action="group" title="把选中的图形组合">组合</button>
+                <button class="mini wide" data-action="ungroup" title="拆散选中的组合">解组</button>
+              </div>
+            </section>
+
             <section class="panel-sec" id="panel-kind">
               <h4>类型</h4>
               <p class="panel-value" id="p-kind">—</p>
@@ -371,6 +379,8 @@
         "layer-forward": () => ui_layer("forward"),
         "layer-backward": () => ui_layer("backward"),
         "layer-back": () => ui_layer("back"),
+        group: () => ui_group(),
+        ungroup: () => ui_ungroup(),
       };
       document.querySelectorAll("[data-action]").forEach((btn) => {
         btn.addEventListener("click", () => actions[btn.dataset.action]?.());

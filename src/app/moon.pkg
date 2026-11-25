@@ -35,6 +35,8 @@ options(
         "ui_zoom_reset",
         "ui_layer",
         "ui_align",
+        "ui_ungroup",
+        "ui_group",
         "ui_elk_algorithms",
         "ui_elk_layout",
         "ui_zoom",

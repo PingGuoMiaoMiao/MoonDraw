@@ -40,6 +40,7 @@ pub fn add_shape(
     text: text,
     fill: fill_for(kind),
     stroke: stroke_for(kind),
+    group: 0,
   }
   scene.next_id = scene.next_id + 1
   scene.shapes.push(s)
@@ -197,7 +198,12 @@ pub fn scene_to_json(scene : Scene) -> String {
     b.write_string(s.fill)
     b.write_string("\",\"stroke\":\"")
     b.write_string(s.stroke)
-    b.write_string("\"}")
+    b.write_string("\"")
+    if s.group != 0 {
+      b.write_string(",\"group\":")
+      b.write_string(s.group.to_string())
+    }
+    b.write_string("}")
   }
   b.write_string("],\"edges\":[")
   first = true
