@@ -1,8 +1,0 @@
-Warning: [0009]
-    ╭─[ D:\moonbit-compition\_moondraw\src\kernel\types.mbt:39:12 ]
-    │
- 39 │ pub struct View {
-    │            ──┬─  
-    │              ╰─── Warning (struct_never_constructed): The struct View is never constructed
-────╯
-Finished. moon: ran 3 tasks, now up to date (1 warnings, 0 errors)

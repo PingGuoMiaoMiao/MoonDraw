@@ -7,3 +7,6 @@ dist/
 *.pdb
 .acceptance.txt
 .docx-check.txt
+*.txt
+!.msg.txt
+*.err
