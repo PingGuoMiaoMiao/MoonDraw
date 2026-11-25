@@ -1,5 +1,6 @@
 import {
   "PingGuoMiaoMiao/moondraw/kernel" @k,
+  "PingGuoMiaoMiao/moondraw/elk_layout" @elk_layout,
 }
 
 supported_targets = "+js"
@@ -34,6 +35,8 @@ options(
         "ui_zoom_reset",
         "ui_layer",
         "ui_align",
+        "ui_elk_algorithms",
+        "ui_elk_layout",
         "ui_zoom",
         "ui_set_edge_label",
         "ui_set_shape_text",

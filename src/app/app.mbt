@@ -832,6 +832,11 @@ fn import_text(text : String, name : String) -> Unit {
       return
     }
     let sc = @k.scene_from_mermaid(doc)
+    // Real ELK layout first; the built-in layered pass stays as the fallback.
+    let elk_err = @elk_layout.layout_with_elk(sc, "layered", "DOWN")
+    if elk_err.length() > 0 {
+      ffi_status("ELK 不可用，使用内置布局：" + elk_err)
+    }
     replace_scene(sc, true)
     rename_doc(app_state.active, name)
     let msg = StringBuilder(size_hint=64)

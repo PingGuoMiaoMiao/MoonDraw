@@ -195,3 +195,34 @@ pub fn ui_layer(op : String) -> Unit {
   }
   render_all()
 }
+
+///| Re-run automatic layout with Eclipse Layout Kernel.
+pub fn ui_elk_layout(algorithm : String) -> Unit {
+  let dir = "DOWN"
+  snapshot()
+  let err = @elk_layout.layout_with_elk(app_state.scene, algorithm, dir)
+  if err.length() > 0 {
+    ffi_status(err)
+    return
+  }
+  persist()
+  ui_fit()
+  ffi_status("ELK 自动布局完成 · " + algorithm)
+}
+
+///| Which algorithms the bundled ELK engine reports.
+pub fn ui_elk_algorithms() -> String {
+  let b = StringBuilder(size_hint=128)
+  b.write_string("[")
+  let known = @elk_layout.known_algorithms()
+  for i = 0; i < known.length(); i = i + 1 {
+    if i > 0 {
+      b.write_string(",")
+    }
+    b.write_string("\"")
+    b.write_string(known[i])
+    b.write_string("\"")
+  }
+  b.write_string("]")
+  b.to_string()
+}

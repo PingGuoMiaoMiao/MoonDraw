@@ -235,7 +235,13 @@ try {
     $pw = ([int]$bytes[16] -shl 24) -bor ([int]$bytes[17] -shl 16) -bor ([int]$bytes[18] -shl 8) -bor [int]$bytes[19]
     $ph = ([int]$bytes[20] -shl 24) -bor ([int]$bytes[21] -shl 16) -bor ([int]$bytes[22] -shl 8) -bor [int]$bytes[23]
     Assert 'J3 PNG 文件头有效' $sig "bytes=$($bytes.Length)"
-    Assert 'J4 PNG 尺寸 = 2x 包围盒' ($pw -eq 1292 -and $ph -eq 1556) "${pw}x${ph}"
+    # expected = current document bounds + 96 padding, doubled
+    $sd = Doc
+    $xs = @($sd.shapes | ForEach-Object { $_.x }) + @($sd.shapes | ForEach-Object { $_.x + $_.w })
+    $ys2 = @($sd.shapes | ForEach-Object { $_.y }) + @($sd.shapes | ForEach-Object { $_.y + $_.h })
+    $exW = [int]((($xs | Measure-Object -Maximum).Maximum - ($xs | Measure-Object -Minimum).Minimum + 96) * 2)
+    $exH = [int]((($ys2 | Measure-Object -Maximum).Maximum - ($ys2 | Measure-Object -Minimum).Minimum + 96) * 2)
+    Assert 'J4 PNG 尺寸 = 2x 包围盒' ([math]::Abs($pw - $exW) -le 2 -and [math]::Abs($ph - $exH) -le 2) "${pw}x${ph} expected ${exW}x${exH}"
     Assert 'J5 PNG 体积合理（非空白）' ($bytes.Length -gt 8000) "size=$($bytes.Length)"
   } else { Assert 'J3 PNG 文件头有效' $false 'file missing' }
 
@@ -559,6 +565,28 @@ try {
   Start-Sleep -Milliseconds 250
   $kinds2 = @(Doc).shapes | ForEach-Object { $_.kind }
   Assert 'Q5 新图元(圆柱)可绘制' ($kinds2 -contains 'cylinder') ("kinds=" + ($kinds2 -join ','))
+
+  # ------------------------------------------- R ELK auto layout (real engine)
+  Js 'ui_new_doc()' | Out-Null
+  Start-Sleep -Milliseconds 250
+  Js 'document.querySelector("[data-tool=rect]").click()' | Out-Null
+  Drag (Scr 120 120) (Scr 220 180)
+  Drag (Scr 120 320) (Scr 220 380)
+  Start-Sleep -Milliseconds 200
+  $before = (@(Doc).shapes | ForEach-Object { "$($_.x),$($_.y)" }) -join '|'
+  Js 'document.querySelector("[data-action=elk-layout]").click()' | Out-Null
+  Start-Sleep -Milliseconds 1800
+  $after = (@(Doc).shapes | ForEach-Object { "$($_.x),$($_.y)" }) -join '|'
+  Assert 'R1 ELK 自动布局改变了坐标' ($before -ne $after) "before=$before after=$after"
+  Assert 'R2 ELK 布局状态提示' ((Status) -match 'ELK') (Status)
+
+  # Mermaid import also goes through ELK now
+  Js 'document.querySelector("[data-action=mermaid]").click()' | Out-Null
+  Start-Sleep -Milliseconds 2000
+  $d = Doc
+  Assert 'R3 Mermaid 导入仍成功' ($d.shapes.Count -eq 7) "shapes=$($d.shapes.Count)"
+  $ys = @($d.shapes | ForEach-Object { [double]$_.y } | Sort-Object -Unique)
+  Assert 'R4 分层布局产生多个层级' ($ys.Count -ge 3) "distinct y=$($ys.Count)"
 
   Write-Host ""
   if ($script:failures -eq 0) { Write-Host "ALL PASS" } else { Write-Host "FAILURES: $($script:failures)" }

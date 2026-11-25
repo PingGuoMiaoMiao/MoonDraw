@@ -33,6 +33,20 @@
         <span class="sep"></span>
 
         <div class="group">
+          <select id="elk-algo" class="select" title="自动布局算法">
+            <option value="layered">分层</option>
+            <option value="force">力导向</option>
+            <option value="stress">应力</option>
+            <option value="mrtree">树形</option>
+            <option value="radial">辐射</option>
+            <option value="rectpacking">装箱</option>
+          </select>
+          <button class="ghost" data-action="elk-layout" title="用 ELK 重新布局">自动布局</button>
+        </div>
+
+        <span class="sep"></span>
+
+        <div class="group">
           <button class="ghost" data-action="undo" title="撤销 (Ctrl+Z)">撤销</button>
           <button class="ghost" data-action="redo" title="重做 (Ctrl+Shift+Z)">重做</button>
           <button class="ghost" data-action="dist-h" title="横向等间距（需选中 3+ 图形）">横分布</button>
@@ -346,6 +360,7 @@
         "zoom-in": () => ui_zoom(1.2),
         "zoom-out": () => ui_zoom(1 / 1.2),
         "zoom-reset": () => ui_zoom_reset(),
+        "elk-layout": () => ui_elk_layout(document.getElementById("elk-algo").value),
         "align-left": () => ui_align("left"),
         "align-hcenter": () => ui_align("hcenter"),
         "align-right": () => ui_align("right"),

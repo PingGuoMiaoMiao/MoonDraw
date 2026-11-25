@@ -19,8 +19,8 @@ pwsh tools/build-exe.ps1             # 单文件 + 便携 exe（dist/）
 | 形态 | 命令 | 产物 |
 | --- | --- | --- |
 | 网页 | `moon build --target js --release` → 打开 `index.html` | 无（`file://` 可用） |
-| 单文件 | `tools/build-exe.ps1` | `dist/moondraw.html` · 218 KB |
-| 便携 exe | 双击 `dist/MoonDraw.exe` | `dist/MoonDraw.exe` · 460 KB |
+| 单文件 | `tools/build-exe.ps1` | `dist/moondraw.html` · 9.1 MB（内联 ELK） |
+| 便携 exe | 双击 `dist/MoonDraw.exe` | `dist/MoonDraw.exe` · 9.1 MB |
 | **兜底入口** | 双击 `dist/MoonDraw.cmd` | 同一份前端，shell 拉起浏览器 app 窗口 |
 
 > 两种入口的差别：`MoonDraw.exe` 自己 spawn 浏览器，在部分受限环境会被拦（本机就是）；`MoonDraw.cmd` 走 shell 的 `start`，已验证能出窗口。详见 [shell/README.md](shell/README.md)。
@@ -64,6 +64,7 @@ pwsh tools/cdp-shot.ps1               # 生成 docs/*.png 截图
 | 打开 / 保存 | 打开 `.moondraw` / `.json` / `.mmd`；保存为 `.moondraw` |
 | 导入 Mermaid | 工具栏「Mermaid」按钮导入示例；`打开` 也支持 `.mmd` 文件 |
 | 导出 | 先选范围（整图 / 选区 / 视口），再点 SVG 或 PNG；PNG 固定 2x，Ctrl+S 存本地 |
+| 自动布局 | 顶栏选算法（分层/力导向/应力/树形/辐射/装箱）→「自动布局」；Mermaid 导入也走 ELK |
 
 ## 架构
 
@@ -93,12 +94,13 @@ tools/
   cdp-e2e.ps1    59 项端到端断言：真实鼠标/键盘事件 → 状态 → 持久化 → 磁盘文件
   cdp-shot.ps1   抓取 board / multi-select / band-select / mermaid-import 截图
 shell/
-  launcher/      零依赖 Rust 便携壳（460 KB，内嵌前端，Edge/Chrome app 模式）
+  launcher/      零依赖 Rust 便携壳（9.1 MB，内嵌前端 + ELK，Edge/Chrome app 模式）
   tauri/         Tauri v2 脚手架（需联网构建，本机未构建，原因见 shell/README.md）
 ```
 
 设计要点：
 
+- **布局交给 ELK**：src/elk_layout 把 Scene 转成 ElkGraph JSON，调用 moonbit-community/elk 的引擎，再把坐标写回；自带的分层实现保留为后备。
 - **内核不碰 DOM**。`geom` / `scene` / `select` / `svg` / `mermaid` / `layout` 可在任何后端跑，可单测。
 - **渲染与视口解耦**：`draw_scene(ctx, view, scene, w, h, grid)` 既画交互画布，也画离屏导出画布——PNG 导出复用同一套绘制代码，不会出现“截图像素和 SVG 不一致”。
 - **文本编辑走 DOM textarea 覆盖层**，不在 canvas 里自绘光标。canvas 没有 IME 支持，中文输入必须借宿主输入框。
@@ -154,7 +156,7 @@ shell/
 | | 体积 | 依赖 |
 | --- | --- | --- |
 | ioDraw（Electron 便携单文件） | 256.7 MiB | 自带 Chromium |
-| MoonDraw（本方案） | **460 KiB** | 复用系统 Edge/Chrome |
+| MoonDraw（本方案，含 ELK 布局引擎） | **9.1 MB** | 复用系统 Edge/Chrome |
 | MoonDraw + Tauri（未构建，估算） | 5–15 MiB | 复用系统 WebView2 |
 
 ## 后续
