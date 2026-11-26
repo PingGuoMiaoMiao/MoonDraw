@@ -2,15 +2,33 @@
 
 ## 一、项目名称
 
-MoonDraw：基于 MoonBit 的流程图与白板编辑器
+MoonDraw：基于 MoonBit 的结构化图表引擎
 
 ## 二、项目摘要
 
-MoonDraw 是一个用 MoonBit 编写的流程图 / 白板编辑器，已发布为纯静态站点（GitHub Pages，无服务器、无后端）：<https://pingguomiaomiao.github.io/MoonDraw/>。
+MoonDraw 是 MoonBit 生态中的**结构化图表引擎**：把文本图（Mermaid）或程序化构造的图模型，经布局计算输出为矢量图，并提供可嵌入的编辑器前端作为参考实现。
 
-文档模型、命中测试、正交连线路由、选择集与吸附、对齐与分布、撤销栈、SVG 导出、Mermaid 解析、自动布局调度等逻辑全部由 MoonBit 实现，仅在画布绘制与浏览器事件处保留一层很薄的 `extern "js"` 绑定。自动布局直接调用 MoonBit 生态的 `moonbit-community/elk`（Eclipse Layout Kernel 的移植），这是 MoonBit 图布局库的第一个真实前端消费方。
+它解决的是「图 → 坐标 → 矢量」这一段：节点与边是一等数据，坐标由布局算法派生而非手工摆放，因此可以随时换算法重排。同一个内核既能在浏览器里驱动交互式编辑器，也能在无浏览器的 native 环境下作为命令行工具运行。
 
-项目把"编辑器内核"与"宿主"彻底分开：内核不接触 DOM，可在 js / native 两种后端编译与测试；同一份前端可发布为网页、单文件 HTML、便携 exe，也可套 Tauri 壳变成独立窗口程序。
+**交付面（按重要性排序）**：
+
+| 面 | 形态 | 说明 |
+|---|---|---|
+| 图内核 | `moondraw/kernel`（mooncakes） | 文档模型、Mermaid 解析、正交路由、SVG 导出；零 FFI，native 可构建 |
+| 布局 | `moondraw/elk_layout` | 桥接 Eclipse Layout Kernel（MoonBit 移植，`moonbit-community/elk`） |
+| 命令行 | `moondraw render / layout / check` | native 可执行文件，可进 CI 与脚本 |
+| 编辑器 | GitHub Pages 在线版 | 参考前端，用于证明内核在真实交互下可用 |
+
+已发布：`moon add PingGuoMiaoMiao/moondraw@0.2.0`；在线编辑器 <https://pingguomiaomiao.github.io/MoonDraw/>。
+
+### 与同类项目的关系
+
+MoonBit 生态中已有 Moonlight（`mizchi/moonlight`，SVG 白板编辑器，like Excalidraw）。两者共享「编辑器」这一外层形态，但内核职责不同：
+
+- **Moonlight 编辑的是图形**：数据模型是几何图元（Rect / Circle / Line / Path），坐标来自用户拖拽，渲染由 Luna 反应式 UI 生成 DOM/SVG。
+- **MoonDraw 编辑的是图（graph）**：数据模型含 `Edge { from, to, label }` 一等实体，坐标由布局引擎派生，渲染是自绘 Canvas 2D 指令。
+
+这一差异不是功能列表上的差别，而是数据模型层面的：有向图才能做环检测、才能级联删边、才能换算法重排。详细对照见 `docs/compare-moonlight.md`，定位修订见 `docs/positioning.md`。
 
 ## 三、项目背景与意义
 
@@ -35,7 +53,9 @@ MoonDraw 因此既是一个可用的工具，也是 MoonBit 在"交互式图形�
 6. 支持多文档（标签页），每个文档独立保存内容与视口。
 7. 支持 Mermaid flowchart 子集导入，并由 ELK 完成自动排布。
 8. 提供可复现的验证体系：内核单测 + 真实浏览器端到端断言 + 一条命令的验收脚本。
-9. 提供可分发形态：单文件网页、便携 exe、可选的 Tauri 壳。
+9. 提供 headless 命令行：`render` / `layout` / `check`，可在 CI 与脚本中消费。
+10. 提供图语义分析：环检测、孤立节点、悬空边。
+11. 提供可分发形态：单文件网页、便携 exe、可选的 Tauri 壳。
 
 ## 五、技术路线
 
@@ -81,7 +101,11 @@ MoonDraw 因此既是一个可用的工具，也是 MoonBit 在"交互式图形�
 
 Canvas 不具备 IME 能力。文本编辑采用浮动 `<textarea>` 覆盖层，继承宿主输入法的组合（composition）事件，提交时回写为文档中的文本。这是让中文输入可用的前提，而不是可选优化。
 
-### 5. 分层验证
+### 5. 图语义分析（`check`）
+
+命令行 `check` 不是统计行数，而是对边集做 DFS：`⚠ 存在环` 只有在存在 `Edge` 实体且能遍历邻接关系时才可能输出。同时统计孤立节点与悬空边。这是「图编辑器」与「图形编辑器」在实现上的分水岭——后者没有边集可走。
+
+### 6. 分层验证
 
 - 内核：白盒单测，覆盖几何、选择、删除、吸附、序列化、Mermaid 解析、布局、分布、对齐、导出裁剪。
 - 桥接：针对 ELK 的 JSON 结构、坐标结果、方向与错误路径的单测。
@@ -104,6 +128,10 @@ Canvas 不具备 IME 能力。文本编辑采用浮动 `<textarea>` 覆盖层，
 | 导出范围 | 整图 / 选区 / 视口，均 2 倍；选区实测 432×352 |
 | 排版操作 | 等间距分布（间距 220/220、两端不动）、六向对齐、四向层级 |
 | Mermaid 导入 | 7 节点 / 7 连线，ELK 分层产出 6 个层级 |
+| **命令行** | cli.exe 3.4 MB（native release），
+ender 26–582 ms（随算法） |
+| **图语义** | check 输出「节点 7 · 边 7 · 无环」；环图输出「⚠ 存在环」 |
+| **算法差异** | 同一图换算法坐标不同：layered 首节点 (65,12) vs mrtree (40,103) |
 | 图形种类 | 10 种（矩形/圆角/菱形/椭圆/文本/平行四边形/六边形/圆柱/文档/圆形） |
 | 体积对照 | 同形态商业软件 256.7 MiB，本方案 9.1 MB（约 1/28） |
 
@@ -153,6 +181,8 @@ Canvas 不具备 IME 能力。文本编辑采用浮动 `<textarea>` 覆盖层，
 | M6 | 编辑器骨架：左工具轨、右属性面板、底部页签与缩放 | 已完成 |
 | M7 | 图元与排版：10 种图形、六向对齐、四向层级 | 已完成 |
 | M8 | 接入 ELK 自动布局 | 已完成 |
+| M9 | 定位修订 + native 命令行（render/layout/check） | 已完成 |
+| M10 | 图语义分析（环检测、孤立节点、悬空边） | 已完成 |
 | 收尾 | Tauri 构建、真人输入法验收、体积优化（ELK 按需加载） | 进行中 |
 
 ## 十、预期成果

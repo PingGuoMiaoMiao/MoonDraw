@@ -38,6 +38,39 @@ if (-not $SkipBuild) {
   if ($LASTEXITCODE -ne 0) { Fail 'build-exe' }
 }
 
+# --- engine CLI (native, headless) ------------------------------------------
+Section 'cli (native)'
+moon build src/cli --target native --release
+if ($LASTEXITCODE -ne 0) {
+  Fail 'cli build'
+} else {
+  $cli = Join-Path $root '_build\native\release\build\cli\cli.exe'
+  $mmd = Join-Path $root 'examples\flow\ticket.mmd'
+  $out = Join-Path $root 'examples\flow\_verify.svg'
+  if ((Test-Path $cli) -and (Test-Path $mmd)) {
+    $res = & $cli render $mmd $out 2>&1
+    if ((Test-Path $out) -and ((Get-Item $out).Length -gt 1000)) {
+      Ok ('cli render -> ' + (Get-Item $out).Length + ' bytes')
+    } else {
+      Fail ('cli render produced nothing: ' + ($res -join ' '))
+    }
+    $chk = & $cli check $mmd 2>&1
+    if (($chk -join ' ') -match '无环') {
+      Ok ('cli check -> ' + ($chk -join ' '))
+    } else {
+      Fail ('cli check unexpected: ' + ($chk -join ' '))
+    }
+    $cyc = & $cli check (Join-Path $root 'examples\flow\cycle.mmd') 2>&1
+    if (($cyc -join ' ') -match '存在环') {
+      Ok ('cli cycle detection -> ' + ($cyc -join ' '))
+    } else {
+      Fail ('cli cycle detection failed: ' + ($cyc -join ' '))
+    }
+    Remove-Item $out -Force -ErrorAction SilentlyContinue
+  } else {
+    Fail 'cli binary or fixture missing'
+  }
+}
 # --- artifact freshness -----------------------------------------------------
 # dist must be newer than every source input, otherwise the shipped exe is
 # stale. Checked after the build so it validates the end state.

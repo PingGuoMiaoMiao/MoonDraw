@@ -1,14 +1,71 @@
 # MoonDraw
 
-用 MoonBit 写的流程图 / 白板编辑器。
+**MoonBit 的结构化图表引擎**：Mermaid 文本 → ELK 布局 → SVG，无浏览器即可运行。
+附带一个可编辑前端作为参考实现。
 
-**在线试用：<https://pingguomiaomiao.github.io/MoonDraw/>**（纯静态，GitHub Pages 托管，无需服务器；也支持离线双击本地文件）
+它不是画布白板，而是"图（graph）"的引擎：节点与边是一等数据，坐标由布局算法派生，
+可以随时按算法重排。前端只是这个引擎的一个使用方。
 
-**安装（mooncakes）：** `moon add PingGuoMiaoMiao/moondraw@0.1.2` — 可直接消费 `moondraw/kernel`（纯逻辑，js / wasm / native 均可运行）
+| 交付面 | 形态 | 说明 |
+|---|---|---|
+| **图内核** | `moondraw/kernel`（mooncakes） | 文档模型、Mermaid 解析、正交路由、SVG 导出，零 FFI |
+| **布局** | `moondraw/elk_layout` | 桥接 Eclipse Layout Kernel（MoonBit 移植） |
+| **命令行** | `moondraw render/layout/check` | native 可执行，CI 与脚本可用 |
+| **编辑器** | <https://pingguomiaomiao.github.io/MoonDraw/> | 参考前端，证明内核可用 |
 
-UI 逻辑、文档模型、命中测试、正交连线路由、撤销栈、SVG 导出、Mermaid 解析与自动布局全部是纯 MoonBit；只通过一层很薄的 `extern "js"` 绑定调用 Canvas 2D 与 DOM。
+**安装：** `moon add PingGuoMiaoMiao/moondraw@0.2.0`
 
-当前进度：**M0（技术验证）+ M1（内核）+ M2（多选/吸附/连线）+ M3（文件与互操作）+ M4（便携 exe 壳）完成**。
+## 快速开始 / Quickstart
+
+### 1. 命令行（主入口，无需浏览器）
+
+```bash
+moon build src/cli --target native --release
+_build/native/release/build/cli/cli.exe render examples/flow/ticket.mmd out.svg
+```
+
+```
+已写入 out.svg · 节点 7 · 边 7 · 无环
+```
+
+三个子命令：
+
+```bash
+moondraw render <in.mmd> <out.svg> [--algorithm layered] [--direction DOWN]
+moondraw layout <in.mmd>            # 打印每个节点的派生坐标
+moondraw check  <in.mmd>            # 图体检：节点/边数、孤立节点、是否成环
+```
+
+`check` 会做真实的有向图分析，而不只是统计行数：
+
+```
+$ moondraw check examples/flow/cycle.mmd
+节点 3 · 边 3 · ⚠ 存在环
+```
+
+### 2. 网页 / 桌面
+
+| 形态 | 命令 | 产物 |
+| --- | --- | --- |
+| 网页 | `moon build --target js --release` → 打开 `index.html` | 无（`file://` 可用） |
+| 单文件 | `tools/build-exe.ps1` | `dist/moondraw.html` · 9.1 MB（内联 ELK） |
+| 便携 exe | 双击 `dist/MoonDraw.exe` 或 `dist/MoonDraw.cmd` | `dist/MoonDraw.exe` · 9.1 MB |
+
+详见 [shell/README.md](shell/README.md)。
+
+### 3. 作为库
+
+```moonbit
+import {
+  "PingGuoMiaoMiao/moondraw/kernel" @k,
+  "PingGuoMiaoMiao/moondraw/elk_layout" @elk_layout,
+}
+
+let doc = @k.parse_mermaid(src)
+let scene = @k.scene_from_mermaid(doc)
+let _ = @elk_layout.layout_with_elk(scene, "layered", "DOWN")
+let svg = @k.scene_to_svg(scene)
+```
 
 ## 快速开始 / Quickstart
 

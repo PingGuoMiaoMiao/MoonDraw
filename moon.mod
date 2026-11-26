@@ -1,6 +1,6 @@
 name = "PingGuoMiaoMiao/moondraw"
 
-version = "0.1.2"
+version = "0.2.0"
 
 source = "src"
 
@@ -12,10 +12,11 @@ repository = "https://github.com/PingGuoMiaoMiao/MoonDraw"
 
 license = "MIT"
 
-keywords = ["flowchart", "whiteboard", "diagram", "canvas", "editor"]
+keywords = ["diagram", "graph", "layout", "mermaid", "svg", "elk"]
 
-description = "Flowchart / whiteboard editor in MoonBit: DOM-free kernel, ELK auto layout, SVG/PNG export."
+description = "Structured diagram engine in MoonBit: Mermaid -> ELK layout -> SVG, headless CLI + embeddable editor."
 
 import {
   "moonbit-community/elk@0.4.2",
+  "moonbitlang/async@0.22.7",
 }
