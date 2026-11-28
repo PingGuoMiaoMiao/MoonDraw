@@ -28,7 +28,7 @@ MoonDraw 的定位是 **"结构化图表编辑器"**：图是节点与边的有�
 | 能力 | mizchi/moonlight | MoonDraw | 差异性质 |
 |---|---|---|---|
 | 编辑对象 | 几何图元（Rect/Circle/Ellipse/Line/Polyline/Path） | 语义节点（10 种：矩形/圆角/菱形/椭圆/文本/平行四边形/六边形/圆柱/文档/圆形）+ 有向边 | 图元 vs 图结构 |
-| 图的结构 | ❌ 无 `Edge` 实体；连线是 `Line` 元素携带 `LineConnections` 锚点 | ✅ `Edge { from, to, label }` 一等实体，删除节点级联删边 | **结构性差异** |
+| 连接图抽象 | ✅ 有 `ConnectionGraph`（`src/model/topology.mbt`，638 行）：邻接表、最短路、连通分量、`has_cycle`、hub/leaf 判定 | ✅ `Edge { from, to, label }` 一等实体，删除节点级联删边 | **此前的判断有误，详见下方更正** |
 | 自动布局 | ❌ 仓库内无布局模块（无 dagre/elk/layered/rank 相关代码） | ✅ 接入 Eclipse Layout Kernel，顶栏可选 6 种（layered/force/stress/mrtree/radial/rectpacking），引擎注册 11 种 | **结构性差异** |
 | 文本图导入 | ❌ 只解析 SVG | ✅ Mermaid flowchart 子集解析（节点形状、连线、`\|标签\|`、`-- 标签 -->`、方向） | **结构性差异** |
 | 边的路由 | 直线 / 折线（手绘） | 正交自动路由（按节点相对位置计算出入口） | 手绘 vs 派生 |
@@ -62,7 +62,7 @@ MoonDraw 的定位是 **"结构化图表编辑器"**：图是节点与边的有�
 
 > 「主要编辑器内核……实质重合」
 
-编辑器内核若指"选择/拖拽/撤销/缩放手柄"，确实重合——**任何编辑器都会重合**，这部分不是可差异化空间。真正的差异在**图上**：Moonlight 没有边实体、没有布局、没有图 DSL 导入，这三项是 MoonDraw 内核里体量最大的部分（`src/kernel` 11 个文件、ELK 桥接 221 行、Mermaid 解析 8.9 KB）。
+编辑器内核若指"选择/拖拽/撤销/缩放手柄"，确实重合——**任何编辑器都会重合**，这部分不是可差异化空间。真正的差异在**坐标的来源上**：Moonlight 有连接图，但**没有布局算法**（`elk`/`dagre`/`layered`/`arrange` 实测均为 0 处），坐标来自用户拖拽；MoonDraw 的坐标由布局引擎派生。详见「更正」一节。
 
 > 「Mermaid 导入、ELK 接入和分发形态尚未建立核心职责的复用、扩展或充分的实质差异」
 
@@ -75,6 +75,45 @@ MoonDraw 的定位是 **"结构化图表编辑器"**：图是节点与边的有�
 > 「请补充同一编辑场景下的能力对比」
 
 本文件即为此补充。若需要更强的证据，我可以再做一件更硬的事：**用同一张 Mermaid 源文件，分别喂给 Moonlight 与 MoonDraw，输出两者结果**（Moonlight 无法消费 Mermaid，只能手绘同等图形；MoonDraw 一键生成分层布局），把截图并排。这能把"结构性差异"从描述变成可复现的演示。
+
+
+## 更正（2026-11-29 复核后）
+
+本文件初版称「Moonlight 无 `Edge` 实体」，**该结论错误**，特此更正。
+
+复核实测：`src/model/topology.mbt` 有 638 行的连接图实现，包含
+
+```moonbit
+pub(all) struct Edge {
+  from_id : String
+  to_id : String
+  line_id : String
+  from_anchor : Anchor
+  to_anchor : Anchor
+}
+pub fn ConnectionGraph::has_cycle(self : ConnectionGraph) -> Bool
+pub fn ConnectionGraph::find_shortest_path(...)
+pub fn ConnectionGraph::get_all_components(...)
+```
+
+因此「结构校验能力只有一方有」的说法不成立——双方都能回答"图里有没有环"。
+
+### 修正后的差异陈述
+
+| 维度 | Moonlight | MoonDraw | 说明 |
+|---|---|---|---|
+| 连接图 | ✅ 有 | ✅ 有 | **确实重合** |
+| 图结构分析 | ✅ `has_cycle`、连通分量、最短路 | ✅ `check` 子命令做环检测/孤立节点/悬空边 | **确实重合** |
+| **布局算法** | ❌ 实测 0 处（`elk`/`dagre`/`layered`/`arrange` 均为 0） | ✅ ELK 11 种 | **不重合** |
+| **坐标来源** | 用户拖拽 | 布局派生 | **不重合** |
+| 图种（同一内核） | 1 种（无限画布） | 7 种输入 | 不重合 |
+| 运行形态 | 浏览器 | native CLI + 浏览器 | 不重合 |
+
+修正后的核心主张只剩一条，但这一条是可验证的：
+
+> **两边都有连接图，但只有一方让坐标由算法产生。**
+
+Moonlight 可以告诉你"这两个点连通"，但要移动它们，仍然是人拖。MoonDraw 可以告诉你"这两个点连通，并且我把它们排成了第 2 层、间距 96"。
 
 ## 六、我打算怎么补强（不是辩解，是工程）
 
