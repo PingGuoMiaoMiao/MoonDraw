@@ -66,7 +66,7 @@ pub fn draw_edges(ctx : Ctx, v : @k.View, scene : @k.Scene) -> Unit {
   for e in scene.edges {
     match (@k.find_shape(scene, e.from), @k.find_shape(scene, e.to)) {
       (Some(sa), Some(sb)) => {
-        let pts = @k.route(sa, sb)
+        let pts = @k.route_avoiding(scene, sa, sb)
         ffi_set_stroke(ctx, "#a3a3a3")
         ffi_set_line_width(ctx, 1.6)
         ffi_begin_path(ctx)
@@ -304,7 +304,7 @@ pub fn draw_overlay(ctx : Ctx, app : App) -> Unit {
             @k.find_shape(app.scene, e.to),
           ) {
           (Some(a), Some(b)) => {
-            let pts = @k.route(a, b)
+            let pts = @k.route_avoiding(app.scene, a, b)
             ffi_set_dash(ctx, false)
             ffi_set_stroke(ctx, "#0070f3")
             ffi_set_line_width(ctx, 3.0)

@@ -137,7 +137,7 @@ pub fn edge_at(scene : @k.Scene, x : Double, y : Double) -> @k.Edge? {
     let e = scene.edges[i]
     match (@k.find_shape(scene, e.from), @k.find_shape(scene, e.to)) {
       (Some(a), Some(b)) =>
-        if @k.hit_polyline(@k.route(a, b), x, y) {
+        if @k.hit_polyline(@k.route_avoiding(scene, a, b), x, y) {
           return Some(e)
         }
       _ => ()

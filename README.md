@@ -13,7 +13,7 @@
 | **命令行** | `moondraw render/mindmap/deps/chart/gantt/whiteboard/poster/layout/check` | native 可执行，CI 与脚本可用 |
 | **编辑器** | <https://pingguomiaomiao.github.io/MoonDraw/> | 参考前端，证明内核可用 |
 
-**安装：** `moon add PingGuoMiaoMiao/moondraw@0.6.0`
+**安装：** `moon add PingGuoMiaoMiao/moondraw@0.7.0`
 
 ## 快速开始 / Quickstart
 

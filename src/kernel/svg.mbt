@@ -57,7 +57,7 @@ pub fn scene_to_svg_in(
     let bnode = find_shape(scene, e.to)
     match (a, bnode) {
       (Some(sa), Some(sb)) => {
-        let pts = route(sa, sb)
+        let pts = route_avoiding(scene, sa, sb)
         b.write_string("<polyline fill=\"none\" stroke=\"#a3a3a3\" stroke-width=\"1.6\" points=\"")
         for p in pts {
           b.write_string(fmt(p.0))
