@@ -1,6 +1,6 @@
 # MoonDraw
 
-**MoonBit 的结构化图表引擎**：文本图（Mermaid / 缩进大纲）→ ELK 布局 → SVG，无浏览器即可运行。
+**MoonBit 的结构化图表引擎**：三种输入（Mermaid 流程图 / 缩进大纲 / 项目源码）→ ELK 布局 → SVG，无浏览器即可运行。
 附带一个可编辑前端作为参考实现。
 
 它不是画布白板，而是"图（graph）"的引擎：节点与边是一等数据，坐标由布局算法派生，
@@ -8,12 +8,12 @@
 
 | 交付面 | 形态 | 说明 |
 |---|---|---|
-| **图内核** | `moondraw/kernel`（mooncakes） | 文档模型、Mermaid 与大纲解析、正交路由、SVG 导出，零 FFI |
+| **图内核** | `moondraw/kernel`（mooncakes） | 文档模型、Mermaid/大纲/项目图三种解析、正交路由、SVG 导出，零 FFI |
 | **布局** | `moondraw/elk_layout` | 桥接 Eclipse Layout Kernel（MoonBit 移植） |
-| **命令行** | `moondraw render/mindmap/layout/check` | native 可执行，CI 与脚本可用 |
+| **命令行** | `moondraw render/mindmap/deps/layout/check` | native 可执行，CI 与脚本可用 |
 | **编辑器** | <https://pingguomiaomiao.github.io/MoonDraw/> | 参考前端，证明内核可用 |
 
-**安装：** `moon add PingGuoMiaoMiao/moondraw@0.3.0`
+**安装：** `moon add PingGuoMiaoMiao/moondraw@0.4.0`
 
 ## 快速开始 / Quickstart
 
@@ -33,12 +33,22 @@ _build/native/release/build/cli/cli.exe render examples/flow/ticket.mmd out.svg
 ```bash
 moondraw render  <in.mmd>  <out.svg>   # Mermaid 流程图 -> SVG
 moondraw mindmap <in.md>   <out.svg>   # 缩进大纲 -> 思维导图（mrtree 横向）
+moondraw deps    <模块根目录> <out.svg> # MoonBit 包依赖图
 moondraw layout  <in.mmd>              # 打印每个节点的派生坐标
 moondraw check   <in.mmd>              # 图体检：节点/边数、孤立节点、是否成环
 ```
 
-两种输入共用同一套内核与布局：流程图用 `layered`，思维导图用 `mrtree`，
-都可以用 `--algorithm` / `--direction` 覆盖。
+三种输入共用同一套内核、布局与导出链路：流程图用 `layered`，思维导图用 `mrtree`，
+依赖图用 `layered`；都可以用 `--algorithm` / `--direction` 覆盖。
+
+依赖图直接读项目本身——扫描模块下的 `moon.pkg`，取 `import { ... }` 里的模块路径，
+只保留指向本项目内的边：
+
+```
+$ moondraw deps . deps.svg
+包 5 · 依赖 6 · 最大入度 4 · 最大出度 2
+已写入 deps.svg
+```
 
 思维导图输入就是普通缩进大纲：
 

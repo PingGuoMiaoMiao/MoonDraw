@@ -86,6 +86,15 @@ if ($LASTEXITCODE -ne 0) {
       }
       Remove-Item $mdOut, $mdDown -Force -ErrorAction SilentlyContinue
     }
+    # deps: scan this project's own moon.pkg files
+    $depsOut = Join-Path $root 'examples\flow\_verify_deps.svg'
+    $depsRes = & $cli deps $root $depsOut 2>&1
+    if ((Test-Path $depsOut) -and (($depsRes -join ' ') -match '依赖 [3-9]')) {
+      Ok ('cli deps -> ' + ($depsRes -join ' '))
+    } else {
+      Fail ('cli deps unexpected: ' + ($depsRes -join ' '))
+    }
+    Remove-Item $depsOut -Force -ErrorAction SilentlyContinue
     Remove-Item $out -Force -ErrorAction SilentlyContinue
   } else {
     Fail 'cli binary or fixture missing'
