@@ -10,6 +10,13 @@ pub(all) enum ShapeKind {
   Cylinder
   Document
   Circle
+  // --- non-diagram content; same Scene, different payload ---
+  /// A chart (bar / line). `data` holds the series.
+  Chart
+  /// A freehand stroke. `points` holds the polyline.
+  Stroke
+  /// A gantt bar spanning `start`..`end` on a shared timeline.
+  GanttBar
 }
 
 ///| A diagram node.
@@ -24,6 +31,13 @@ pub(all) struct Shape {
   mut fill : String
   mut stroke : String
   mut group : Int
+  /// Chart series, stroke polyline, or empty. Interpreted by `kind`.
+  mut data : Array[Double]
+  /// Gantt start/end in abstract time units (0..100), unused otherwise.
+  mut start : Double
+  mut end : Double
+  /// Gantt row (0-based), used to stack bars.
+  mut lane : Int
 }
 
 ///| A directed connector between two nodes.

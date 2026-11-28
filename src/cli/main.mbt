@@ -253,10 +253,22 @@ fn usage() -> Unit {
   println("  moondraw check  <in.mmd>")
   println("  moondraw mindmap <in.md> <out.svg>      # 缩进大纲 -> 思维导图")
   println("  moondraw deps <moon.mod 所在目录> <out.svg>   # MoonBit 包依赖图")
+  println("  moondraw chart  <series.csv> <out.svg> [--type bar|line]  # 柱状/折线图")
+  println("  moondraw gantt  <tasks.csv>  <out.svg>                  # 甘特图")
+  println("  moondraw poster <out.svg> [--size A4|A3|16:9]           # 海报画板")
+  println("  moondraw whiteboard <strokes.txt> <out.svg>              # 白板笔迹")
   println("")
   println("算法: layered / force / stress / mrtree / radial / rectpacking")
   println("mindmap 默认使用 mrtree + RIGHT（树形横向展开）")
   println("方向: DOWN / RIGHT / UP / LEFT")
+}
+
+///| Commands this CLI understands.
+fn is_known_command(cmd : String) -> Bool {
+  let names = [
+    "render", "layout", "check", "mindmap", "deps", "chart", "gantt", "poster", "whiteboard",
+  ]
+  names.contains(cmd)
 }
 
 ///|
@@ -275,7 +287,7 @@ async fn run(args : Array[String]) -> Unit {
     usage()
     return
   }
-  if cmd != "render" && cmd != "layout" && cmd != "check" && cmd != "mindmap" && cmd != "deps" {
+  if !is_known_command(cmd) {
     println("未知命令: " + cmd)
     usage()
     return
@@ -297,6 +309,75 @@ async fn run(args : Array[String]) -> Unit {
     }
   } else {
     given
+  }
+  if cmd == "whiteboard" {
+    if pos.length() < 3 {
+      println("缺少输入或输出文件")
+      return
+    }
+    let text = @fs.read_file(pos[1]).text() catch { _ => "" }
+    let strokes = @k.parse_strokes(text)
+    if strokes.length() == 0 {
+      println("解析失败：期望每行 `x,y x,y x,y`")
+      return
+    }
+    let color = if given.algorithm == "red" { "#e2162a" } else { "#171717" }
+    let scene = @k.scene_from_strokes(strokes, color)
+    @fs.write_file(pos[2], @k.scene_to_svg(scene))
+    println(
+      "白板 · " + strokes.length().to_string() + " 条笔迹 · 已写入 " + pos[2],
+    )
+    return
+  }
+  if cmd == "poster" {
+    let size = match given.algorithm {
+      "A3" => (1191.0, 1684.0)
+      "16:9" => (1920.0, 1080.0)
+      _ => (794.0, 1123.0)
+    }
+    let scene = @k.new_scene()
+    let _ = @k.add_artboard(scene, "画板", size.0, size.1)
+    if pos.length() >= 2 {
+      @fs.write_file(pos[1], @k.scene_to_svg(scene))
+      println(
+        "已写入 " + pos[1] + " · 画板 " + size.0.to_int().to_string() + "×" +
+        size.1.to_int().to_string(),
+      )
+    } else {
+      println("缺少输出文件")
+    }
+    return
+  }
+  if cmd == "chart" || cmd == "gantt" {
+    if pos.length() < 3 {
+      println("缺少输入或输出文件")
+      return
+    }
+    let text = @fs.read_file(pos[1]).text() catch { _ => "" }
+    let scene = @k.new_scene()
+    if cmd == "chart" {
+      let series = @k.parse_series(text)
+      if series.values.length() == 0 {
+        println("解析失败：期望每行 `标签,数值`")
+        return
+      }
+      let kind = if given.algorithm == "line" { "line" } else { "bar" }
+      let _ = @k.add_chart(scene, series, kind, 0.0, 0.0, 460.0, 260.0)
+      println(
+        "图表 " + kind + " · " + series.values.length().to_string() + " 个数据点",
+      )
+    } else {
+      let tasks = @k.parse_gantt(text)
+      if tasks.length() == 0 {
+        println("解析失败：期望每行 `任务,开始,时长`")
+        return
+      }
+      @k.add_gantt(scene, tasks, 0.0, 0.0, 420.0)
+      println("甘特图 · " + tasks.length().to_string() + " 个任务")
+    }
+    @fs.write_file(pos[2], @k.scene_to_svg(scene))
+    println("已写入 " + pos[2])
+    return
   }
   if cmd == "deps" {
     let entries = scan_packages(input)

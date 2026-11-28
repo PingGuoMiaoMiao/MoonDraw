@@ -41,6 +41,10 @@ pub fn add_shape(
     fill: fill_for(kind),
     stroke: stroke_for(kind),
     group: 0,
+    data: [],
+    start: 0.0,
+    end: 0.0,
+    lane: 0,
   }
   scene.next_id = scene.next_id + 1
   scene.shapes.push(s)
@@ -142,6 +146,9 @@ pub fn kind_name(k : ShapeKind) -> String {
     Cylinder => "cylinder"
     Document => "document"
     Circle => "circle"
+    Chart => "chart"
+    Stroke => "stroke"
+    GanttBar => "gantt"
   }
 }
 
@@ -165,6 +172,12 @@ pub fn kind_from_name(name : String) -> ShapeKind {
     Document
   } else if name == "circle" {
     Circle
+  } else if name == "chart" {
+    Chart
+  } else if name == "stroke" {
+    Stroke
+  } else if name == "gantt" {
+    GanttBar
   } else {
     Rect
   }

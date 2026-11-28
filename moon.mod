@@ -1,6 +1,6 @@
 name = "PingGuoMiaoMiao/moondraw"
 
-version = "0.4.0"
+version = "0.5.0"
 
 source = "src"
 
@@ -14,7 +14,7 @@ license = "MIT"
 
 keywords = ["diagram", "graph", "layout", "mermaid", "svg", "elk"]
 
-description = "Structured diagram engine in MoonBit: Mermaid/outline/project graph -> ELK layout -> SVG."
+description = "Structured diagram engine in MoonBit: diagrams, outlines, deps, charts, gantt, strokes -> SVG."
 
 import {
   "moonbit-community/elk@0.4.2",

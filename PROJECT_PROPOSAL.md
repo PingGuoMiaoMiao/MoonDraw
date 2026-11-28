@@ -6,7 +6,7 @@ MoonDraw：基于 MoonBit 的结构化图表引擎
 
 ## 二、项目摘要
 
-MoonDraw 是 MoonBit 生态中的**结构化图表引擎**：把三种输入（Mermaid 流程图、缩进大纲、项目源码）经布局计算输出为矢量图，并提供可嵌入的编辑器前端作为参考实现。
+MoonDraw 是 MoonBit 生态中的**结构化图表引擎**：把六种输入（流程图、大纲、项目源码、数据表、任务表、笔迹）统一成同一个场景模型，输出矢量图，并提供可嵌入的编辑器前端作为参考实现。
 
 它解决的是「图 → 坐标 → 矢量」这一段：节点与边是一等数据，坐标由布局算法派生而非手工摆放，因此可以随时换算法重排。同一个内核既能在浏览器里驱动交互式编辑器，也能在无浏览器的 native 环境下作为命令行工具运行。
 
@@ -16,7 +16,7 @@ MoonDraw 是 MoonBit 生态中的**结构化图表引擎**：把三种输入（M
 |---|---|---|
 | 图内核 | `moondraw/kernel`（mooncakes） | 文档模型、Mermaid 解析、正交路由、SVG 导出；零 FFI，native 可构建 |
 | 布局 | `moondraw/elk_layout` | 桥接 Eclipse Layout Kernel（MoonBit 移植，`moonbit-community/elk`） |
-| 命令行 | `moondraw render / mindmap / deps / layout / check` | native 可执行文件，可进 CI 与脚本 |
+| 命令行 | `moondraw render/mindmap/deps/chart/gantt/whiteboard/poster/layout/check` | native 可执行，9 个子命令 |
 | 编辑器 | GitHub Pages 在线版 | 参考前端，用于证明内核在真实交互下可用 |
 
 已发布：`moon add PingGuoMiaoMiao/moondraw@0.2.0`；在线编辑器 <https://pingguomiaomiao.github.io/MoonDraw/>。
@@ -169,6 +169,8 @@ Canvas 不具备 IME 能力。文本编辑采用浮动 `<textarea>` 覆盖层，
 | Mermaid 导入 | 7 节点 / 7 连线，ELK 分层产出 6 个层级 |
 | 大纲导入 | 10 个节点的缩进大纲 → 10 形状 / 7 连线，mrtree 横向（SVG 524×396） |
 | 项目依赖图 | 本项目自测：5 个包 / 6 条依赖 / 最大入度 4（kernel），与人工核对一致 |
+| 图表 | 同一份 5 点数据：柱状图 943 B（7 个 rect），折线图 637 B（polyline），二者产物确实不同 |
+| 甘特图 | 5 个任务 → 6 个 rect（5 条 + 底板）、5 个任务名 |
 | **命令行** | cli.exe 3.4 MB（native release），
 ender 26–582 ms（随算法） |
 | **图语义** | check 输出「节点 7 · 边 7 · 无环」；环图输出「⚠ 存在环」 |

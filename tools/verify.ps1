@@ -95,6 +95,38 @@ if ($LASTEXITCODE -ne 0) {
       Fail ('cli deps unexpected: ' + ($depsRes -join ' '))
     }
     Remove-Item $depsOut -Force -ErrorAction SilentlyContinue
+    # chart / gantt / poster: the three content types beyond diagrams
+    $sales = Join-Path $root 'examples\flow\sales.csv'
+    $tasks = Join-Path $root 'examples\flow\plan.csv'
+    $barSvg = Join-Path $root 'examples\flow\_v_bar.svg'
+    $lineSvg = Join-Path $root 'examples\flow\_v_line.svg'
+    $ganttSvg = Join-Path $root 'examples\flow\_v_gantt.svg'
+    $posterSvg = Join-Path $root 'examples\flow\_v_poster.svg'
+    if ((Test-Path $sales) -and (Test-Path $tasks)) {
+      $null = & $cli chart $sales $barSvg 2>&1
+      $null = & $cli chart $sales $lineSvg --algorithm line 2>&1
+      $null = & $cli gantt $tasks $ganttSvg 2>&1
+      $null = & $cli poster $posterSvg 2>&1
+      $bar = Get-Content $barSvg -Raw
+      $line = Get-Content $lineSvg -Raw
+      $gantt = Get-Content $ganttSvg -Raw
+      if ($bar -ne $line) {
+        Ok ('cli chart: bar and line differ (' + (Get-Item $barSvg).Length + ' vs ' + (Get-Item $lineSvg).Length + ' bytes)')
+      } else {
+        Fail 'cli chart: bar and line produced identical SVG'
+      }
+      if (([regex]::Matches($gantt, '<rect')).Count -ge 5) {
+        Ok ('cli gantt: ' + ([regex]::Matches($gantt, '<rect')).Count + ' rects')
+      } else {
+        Fail 'cli gantt: too few bars'
+      }
+      if ((Test-Path $posterSvg) -and ((Get-Item $posterSvg).Length -gt 200)) {
+        Ok ('cli poster: ' + (Get-Item $posterSvg).Length + ' bytes')
+      } else {
+        Fail 'cli poster: empty'
+      }
+      Remove-Item $barSvg, $lineSvg, $ganttSvg, $posterSvg -Force -ErrorAction SilentlyContinue
+    }
     Remove-Item $out -Force -ErrorAction SilentlyContinue
   } else {
     Fail 'cli binary or fixture missing'

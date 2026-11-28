@@ -113,6 +113,82 @@ pub fn draw_edges(ctx : Ctx, v : @k.View, scene : @k.Scene) -> Unit {
   }
 }
 
+
+///| Bar or line chart, drawn from the shape's `data` series.
+fn draw_chart(ctx : Ctx, v : @k.View, s : @k.Shape) -> Unit {
+  let x = @k.sx(v, s.x)
+  let y = @k.sy(v, s.y)
+  let w = s.w * v.zoom
+  let h = s.h * v.zoom
+  let n = s.data.length()
+  if n == 0 {
+    return
+  }
+  let maxv = @k.chart_max(s)
+  let baseline = y + h
+  // axes
+  ffi_set_stroke(ctx, "#eaeaea")
+  ffi_set_line_width(ctx, 1.0)
+  ffi_begin_path(ctx)
+  ffi_move_to(ctx, x, y)
+  ffi_line_to(ctx, x, baseline)
+  ffi_line_to(ctx, x + w, baseline)
+  ffi_stroke(ctx)
+  if @k.chart_type(s) == "line" {
+    // polyline across the value points
+    ffi_set_stroke(ctx, s.stroke)
+    ffi_set_line_width(ctx, 2.0)
+    ffi_begin_path(ctx)
+    for i = 0; i < n; i = i + 1 {
+      let px = if n == 1 {
+        x
+      } else {
+        x + w * i.to_double() / (n - 1).to_double()
+      }
+      let py = baseline - s.data[i] / maxv * h * 0.92
+      if i == 0 {
+        ffi_move_to(ctx, px, py)
+      } else {
+        ffi_line_to(ctx, px, py)
+      }
+    }
+    ffi_stroke(ctx)
+  } else {
+    // bars
+    let slot = w / n.to_double()
+    let bw = @k.maxd(slot * 0.62, 2.0)
+    ffi_set_fill(ctx, s.fill)
+    for i = 0; i < n; i = i + 1 {
+      let bh = s.data[i] / maxv * h * 0.92
+      let bx = x + slot * i.to_double() + (slot - bw) * 0.5
+      ffi_fill_rect(ctx, bx, baseline - bh, bw, bh)
+    }
+  }
+}
+
+///| Freehand stroke: a polyline stored as [x0,y0,x1,y1,...].
+fn draw_stroke(ctx : Ctx, v : @k.View, s : @k.Shape) -> Unit {
+  let n = s.data.length()
+  if n < 4 {
+    return
+  }
+  ffi_set_stroke(ctx, s.stroke)
+  ffi_set_line_width(ctx, 2.0 * v.zoom)
+  ffi_begin_path(ctx)
+  let mut i = 0
+  while i + 1 < n {
+    let px = @k.sx(v, s.data[i])
+    let py = @k.sy(v, s.data[i + 1])
+    if i == 0 {
+      ffi_move_to(ctx, px, py)
+    } else {
+      ffi_line_to(ctx, px, py)
+    }
+    i = i + 2
+  }
+  ffi_stroke(ctx)
+}
+
 ///|
 pub fn draw_shape(ctx : Ctx, v : @k.View, s : @k.Shape) -> Unit {
   let x = @k.sx(v, s.x)
@@ -127,6 +203,27 @@ pub fn draw_shape(ctx : Ctx, v : @k.View, s : @k.Shape) -> Unit {
       set_font(ctx, 14.0 * v.zoom, "500")
       ffi_set_text_align(ctx, "center")
       ffi_fill_text(ctx, s.text, x + w * 0.5, y + h * 0.5)
+      return
+    }
+    _ => ()
+  }
+  // Shapes that carry their own payload are drawn before the generic path.
+  match s.kind {
+    @k.Chart => {
+      draw_chart(ctx, v, s)
+      return
+    }
+    @k.Stroke => {
+      draw_stroke(ctx, v, s)
+      return
+    }
+    @k.GanttBar => {
+      ffi_set_fill(ctx, s.fill)
+      ffi_set_stroke(ctx, s.stroke)
+      ffi_begin_path(ctx)
+      ffi_round_rect(ctx, x, y, w, h, 4.0 * v.zoom)
+      ffi_fill(ctx)
+      ffi_stroke(ctx)
       return
     }
     _ => ()

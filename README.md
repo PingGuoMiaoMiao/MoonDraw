@@ -1,6 +1,6 @@
 # MoonDraw
 
-**MoonBit 的结构化图表引擎**：三种输入（Mermaid 流程图 / 缩进大纲 / 项目源码）→ ELK 布局 → SVG，无浏览器即可运行。
+**MoonBit 的结构化图表引擎**：六种输入（流程图 / 大纲 / 项目源码 / 数据表 / 任务表 / 笔迹）→ SVG，无浏览器即可运行。
 附带一个可编辑前端作为参考实现。
 
 它不是画布白板，而是"图（graph）"的引擎：节点与边是一等数据，坐标由布局算法派生，
@@ -10,10 +10,10 @@
 |---|---|---|
 | **图内核** | `moondraw/kernel`（mooncakes） | 文档模型、Mermaid/大纲/项目图三种解析、正交路由、SVG 导出，零 FFI |
 | **布局** | `moondraw/elk_layout` | 桥接 Eclipse Layout Kernel（MoonBit 移植） |
-| **命令行** | `moondraw render/mindmap/deps/layout/check` | native 可执行，CI 与脚本可用 |
+| **命令行** | `moondraw render/mindmap/deps/chart/gantt/whiteboard/poster/layout/check` | native 可执行，CI 与脚本可用 |
 | **编辑器** | <https://pingguomiaomiao.github.io/MoonDraw/> | 参考前端，证明内核可用 |
 
-**安装：** `moon add PingGuoMiaoMiao/moondraw@0.4.0`
+**安装：** `moon add PingGuoMiaoMiao/moondraw@0.5.0`
 
 ## 快速开始 / Quickstart
 
@@ -31,15 +31,30 @@ _build/native/release/build/cli/cli.exe render examples/flow/ticket.mmd out.svg
 三个子命令：
 
 ```bash
-moondraw render  <in.mmd>  <out.svg>   # Mermaid 流程图 -> SVG
-moondraw mindmap <in.md>   <out.svg>   # 缩进大纲 -> 思维导图（mrtree 横向）
-moondraw deps    <模块根目录> <out.svg> # MoonBit 包依赖图
-moondraw layout  <in.mmd>              # 打印每个节点的派生坐标
-moondraw check   <in.mmd>              # 图体检：节点/边数、孤立节点、是否成环
+moondraw render     <in.mmd>  <out.svg>  # Mermaid 流程图
+moondraw mindmap    <in.md>   <out.svg>  # 缩进大纲 -> 思维导图（mrtree）
+moondraw deps       <模块根目录> <out.svg> # MoonBit 包依赖图
+moondraw chart      <data.csv> <out.svg> [--algorithm bar|line]
+moondraw gantt      <tasks.csv> <out.svg>
+moondraw whiteboard <strokes.txt> <out.svg>
+moondraw poster     <out.svg> [--algorithm A4|A3|16:9]
+moondraw layout     <in.mmd>             # 打印每个节点的派生坐标
+moondraw check      <in.mmd>             # 图体检：节点/边数、孤立节点、是否成环
 ```
 
-三种输入共用同一套内核、布局与导出链路：流程图用 `layered`，思维导图用 `mrtree`，
-依赖图用 `layered`；都可以用 `--algorithm` / `--direction` 覆盖。
+六种输入共用同一个 `Scene`、同一套渲染与导出链路。差别只在内容的表达方式：
+
+| 输入 | 内容 | 布局 |
+|---|---|---|
+| Mermaid | 节点 + 有向边 | layered（可换 6 种） |
+| 缩进大纲 | 树 | mrtree 横向 |
+| 项目源码 | 包 + import 边 | layered |
+| 数据表 | 柱状 / 折线 | 无（自绘坐标轴） |
+| 任务表 | 甘特条 | 按时间比例排布 |
+| 笔迹 | 自由折线 | 无 |
+| 画板 | 固定尺寸 | 无 |
+
+比"四套独立文档模型"少写大约 80% 的代码，而编辑、导出、撤销、多文档全部共享。
 
 依赖图直接读项目本身——扫描模块下的 `moon.pkg`，取 `import { ... }` 里的模块路径，
 只保留指向本项目内的边：

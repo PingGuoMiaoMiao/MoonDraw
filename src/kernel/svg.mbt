@@ -294,6 +294,90 @@ pub fn scene_to_svg_in(
         b.write_string(s.stroke)
         b.write_string("\" stroke-width=\"1.5\"/>")
       }
+      Chart => {
+        let n = s.data.length()
+        let maxv = chart_max(s)
+        let baseline = s.y + s.h
+        b.write_string("<rect x=\"")
+        b.write_string(fmt(s.x))
+        b.write_string("\" y=\"")
+        b.write_string(fmt(s.y))
+        b.write_string("\" width=\"")
+        b.write_string(fmt(s.w))
+        b.write_string("\" height=\"")
+        b.write_string(fmt(s.h))
+        b.write_string("\" fill=\"#ffffff\" stroke=\"#eaeaea\" stroke-width=\"1\"/>")
+        if n > 0 {
+          if chart_type(s) == "line" {
+            b.write_string("<polyline fill=\"none\" stroke=\"")
+            b.write_string(s.stroke)
+            b.write_string("\" stroke-width=\"2\" points=\"")
+            for i = 0; i < n; i = i + 1 {
+              let px = if n == 1 {
+                s.x
+              } else {
+                s.x + s.w * i.to_double() / (n - 1).to_double()
+              }
+              let py = baseline - s.data[i] / maxv * s.h * 0.92
+              b.write_string(fmt(px))
+              b.write_string(",")
+              b.write_string(fmt(py))
+              b.write_string(" ")
+            }
+            b.write_string("\"/>")
+          } else {
+            let slot = s.w / n.to_double()
+            let bw = maxd(slot * 0.62, 2.0)
+            for i = 0; i < n; i = i + 1 {
+              let bh = s.data[i] / maxv * s.h * 0.92
+              let bx = s.x + slot * i.to_double() + (slot - bw) * 0.5
+              b.write_string("<rect x=\"")
+              b.write_string(fmt(bx))
+              b.write_string("\" y=\"")
+              b.write_string(fmt(baseline - bh))
+              b.write_string("\" width=\"")
+              b.write_string(fmt(bw))
+              b.write_string("\" height=\"")
+              b.write_string(fmt(bh))
+              b.write_string("\" fill=\"")
+              b.write_string(s.fill)
+              b.write_string("\"/>")
+            }
+          }
+        }
+      }
+      Stroke => {
+        let n = s.data.length()
+        if n >= 4 {
+          b.write_string("<polyline fill=\"none\" stroke=\"")
+          b.write_string(s.stroke)
+          b.write_string("\" stroke-width=\"2\" points=\"")
+          let mut i = 0
+          while i + 1 < n {
+            b.write_string(fmt(s.data[i]))
+            b.write_string(",")
+            b.write_string(fmt(s.data[i + 1]))
+            b.write_string(" ")
+            i = i + 2
+          }
+          b.write_string("\"/>")
+        }
+      }
+      GanttBar => {
+        b.write_string("<rect x=\"")
+        b.write_string(fmt(s.x))
+        b.write_string("\" y=\"")
+        b.write_string(fmt(s.y))
+        b.write_string("\" width=\"")
+        b.write_string(fmt(s.w))
+        b.write_string("\" height=\"")
+        b.write_string(fmt(s.h))
+        b.write_string("\" rx=\"4\" fill=\"")
+        b.write_string(s.fill)
+        b.write_string("\" stroke=\"")
+        b.write_string(s.stroke)
+        b.write_string("\" stroke-width=\"1.5\"/>")
+      }
       Text => ()
       _ => {
         b.write_string("<rect x=\"")

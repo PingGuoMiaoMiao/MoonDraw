@@ -5,7 +5,7 @@
 // export all work unchanged.
 
 ///|
-struct OutlineNode {
+priv struct OutlineNode {
   text : String
   depth : Int
   parent : Int
