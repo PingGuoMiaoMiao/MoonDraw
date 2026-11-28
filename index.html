@@ -53,6 +53,20 @@
           <button class="ghost" data-action="dist-v" title="纵向等间距（需选中 3+ 图形）">纵分布</button>
         </div>
 
+        <span class="sep"></span>
+
+        <div class="group">
+          <button class="ghost" id="insert-btn" title="插入非流程图内容">插入 ▾</button>
+          <div class="menu" id="insert-menu">
+            <button data-insert="chart-bar">柱状图</button>
+            <button data-insert="chart-line">折线图</button>
+            <button data-insert="gantt">甘特图</button>
+            <button data-insert="whiteboard">白板笔迹</button>
+            <button data-insert="poster-a4">海报 A4</button>
+            <button data-insert="poster-16-9">海报 16:9</button>
+          </div>
+        </div>
+
         <span class="spacer"></span>
 
         <div class="group">
@@ -335,6 +349,37 @@
       panel.fill.addEventListener("input", () => ui_set_paint("fill", panel.fill.value));
       panel.stroke.addEventListener("input", () => ui_set_paint("stroke", panel.stroke.value));
       panel.label.addEventListener("change", () => ui_set_shape_text(panel.label.value));
+
+      // ----------------------------------------------------- insert menu
+      const insertBtn = document.getElementById("insert-btn");
+      const insertMenu = document.getElementById("insert-menu");
+      insertBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        insertMenu.classList.toggle("open");
+      });
+      document.addEventListener("click", () => insertMenu.classList.remove("open"));
+
+      const SAMPLE_SERIES = "一月,12\n二月,30\n三月,18\n四月,42\n五月,25";
+      const SAMPLE_GANTT = "设计,0,3\n开发,3,5\n联调,8,2\n测试,10,3\n上线,13,1";
+      const SAMPLE_STROKES =
+        "60,60 110,140 160,60 210,140 260,60\n" +
+        "60,200 260,200 260,300 60,300 60,200";
+
+      const inserts = {
+        "chart-bar": () => ui_insert_chart(SAMPLE_SERIES, "bar"),
+        "chart-line": () => ui_insert_chart(SAMPLE_SERIES, "line"),
+        gantt: () => ui_insert_gantt(SAMPLE_GANTT),
+        whiteboard: () => ui_insert_strokes(SAMPLE_STROKES),
+        "poster-a4": () => ui_new_poster("A4"),
+        "poster-16-9": () => ui_new_poster("16:9"),
+      };
+      insertMenu.querySelectorAll("[data-insert]").forEach((b) => {
+        b.addEventListener("click", (e) => {
+          e.stopPropagation();
+          inserts[b.dataset.insert]?.();
+          insertMenu.classList.remove("open");
+        });
+      });
 
       // ------------------------------------------------------- actions
       const exportRange = () => document.getElementById("export-range").value;

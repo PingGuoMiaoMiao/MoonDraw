@@ -12,7 +12,15 @@ test "json round-trip preserves the document" {
   assert_eq(@k.kind_name(back.shapes[1].kind), "diamond")
   // next_id must keep growing after a load, otherwise new nodes collide.
   assert_true(back.next_id > sc.shapes.length())
-  assert_eq(@k.scene_to_json(back).length(), json.length())
+  // Re-serialising must be idempotent: same document, same bytes.
+  // (Comparing against the *original* json would break whenever the
+  // serialiser gains a field that the fixture does not carry.)
+  let again = @k.scene_to_json(back)
+  let js2 = ffi_parse_json(again)
+  assert_false(ffi_is_null(js2))
+  let back2 = scene_from_json(js2)
+  assert_eq(back2.shapes.length(), back.shapes.length())
+  assert_eq(@k.scene_to_json(back2).length(), again.length())
 }
 
 ///|

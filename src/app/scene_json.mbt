@@ -1,6 +1,11 @@
 // JSON -> Scene. Lives in the app package because it needs JSON.parse
 // through the JS FFI; the kernel only serializes.
 
+///| NaN and infinities are rejected by the serialiser.
+fn is_finite(v : Double) -> Bool {
+  v == v && v != 1.0 / 0.0 && v != -1.0 / 0.0
+}
+
 ///|
 pub fn scene_from_json(root : JsValue) -> @k.Scene {
   let sc = @k.new_scene()
@@ -25,6 +30,23 @@ pub fn scene_from_json(root : JsValue) -> @k.Scene {
     let g = ffi_num(ffi_get(o, "group"))
     if g > 0.0 {
       s.set_group(g.to_int())
+    }
+    let arr = ffi_get(o, "data")
+    let n = ffi_len(arr)
+    if n > 0 {
+      let pts : Array[Double] = []
+      for k = 0; k < n; k = k + 1 {
+        pts.push(ffi_num(ffi_index(arr, k)))
+      }
+      s.set_data(pts)
+    }
+    let st = ffi_num(ffi_get(o, "start"))
+    let en = ffi_num(ffi_get(o, "end"))
+    // Missing fields arrive as NaN from Number(undefined); only accept finite
+    // spans so ordinary shapes stay at 0/0.
+    if is_finite(st) && is_finite(en) && (st != 0.0 || en != 0.0) {
+      let lane = ffi_num(ffi_get(o, "lane"))
+      s.set_span(st, en, if is_finite(lane) { lane.to_int() } else { 0 })
     }
     if id > max_id {
       max_id = id

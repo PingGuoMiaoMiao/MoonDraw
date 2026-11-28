@@ -13,7 +13,7 @@
 | **命令行** | `moondraw render/mindmap/deps/chart/gantt/whiteboard/poster/layout/check` | native 可执行，CI 与脚本可用 |
 | **编辑器** | <https://pingguomiaomiao.github.io/MoonDraw/> | 参考前端，证明内核可用 |
 
-**安装：** `moon add PingGuoMiaoMiao/moondraw@0.5.0`
+**安装：** `moon add PingGuoMiaoMiao/moondraw@0.6.0`
 
 ## 快速开始 / Quickstart
 
@@ -165,6 +165,7 @@ pwsh tools/cdp-shot.ps1               # 生成 docs/*.png 截图
 | 打开 / 保存 | 打开 `.moondraw` / `.json` / `.mmd`；保存为 `.moondraw` |
 | 导入 Mermaid | 工具栏「Mermaid」按钮导入示例；`打开` 也支持 `.mmd` 文件 |
 | 导出 | 先选范围（整图 / 选区 / 视口），再点 SVG 或 PNG；PNG 固定 2x，Ctrl+S 存本地 |
+| 插入内容 | 顶栏「插入 ▾」：柱状图 / 折线图 / 甘特图 / 白板笔迹 / 海报画板 |
 | 自动布局 | 顶栏选算法（分层/力导向/应力/树形/辐射/装箱）→「自动布局」；Mermaid 导入也走 ELK |
 
 ## 架构

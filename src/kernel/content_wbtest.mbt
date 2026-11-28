@@ -152,3 +152,16 @@ test "scene from strokes keeps one shape per stroke" {
     assert_eq(s.stroke, "#e2162a")
   }
 }
+
+///|
+test "payload fields survive serialisation" {
+  let sc = new_scene()
+  let s = parse_series("a,1\nb,2\nc,3")
+  let _ = add_chart(sc, s, "line", 0.0, 0.0, 200.0, 120.0)
+  let tasks = parse_gantt("x,0,2")
+  add_gantt(sc, tasks, 0.0, 200.0, 300.0)
+  let json = scene_to_json(sc)
+  assert_true(json.contains("\"data\":[1,2,3]"))
+  assert_true(json.contains("\"start\":0"))
+  assert_true(json.contains("\"lane\":0"))
+}

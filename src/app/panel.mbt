@@ -252,3 +252,88 @@ pub fn ui_ungroup() -> Unit {
     ffi_status("选中的图形不在任何组里")
   }
 }
+
+// ---------------------------------------------------------------------------
+// Insert the non-diagram content types into the current document, so the web
+// editor exposes the same seven content families the CLI can produce.
+// ---------------------------------------------------------------------------
+
+///| Insert a bar or line chart from `label,value` text at the view centre.
+pub fn ui_insert_chart(data : String, kind : String) -> Unit {
+  let series = @k.parse_series(data)
+  if series.values.length() == 0 {
+    ffi_status("图表数据为空：请用「标签,数值」每行一条")
+    return
+  }
+  snapshot()
+  let c = ffi_dom_canvas("board")
+  let w = ffi_client_width(c)
+  let h = ffi_client_height(c)
+  let v = app_state.view()
+  let cx = @k.wx_of(v, w * 0.5) - 230.0
+  let cy = @k.wy_of(v, h * 0.5) - 130.0
+  let s = @k.add_chart(app_state.scene, series, kind, cx, cy, 460.0, 260.0)
+  sel_only(app_state, s.id)
+  persist()
+  ffi_status("已插入" + kind + "图表 · " + series.values.length().to_string() + " 个数据点")
+  render_all()
+}
+
+///| Insert a gantt block from `task,start,duration` text.
+pub fn ui_insert_gantt(data : String) -> Unit {
+  let tasks = @k.parse_gantt(data)
+  if tasks.length() == 0 {
+    ffi_status("甘特数据为空：请用「任务,开始,时长」每行一条")
+    return
+  }
+  snapshot()
+  let c = ffi_dom_canvas("board")
+  let w = ffi_client_width(c)
+  let h = ffi_client_height(c)
+  let v = app_state.view()
+  let cx = @k.wx_of(v, w * 0.5) - 260.0
+  let cy = @k.wy_of(v, h * 0.5) - 100.0
+  @k.add_gantt(app_state.scene, tasks, cx, cy, 420.0)
+  sel_clear(app_state)
+  persist()
+  ffi_status("已插入甘特图 · " + tasks.length().to_string() + " 个任务")
+  render_all()
+}
+
+///| Insert a whiteboard stroke run from `x,y x,y ...` text.
+pub fn ui_insert_strokes(data : String) -> Unit {
+  let strokes = @k.parse_strokes(data)
+  if strokes.length() == 0 {
+    ffi_status("笔迹数据为空：请用「x,y x,y ...」每行一条")
+    return
+  }
+  snapshot()
+  let sc = @k.scene_from_strokes(strokes, "#171717")
+  for s in sc.shapes {
+    app_state.scene.shapes.push(s)
+  }
+  persist()
+  ffi_status("已插入 " + strokes.length().to_string() + " 条笔迹")
+  render_all()
+}
+
+///| Replace the document with a poster artboard of the given size.
+pub fn ui_new_poster(size : String) -> Unit {
+  let dims = match size {
+    "A3" => (1191.0, 1684.0)
+    "16:9" => (1920.0, 1080.0)
+    _ => (794.0, 1123.0)
+  }
+  snapshot()
+  @k.clear_scene(app_state.scene)
+  let _ = @k.add_artboard(app_state.scene, "画板", dims.0, dims.1)
+  app_state.zoom = 0.5
+  app_state.cam_x = 40.0
+  app_state.cam_y = 40.0
+  sel_clear(app_state)
+  persist()
+  ffi_status(
+    "海报画板 " + dims.0.to_int().to_string() + "×" + dims.1.to_int().to_string(),
+  )
+  render_all()
+}

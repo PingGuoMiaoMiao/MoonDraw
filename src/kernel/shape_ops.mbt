@@ -44,3 +44,20 @@ pub fn Edge::reassign_id(self : Edge, id : Int) -> Unit {
 pub fn Shape::set_group(self : Shape, group : Int) -> Unit {
   self.group = group
 }
+
+///|
+pub fn Shape::set_data(self : Shape, data : Array[Double]) -> Unit {
+  self.data = data
+}
+
+///|
+pub fn Shape::set_span(
+  self : Shape,
+  start : Double,
+  end_ : Double,
+  lane : Int,
+) -> Unit {
+  self.start = start
+  self.end = end_
+  self.lane = lane
+}

@@ -624,6 +624,42 @@ try {
   $gid2 = ((Doc).shapes | ForEach-Object { $_.group } | Select-Object -First 1)
   Assert 'S5 解组清零 group' ([int]$gid2 -eq 0) "group=$gid2"
 
+  # ------------------------------- T insert non-diagram content (web parity)
+  Js 'ui_new_doc()' | Out-Null
+  Start-Sleep -Milliseconds 250
+  Js '(function(){document.getElementById("insert-btn").click();})()' | Out-Null
+  Start-Sleep -Milliseconds 200
+  $menuOpen = Js 'document.getElementById("insert-menu").classList.contains("open")'
+  Assert 'T1 插入菜单可打开' ($menuOpen -eq $true) "open=$menuOpen"
+
+  Js '(function(){document.querySelector("[data-insert=chart-bar]").click();})()' | Out-Null
+  Start-Sleep -Milliseconds 400
+  $kinds = @(Doc).shapes | ForEach-Object { $_.kind }
+  Assert 'T2 插入柱状图' ($kinds -contains 'chart') ("kinds=" + ($kinds -join ','))
+  $pts = Js '(function(){const d=JSON.parse(localStorage.getItem("moondraw_docs_v1"));const sh=d.docs[d.active].scene.shapes;const c=sh.find(s=>s.kind==="chart");return c&&c.data?c.data.length:0;})()'
+  Assert 'T3 图表带 5 个数据点' ([int]$pts -eq 5) "points=$pts"
+
+  Js '(function(){document.getElementById("insert-btn").click();})()' | Out-Null
+  Start-Sleep -Milliseconds 150
+  Js '(function(){document.querySelector("[data-insert=gantt]").click();})()' | Out-Null
+  Start-Sleep -Milliseconds 400
+  $kinds2 = @(Doc).shapes | ForEach-Object { $_.kind }
+  Assert 'T4 插入甘特图' ($kinds2 -contains 'gantt') ("kinds=" + ($kinds2 -join ','))
+
+  Js '(function(){document.getElementById("insert-btn").click();})()' | Out-Null
+  Start-Sleep -Milliseconds 150
+  Js '(function(){document.querySelector("[data-insert=whiteboard]").click();})()' | Out-Null
+  Start-Sleep -Milliseconds 400
+  $kinds3 = @(Doc).shapes | ForEach-Object { $_.kind }
+  Assert 'T5 插入白板笔迹' ($kinds3 -contains 'stroke') ("kinds=" + ($kinds3 -join ','))
+
+  Js '(function(){document.getElementById("insert-btn").click();})()' | Out-Null
+  Start-Sleep -Milliseconds 150
+  Js '(function(){document.querySelector("[data-insert=poster-a4]").click();})()' | Out-Null
+  Start-Sleep -Milliseconds 500
+  $posterShapes = @(Doc).shapes
+  Assert 'T6 新建 A4 海报画板' ($posterShapes.Count -eq 1 -and [double]$posterShapes[0].w -eq 794) "count=$($posterShapes.Count) w=$($posterShapes[0].w)"
+
   Write-Host ""
   if ($script:failures -eq 0) { Write-Host "ALL PASS" } else { Write-Host "FAILURES: $($script:failures)" }
 

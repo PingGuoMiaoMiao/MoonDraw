@@ -216,6 +216,24 @@ pub fn scene_to_json(scene : Scene) -> String {
       b.write_string(",\"group\":")
       b.write_string(s.group.to_string())
     }
+    if s.data.length() > 0 {
+      b.write_string(",\"data\":[")
+      for i = 0; i < s.data.length(); i = i + 1 {
+        if i > 0 {
+          b.write_string(",")
+        }
+        b.write_string(s.data[i].to_string())
+      }
+      b.write_string("]")
+    }
+    if (s.start != 0.0 || s.end != 0.0) && s.start == s.start && s.end == s.end {
+      b.write_string(",\"start\":")
+      b.write_string(s.start.to_string())
+      b.write_string(",\"end\":")
+      b.write_string(s.end.to_string())
+      b.write_string(",\"lane\":")
+      b.write_string(s.lane.to_string())
+    }
     b.write_string("}")
   }
   b.write_string("],\"edges\":[")
