@@ -6,7 +6,7 @@ MoonDraw：基于 MoonBit 的结构化图表引擎
 
 ## 二、项目摘要
 
-MoonDraw 是 MoonBit 生态中的**结构化图表引擎**：把文本图（Mermaid）或程序化构造的图模型，经布局计算输出为矢量图，并提供可嵌入的编辑器前端作为参考实现。
+MoonDraw 是 MoonBit 生态中的**结构化图表引擎**：把文本图（Mermaid 流程图或缩进大纲）经布局计算输出为矢量图，并提供可嵌入的编辑器前端作为参考实现。
 
 它解决的是「图 → 坐标 → 矢量」这一段：节点与边是一等数据，坐标由布局算法派生而非手工摆放，因此可以随时换算法重排。同一个内核既能在浏览器里驱动交互式编辑器，也能在无浏览器的 native 环境下作为命令行工具运行。
 
@@ -16,17 +16,17 @@ MoonDraw 是 MoonBit 生态中的**结构化图表引擎**：把文本图（Merm
 |---|---|---|
 | 图内核 | `moondraw/kernel`（mooncakes） | 文档模型、Mermaid 解析、正交路由、SVG 导出；零 FFI，native 可构建 |
 | 布局 | `moondraw/elk_layout` | 桥接 Eclipse Layout Kernel（MoonBit 移植，`moonbit-community/elk`） |
-| 命令行 | `moondraw render / layout / check` | native 可执行文件，可进 CI 与脚本 |
+| 命令行 | `moondraw render / mindmap / layout / check` | native 可执行文件，可进 CI 与脚本 |
 | 编辑器 | GitHub Pages 在线版 | 参考前端，用于证明内核在真实交互下可用 |
 
 已发布：`moon add PingGuoMiaoMiao/moondraw@0.2.0`；在线编辑器 <https://pingguomiaomiao.github.io/MoonDraw/>。
 
 ### 与同类项目的关系
 
-MoonBit 生态中已有 Moonlight（`mizchi/moonlight`，SVG 白板编辑器，like Excalidraw）。两者共享「编辑器」这一外层形态，但内核职责不同：
+MoonBit 生态中已有同期维护的图形编辑器项目。它与本项目在外层形态（可交互画布）上存在交集，但内核职责不同：
 
-- **Moonlight 编辑的是图形**：数据模型是几何图元（Rect / Circle / Line / Path），坐标来自用户拖拽，渲染由 Luna 反应式 UI 生成 DOM/SVG。
-- **MoonDraw 编辑的是图（graph）**：数据模型含 `Edge { from, to, label }` 一等实体，坐标由布局引擎派生，渲染是自绘 Canvas 2D 指令。
+- **对方编辑的是图形**：数据模型是几何图元（Rect / Circle / Line / Path），坐标来自用户拖拽，渲染由反应式 UI 库生成 DOM/SVG。
+- **本项目编辑的是图（graph）**：数据模型含 `Edge { from, to, label }` 一等实体，坐标由布局引擎派生，渲染是自绘 Canvas 2D 指令。
 
 这一差异不是功能列表上的差别，而是数据模型层面的：有向图才能做环检测、才能级联删边、才能换算法重排。
 
@@ -36,7 +36,7 @@ MoonBit 生态中已有 Moonlight（`mizchi/moonlight`，SVG 白板编辑器，l
 
 **场景一：在流程中间插入一个审批环节**
 
-| | Moonlight | MoonDraw |
+| | 通用画布编辑器 | 本项目 |
 |---|---|---|
 | 操作 | 画出新矩形 → 手动下移「发布」→ 重连两条线 → 手工对齐 | 文本中插入一行 |
 | 后续节点位置 | 由人工拖拽决定 | 自动重算（发布节点 y 从 180 → 264） |
@@ -45,7 +45,7 @@ MoonBit 生态中已有 Moonlight（`mizchi/moonlight`，SVG 白板编辑器，l
 **场景二：把图从纵向改成横向**
 
 同一张 7 节点流程图，`--direction DOWN` 时首节点在 (65, 12)，`--direction RIGHT` 时在 (12, 44)。
-Moonlight 的坐标是用户摆放的，方向不是属性，只能重新摆放全部元素。
+而画布类工具的坐标由用户摆放，方向不是属性，只能重新摆放全部元素。
 
 **场景三：换布局风格**
 
@@ -66,7 +66,7 @@ $ moondraw check cycle.mmd
 
 环检测需要遍历边集做 DFS。连线的抽象层级不同，导致这个能力一边有一边没有。
 
-**小结**：Moonlight 的坐标是编辑对象，MoonDraw 的坐标是计算产物。这决定了插入节点、
+**小结**：画布类工具的坐标是编辑对象，本项目的坐标是计算产物。这决定了插入节点、
 改变方向、切换风格这三个动作的成本结构完全不同。完整对比见 `docs/scenario-compare.md`。
 
 ## 三、项目背景与意义
@@ -167,6 +167,7 @@ Canvas 不具备 IME 能力。文本编辑采用浮动 `<textarea>` 覆盖层，
 | 导出范围 | 整图 / 选区 / 视口，均 2 倍；选区实测 432×352 |
 | 排版操作 | 等间距分布（间距 220/220、两端不动）、六向对齐、四向层级 |
 | Mermaid 导入 | 7 节点 / 7 连线，ELK 分层产出 6 个层级 |
+| 大纲导入 | 10 个节点的缩进大纲 → 10 形状 / 7 连线，mrtree 横向（SVG 524×396） |
 | **命令行** | cli.exe 3.4 MB（native release），
 ender 26–582 ms（随算法） |
 | **图语义** | check 输出「节点 7 · 边 7 · 无环」；环图输出「⚠ 存在环」 |

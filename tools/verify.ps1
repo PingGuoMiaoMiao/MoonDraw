@@ -66,6 +66,26 @@ if ($LASTEXITCODE -ne 0) {
     } else {
       Fail ('cli cycle detection failed: ' + ($cyc -join ' '))
     }
+    # mindmap: outline -> tree layout, horizontal by default
+    $mdFile = Join-Path $root 'examples\flow\plan.md'
+    $mdOut = Join-Path $root 'examples\flow\_verify_plan.svg'
+    $mdDown = Join-Path $root 'examples\flow\_verify_plan_down.svg'
+    if (Test-Path $mdFile) {
+      $null = & $cli mindmap $mdFile $mdOut 2>&1
+      $null = & $cli mindmap $mdFile $mdDown --direction DOWN 2>&1
+      if ((Test-Path $mdOut) -and (Test-Path $mdDown)) {
+        $s1 = Get-Content $mdOut -Raw
+        $s2 = Get-Content $mdDown -Raw
+        if (($s1 -ne $s2) -and ((Get-Item $mdOut).Length -gt 1000)) {
+          Ok ('cli mindmap -> ' + (Get-Item $mdOut).Length + ' bytes, direction override differs')
+        } else {
+          Fail 'cli mindmap: default and DOWN produced identical output'
+        }
+      } else {
+        Fail 'cli mindmap produced nothing'
+      }
+      Remove-Item $mdOut, $mdDown -Force -ErrorAction SilentlyContinue
+    }
     Remove-Item $out -Force -ErrorAction SilentlyContinue
   } else {
     Fail 'cli binary or fixture missing'

@@ -9,11 +9,18 @@
 struct Options {
   algorithm : String
   direction : String
+  has_algorithm : Bool
+  has_direction : Bool
 }
 
 ///|
 fn default_options() -> Options {
-  Options::{ algorithm: "layered", direction: "DOWN" }
+  Options::{
+    algorithm: "layered",
+    direction: "DOWN",
+    has_algorithm: false,
+    has_direction: false,
+  }
 }
 
 ///|
@@ -23,10 +30,20 @@ fn parse_options(args : Array[String]) -> Options {
   while i < args.length() {
     let a = args[i]
     if a == "--algorithm" && i + 1 < args.length() {
-      opts = { algorithm: args[i + 1], direction: opts.direction }
+      opts = {
+        algorithm: args[i + 1],
+        direction: opts.direction,
+        has_algorithm: true,
+        has_direction: opts.has_direction,
+      }
       i = i + 2
     } else if a == "--direction" && i + 1 < args.length() {
-      opts = { algorithm: opts.algorithm, direction: args[i + 1] }
+      opts = {
+        algorithm: opts.algorithm,
+        direction: args[i + 1],
+        has_algorithm: opts.has_algorithm,
+        has_direction: true,
+      }
       i = i + 2
     } else {
       i = i + 1
@@ -163,8 +180,10 @@ fn usage() -> Unit {
   println("  moondraw render <in.mmd> <out.svg> [--algorithm layered] [--direction DOWN]")
   println("  moondraw layout <in.mmd> [--algorithm layered] [--direction RIGHT]")
   println("  moondraw check  <in.mmd>")
+  println("  moondraw mindmap <in.md> <out.svg>      # 缩进大纲 -> 思维导图")
   println("")
   println("算法: layered / force / stress / mrtree / radial / rectpacking")
+  println("mindmap 默认使用 mrtree + RIGHT（树形横向展开）")
   println("方向: DOWN / RIGHT / UP / LEFT")
 }
 
@@ -184,7 +203,7 @@ async fn run(args : Array[String]) -> Unit {
     usage()
     return
   }
-  if cmd != "render" && cmd != "layout" && cmd != "check" {
+  if cmd != "render" && cmd != "layout" && cmd != "check" && cmd != "mindmap" {
     println("未知命令: " + cmd)
     usage()
     return
@@ -195,14 +214,34 @@ async fn run(args : Array[String]) -> Unit {
     return
   }
   let input = pos[1]
-  let opts = parse_options(rest)
-  let src = @fs.read_file(input).text()
-  let doc = @k.parse_mermaid(src)
-  if doc.nodes.length() == 0 {
-    println("解析失败：没有识别到节点（只支持 Mermaid flowchart 子集）")
-    return
+  // mindmap defaults to a tree layout; explicit flags still win.
+  let given = parse_options(rest)
+  let opts = if cmd == "mindmap" {
+    Options::{
+      algorithm: if given.has_algorithm { given.algorithm } else { "mrtree" },
+      direction: if given.has_direction { given.direction } else { "RIGHT" },
+      has_algorithm: given.has_algorithm,
+      has_direction: given.has_direction,
+    }
+  } else {
+    given
   }
-  let scene = @k.scene_from_mermaid(doc)
+  let src = @fs.read_file(input).text()
+  let scene = if cmd == "mindmap" || input.has_suffix(".md") || input.has_suffix(".txt") {
+    let mm = @k.parse_outline(src)
+    if mm.texts.length() == 0 {
+      println("解析失败：大纲为空")
+      return
+    }
+    @k.scene_from_outline(mm)
+  } else {
+    let doc = @k.parse_mermaid(src)
+    if doc.nodes.length() == 0 {
+      println("解析失败：没有识别到节点（支持 Mermaid flowchart 与缩进大纲）")
+      return
+    }
+    @k.scene_from_mermaid(doc)
+  }
   let elk_err = @elk_layout.layout_with_elk(scene, opts.algorithm, opts.direction)
   if elk_err.length() > 0 {
     println("ELK 布局: " + elk_err + "（已回退到内置分层布局）")

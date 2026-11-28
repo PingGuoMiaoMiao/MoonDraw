@@ -1,6 +1,6 @@
 # MoonDraw
 
-**MoonBit 的结构化图表引擎**：Mermaid 文本 → ELK 布局 → SVG，无浏览器即可运行。
+**MoonBit 的结构化图表引擎**：文本图（Mermaid / 缩进大纲）→ ELK 布局 → SVG，无浏览器即可运行。
 附带一个可编辑前端作为参考实现。
 
 它不是画布白板，而是"图（graph）"的引擎：节点与边是一等数据，坐标由布局算法派生，
@@ -8,12 +8,12 @@
 
 | 交付面 | 形态 | 说明 |
 |---|---|---|
-| **图内核** | `moondraw/kernel`（mooncakes） | 文档模型、Mermaid 解析、正交路由、SVG 导出，零 FFI |
+| **图内核** | `moondraw/kernel`（mooncakes） | 文档模型、Mermaid 与大纲解析、正交路由、SVG 导出，零 FFI |
 | **布局** | `moondraw/elk_layout` | 桥接 Eclipse Layout Kernel（MoonBit 移植） |
-| **命令行** | `moondraw render/layout/check` | native 可执行，CI 与脚本可用 |
+| **命令行** | `moondraw render/mindmap/layout/check` | native 可执行，CI 与脚本可用 |
 | **编辑器** | <https://pingguomiaomiao.github.io/MoonDraw/> | 参考前端，证明内核可用 |
 
-**安装：** `moon add PingGuoMiaoMiao/moondraw@0.2.0`
+**安装：** `moon add PingGuoMiaoMiao/moondraw@0.3.0`
 
 ## 快速开始 / Quickstart
 
@@ -31,9 +31,25 @@ _build/native/release/build/cli/cli.exe render examples/flow/ticket.mmd out.svg
 三个子命令：
 
 ```bash
-moondraw render <in.mmd> <out.svg> [--algorithm layered] [--direction DOWN]
-moondraw layout <in.mmd>            # 打印每个节点的派生坐标
-moondraw check  <in.mmd>            # 图体检：节点/边数、孤立节点、是否成环
+moondraw render  <in.mmd>  <out.svg>   # Mermaid 流程图 -> SVG
+moondraw mindmap <in.md>   <out.svg>   # 缩进大纲 -> 思维导图（mrtree 横向）
+moondraw layout  <in.mmd>              # 打印每个节点的派生坐标
+moondraw check   <in.mmd>              # 图体检：节点/边数、孤立节点、是否成环
+```
+
+两种输入共用同一套内核与布局：流程图用 `layered`，思维导图用 `mrtree`，
+都可以用 `--algorithm` / `--direction` 覆盖。
+
+思维导图输入就是普通缩进大纲：
+
+```markdown
+# 产品规划
+- 用户研究
+  - 访谈
+  - 问卷
+- 功能设计
+  - 流程图
+  - 思维导图
 ```
 
 `check` 会做真实的有向图分析，而不只是统计行数：
