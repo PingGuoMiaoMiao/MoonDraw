@@ -9,5 +9,6 @@ dist/
 .docx-check.txt
 *.txt
 !.msg.txt
+!examples/**/*.txt
 *.err
 *.generated.mbti

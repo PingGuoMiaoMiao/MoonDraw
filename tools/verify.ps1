@@ -159,6 +159,21 @@ if ($artifacts.Count -lt 2) {
   Write-Host ("    MoonDraw.exe {0:N0} B  ·  moondraw.html {1:N0} B" -f $exeSize, $htmlSize)
 }
 
+# --- example fixtures must exist (a missing one breaks the CLI demos) ------
+Section 'example fixtures'
+$required = @(
+  'examples\flow\ticket.mmd', 'examples\flow\cycle.mmd', 'examples\flow\plan.md',
+  'examples\flow\sales.csv', 'examples\flow\plan.csv', 'examples\flow\sketch.txt'
+)
+$missing = @()
+foreach ($rel in $required) {
+  if (-not (Test-Path (Join-Path $root $rel))) { $missing += $rel }
+}
+if ($missing.Count -eq 0) {
+  Ok ('all ' + $required.Count + ' fixtures present')
+} else {
+  Fail ('missing fixtures: ' + ($missing -join ', '))
+}
 # --- end-to-end -------------------------------------------------------------
 if (-not $SkipE2E) {
   Section 'cdp end-to-end'
